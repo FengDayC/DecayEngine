@@ -149,6 +149,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Decay\LayerStack.h" />
+    <ClInclude Include="src\Decay\Layer.h" />
     <ClInclude Include="src\Decay.h" />
     <ClInclude Include="src\Decay\Application.h" />
     <ClInclude Include="src\Decay\Core.h" />
@@ -163,6 +165,8 @@
     <ClInclude Include="src\dcpch.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Decay\LayerStack.cpp" />
+    <ClCompile Include="src\Decay\Layer.cpp" />
     <ClCompile Include="src\Decay\Application.cpp" />
     <ClCompile Include="src\Decay\Log.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />

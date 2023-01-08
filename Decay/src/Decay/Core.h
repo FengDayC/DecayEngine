@@ -21,3 +21,4 @@
 #define BIT(x) (1<<x)
 #define S_PTR(x) std::shared_ptr<x>
 #define U_PTR(x) std::unique_ptr<x>
+#define W_PTR(x) std::weak_ptr<x>

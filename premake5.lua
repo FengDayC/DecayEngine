@@ -60,15 +60,17 @@ project "Decay"
 
     filter "configurations:Debug"
         defines "DC_DEBUG"
-		runtime "Debug"
+		buildoptions "/MDd"
         symbols "On"
 
     filter "configurations:Release"
         defines "DC_RELEASE"
+		buildoptions "/MD"
         optimize "On"
 
     filter "configurations:Dist"
         defines "DC_DIST"
+		buildoptions "/MD"
         optimize "On"
 
 project "Sandbox"
@@ -105,14 +107,16 @@ project "Sandbox"
         }
 
     filter "configurations:Debug"
-        runtime "Debug"
         defines "DC_DEBUG"
+		buildoptions "/MDd"
         symbols "On"
     
     filter "configurations:Release"
         defines "DC_RELEASE"
+		buildoptions "/MD"
         optimize "On"
     
     filter "configurations:Dist"
         defines "DC_DIST"
+		buildoptions "/MD"
         optimize "On"
