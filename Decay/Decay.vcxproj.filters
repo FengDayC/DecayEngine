@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Decay">
+      <UniqueIdentifier>{CB96060D-37AB-2EBE-002D-D21D6C002BEF}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Decay\Events">
+      <UniqueIdentifier>{4F50AB20-3BB3-3AC5-E438-737BD07A0648}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Decay.h" />
+    <ClInclude Include="src\Decay\Application.h">
+      <Filter>Decay</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\Core.h">
+      <Filter>Decay</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\EntryPoint.h">
+      <Filter>Decay</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\Events\ApplicationEvent.h">
+      <Filter>Decay\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\Events\Event.h">
+      <Filter>Decay\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\Events\KeyEvent.h">
+      <Filter>Decay\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\Events\MouseEvent.h">
+      <Filter>Decay\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\Log.h">
+      <Filter>Decay</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dcpch.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Decay\Application.cpp">
+      <Filter>Decay</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Decay\Log.cpp">
+      <Filter>Decay</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dcpch.cpp" />
+  </ItemGroup>
+</Project>
