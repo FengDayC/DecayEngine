@@ -7,6 +7,7 @@
 #include<utility>
 #include<memory>
 #include<iomanip>
+#include<functional>
 
 #include<string>
 #include<cstring>
@@ -16,6 +17,7 @@
 #include<set>
 #include<map>
 
+#include "Decay\Log.h"
 
 #ifdef DECAY_PLATFORM_WINDOWS
 	#include<Windows.h>

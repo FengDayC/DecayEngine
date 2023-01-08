@@ -15,7 +15,7 @@ public:
 	}
 };
 
-std::shared_ptr<Decay::Application> Decay::CreateApplication()
+S_PTR(Decay::Application) Decay::CreateApplication()
 {
 	return std::move(std::make_shared<Sandbox>());
 }

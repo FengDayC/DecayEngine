@@ -1,13 +1,11 @@
 #pragma once
-#include <memory>
-#include <iostream>
 #include "Application.h"
 #include "Log.h"
 
 #ifdef  DECAY_PLATFORM_WINDOWS
 
 
-extern std::shared_ptr<Decay::Application> Decay::CreateApplication();
+extern S_PTR(Decay::Application) Decay::CreateApplication();
 
 int main(int argc, char** argv)
 {

@@ -10,6 +10,11 @@ workspace "Decay"
 
 outputdir="%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Decay/vendor/GLFW/include"
+
+include "Decay/vendor/GLFW"
+
 project "Decay"
 
     location "Decay"
@@ -29,7 +34,13 @@ project "Decay"
     includedirs
     {
         "%{prj.name}/src",
-        "%{prj.name}/vendor/spdlog/include"
+        "%{prj.name}/vendor/spdlog/include",
+        "%{IncludeDir.GLFW}"
+    }
+    links
+    {
+        "GLFW",
+        "opengl32.lib"
     }
 
     filter "system:windows"
@@ -49,6 +60,7 @@ project "Decay"
 
     filter "configurations:Debug"
         defines "DC_DEBUG"
+		runtime "Debug"
         symbols "On"
 
     filter "configurations:Release"
