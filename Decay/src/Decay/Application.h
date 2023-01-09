@@ -6,6 +6,7 @@
 #include "Layer.h"
 #include "LayerStack.h"
 #include <Decay\Log.h>
+#include "Decay\ImGui\ImGuiLayer.h"
 
 namespace Decay
 {
@@ -31,7 +32,9 @@ namespace Decay
 		inline Window& GetWindow() const { return *m_Window; }
 
 	private:
-		std::unique_ptr<Window> m_Window;
+		U_PTR(Window) m_Window;
+
+		ImGuiLayer* m_ImGuiLayer;
 
 		bool m_Running = true;
 

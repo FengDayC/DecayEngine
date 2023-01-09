@@ -20,6 +20,6 @@ namespace Decay
 
 	private:
 		std::vector<S_PTR(Layer)> m_Layer;
-		std::vector<S_PTR(Layer)>::iterator m_LayerInsert;
+		unsigned int m_LayerInsertIndex;
 	};
 }

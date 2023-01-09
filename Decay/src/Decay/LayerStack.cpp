@@ -5,7 +5,6 @@ namespace Decay
 {
 	LayerStack::LayerStack()
 	{
-		m_LayerInsert = m_Layer.begin();
 	}
 
 	LayerStack::~LayerStack()
@@ -15,14 +14,13 @@ namespace Decay
 
 	void LayerStack::PushLayer(Layer* layer)
 	{
-		m_LayerInsert = m_Layer.emplace(m_LayerInsert, std::shared_ptr<Layer>(layer));
-		layer->OnAttach();
+		m_Layer.emplace(m_Layer.begin() + m_LayerInsertIndex, std::shared_ptr<Layer>(layer));
+		m_LayerInsertIndex++;
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay)
 	{
 		m_Layer.emplace_back(std::shared_ptr<Layer>(overlay));
-		overlay->OnAttach();
 	}
 
 	void LayerStack::PopLayer(Layer* layer)
@@ -31,7 +29,7 @@ namespace Decay
 		if (it != m_Layer.end())
 		{
 			m_Layer.erase(it);
-			m_LayerInsert--;
+			m_LayerInsertIndex--;
 		}
 	}
 

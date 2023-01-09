@@ -2,3 +2,6 @@
 	path = Decay/vendor/spdlog
 	url = git@github.com:gabime/spdlog.git
 	branch = v1.x
+[submodule "Decay/vendor/GLM"]
+	path = Decay/vendor/GLM
+	url = git@github.com:g-truc/glm.git

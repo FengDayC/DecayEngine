@@ -17,6 +17,9 @@ namespace Decay
 
 		DC_CORE_ASSERT(s_Instance, "Application is being recreate,but it should be singleton");
 		s_Instance = U_PTR(Application)(this);
+
+		m_ImGuiLayer = new ImGuiLayer();
+		PushOverlay(m_ImGuiLayer);
 	}
 
 	Application::~Application() 
@@ -31,13 +34,17 @@ namespace Decay
 			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
-			PAIR(float,float) pos = Input::GetMousePos();
-			DC_CORE_INFO("Mouse Pos:({0},{1})", pos.first, pos.second);
-
 			for (S_PTR(Layer) layer : m_LayerStack)
 			{
 				layer->OnUpdate();
 			}
+
+			m_ImGuiLayer->Begin();
+			for (S_PTR(Layer) layer : m_LayerStack)
+			{
+				layer->OnImGuiRender();
+			}
+			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
 		}
@@ -68,11 +75,13 @@ namespace Decay
 
 	void Application::PushLayer(Layer* layer)
 	{
+		layer->OnAttach();
 		m_LayerStack.PushLayer(layer);
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
+		overlay->OnAttach();
 		m_LayerStack.PushOverlay(overlay);
 	}
 }

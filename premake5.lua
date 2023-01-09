@@ -14,6 +14,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "Decay/vendor/GLFW/include"
 IncludeDir["Glad"] = "Decay/vendor/Glad/include"
 IncludeDir["ImGui"] = "Decay/vendor/ImGui"
+IncludeDir["glm"] = "Decay/vendor/GLM"
 
 include "Decay/vendor/GLFW"
 include "Decay/vendor/Glad"
@@ -34,6 +35,9 @@ project "Decay"
     {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/GLM/glm/**.h",
+		"%{prj.name}/vendor/GLM/glm/**.hpp",
+		"%{prj.name}/vendor/GLM/glm/**.inl"
     }
     includedirs
     {
@@ -41,7 +45,8 @@ project "Decay"
         "%{prj.name}/vendor/spdlog/include",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
-        "%{IncludeDir.ImGui}"
+        "%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
     }
     links
     {
@@ -97,7 +102,9 @@ project "Sandbox"
     includedirs
     {
         "Decay/vendor/spdlog/include",
-        "Decay/src"
+        "Decay/src",
+		"Decay/vendor",
+		"%{IncludeDir.glm}"
     }   
 
     links

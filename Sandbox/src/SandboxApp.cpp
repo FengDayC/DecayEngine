@@ -6,7 +6,6 @@ class Sandbox : public Decay::Application
 public:
 	Sandbox()
 	{
-		PushOverlay(new Decay::ImGuiLayer());
 	}
 
 	~Sandbox() override
