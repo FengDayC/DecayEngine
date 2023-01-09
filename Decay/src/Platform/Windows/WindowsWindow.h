@@ -1,7 +1,7 @@
 #pragma once
-#include<GLFW/glfw3.h>
 #include<Decay/Window.h>
 
+struct GLFWwindow;
 namespace Decay
 {
 	class WindowsWindow : public Window
@@ -20,6 +20,7 @@ namespace Decay
 		virtual void SetEventCallback(const EventCallbackFn& callback) override { m_Data.EventCallback = callback; }
 		virtual void SetVSync(bool enabled) override;
 		virtual bool IsVSync() const override;
+		virtual void* GetNativeWindow() const override { return m_Window; }
 
 	private:
 		virtual void Init(const WindowProps& props);
@@ -53,6 +54,8 @@ namespace Decay
 		static void WindowMouseScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
 
 		static void WindowCursorPosCallback(GLFWwindow* window, double xpos, double ypos);
+
+		static void WindowCharCallback(GLFWwindow* window, unsigned int codepoint);
 	};
 }
 

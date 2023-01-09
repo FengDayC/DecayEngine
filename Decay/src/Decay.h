@@ -9,3 +9,9 @@
 #include "Decay\Layer.h"
 
 #include "Decay\Events\Event.h"
+
+#include "Decay\ImGui\ImGuiLayer.h"
+
+#include "Decay\KeyCodes.h"
+
+#include "Decay\MouseButtonCodes.h"

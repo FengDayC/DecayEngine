@@ -12,8 +12,12 @@ outputdir="%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "Decay/vendor/GLFW/include"
+IncludeDir["Glad"] = "Decay/vendor/Glad/include"
+IncludeDir["ImGui"] = "Decay/vendor/ImGui"
 
 include "Decay/vendor/GLFW"
+include "Decay/vendor/Glad"
+include "Decay/vendor/ImGui"
 
 project "Decay"
 
@@ -35,10 +39,14 @@ project "Decay"
     {
         "%{prj.name}/src",
         "%{prj.name}/vendor/spdlog/include",
-        "%{IncludeDir.GLFW}"
+        "%{IncludeDir.GLFW}",
+        "%{IncludeDir.Glad}",
+        "%{IncludeDir.ImGui}"
     }
     links
     {
+		"ImGui",
+		"Glad",
         "GLFW",
         "opengl32.lib"
     }
@@ -51,7 +59,8 @@ project "Decay"
         {
             "DECAY_PLATFORM_WINDOWS",
             "DECAY_BUILD_DLL",
-            "_WinBuild"
+            "_WinBuild",
+			"GLFW_INCLUDE_NONE"
         }
         postbuildcommands
         {

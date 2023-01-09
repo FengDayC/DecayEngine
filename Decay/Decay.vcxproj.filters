@@ -7,8 +7,14 @@
     <Filter Include="Decay\Events">
       <UniqueIdentifier>{4F50AB20-3BB3-3AC5-E438-737BD07A0648}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Decay\ImGui">
+      <UniqueIdentifier>{35B89556-A16D-0E4C-2A62-082396160550}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Platform">
       <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\OpenGL">
+      <UniqueIdentifier>{1E7D2C1D-8A08-9AE1-9319-1DD6FF23F6E1}</UniqueIdentifier>
     </Filter>
     <Filter Include="Platform\Windows">
       <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
@@ -37,31 +43,67 @@
     <ClInclude Include="src\Decay\Events\MouseEvent.h">
       <Filter>Decay\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Decay\ImGui\ImGuiLayer.h">
+      <Filter>Decay\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\Input.h">
+      <Filter>Decay</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\Layer.h">
+      <Filter>Decay</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\LayerStack.h">
+      <Filter>Decay</Filter>
+    </ClInclude>
     <ClInclude Include="src\Decay\Log.h">
       <Filter>Decay</Filter>
     </ClInclude>
     <ClInclude Include="src\Decay\Window.h">
       <Filter>Decay</Filter>
     </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\imgui_impl_glfw.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\imgui_impl_opengl3_loader.h">
+      <Filter>Platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
       <Filter>Platform\Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\dcpch.h" />
-    <ClInclude Include="src\Decay\Layer.h" />
-    <ClInclude Include="src\Decay\LayerStack.h" />
+    <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
+    <ClInclude Include="src\Decay\KeyCodes.h" />
+    <ClInclude Include="src\Decay\MouseButtonCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Decay\Application.cpp">
       <Filter>Decay</Filter>
     </ClCompile>
+    <ClCompile Include="src\Decay\ImGui\ImGuiLayer.cpp">
+      <Filter>Decay\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Decay\Layer.cpp">
+      <Filter>Decay</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Decay\LayerStack.cpp">
+      <Filter>Decay</Filter>
+    </ClCompile>
     <ClCompile Include="src\Decay\Log.cpp">
       <Filter>Decay</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\imgui_impl_glfw.cpp">
+      <Filter>Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\imgui_impl_opengl3.cpp">
+      <Filter>Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
       <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\dcpch.cpp" />
-    <ClCompile Include="src\Decay\Layer.cpp" />
-    <ClCompile Include="src\Decay\LayerStack.cpp" />
+    <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
   </ItemGroup>
 </Project>

@@ -1,20 +1,28 @@
 #include "dcpch.h"
 #include "Application.h"
 #include "Decay\Events\ApplicationEvent.h"
-#include "dcpch.h"
-#include "GLFW\glfw3.h"
+#include "Input.h"
+#include "glad\glad.h"
 
 namespace Decay
 {
 #define BIND_EVENT_FN(x) std::bind(&x,this,std::placeholders::_1)
 
+	U_PTR(Application) Application::s_Instance = nullptr;
+
 	Application::Application() 
 	{
 		m_Window = U_PTR(Window)(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
+
+		DC_CORE_ASSERT(s_Instance, "Application is being recreate,but it should be singleton");
+		s_Instance = U_PTR(Application)(this);
 	}
 
-	Application::~Application() {}
+	Application::~Application() 
+	{
+		DC_CORE_INFO("Application Instance Released!");
+	}
 	
 	void Application::Run()
 	{
@@ -22,6 +30,9 @@ namespace Decay
 		{
 			glClearColor(1, 0, 1, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
+
+			PAIR(float,float) pos = Input::GetMousePos();
+			DC_CORE_INFO("Mouse Pos:({0},{1})", pos.first, pos.second);
 
 			for (S_PTR(Layer) layer : m_LayerStack)
 			{

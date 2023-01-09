@@ -5,6 +5,7 @@
 #include "Events\ApplicationEvent.h"
 #include "Layer.h"
 #include "LayerStack.h"
+#include <Decay\Log.h>
 
 namespace Decay
 {
@@ -23,6 +24,12 @@ namespace Decay
 
 		void PushOverlay(Layer* overlay);
 
+		inline static Application& GetApplication() { return *s_Instance; }
+
+		inline static void ReleaseApplication() { s_Instance = nullptr; }
+
+		inline Window& GetWindow() const { return *m_Window; }
+
 	private:
 		std::unique_ptr<Window> m_Window;
 
@@ -31,7 +38,10 @@ namespace Decay
 		LayerStack m_LayerStack;
 
 		bool OnWindowClose(WindowCloseEvent e);
+
+	private:
+		static std::unique_ptr<Application> s_Instance;
 	};
 
-	std::shared_ptr<Application> CreateApplication();
+	void CreateApplication();
 }

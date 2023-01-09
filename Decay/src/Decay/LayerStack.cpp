@@ -16,11 +16,13 @@ namespace Decay
 	void LayerStack::PushLayer(Layer* layer)
 	{
 		m_LayerInsert = m_Layer.emplace(m_LayerInsert, std::shared_ptr<Layer>(layer));
+		layer->OnAttach();
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay)
 	{
 		m_Layer.emplace_back(std::shared_ptr<Layer>(overlay));
+		overlay->OnAttach();
 	}
 
 	void LayerStack::PopLayer(Layer* layer)

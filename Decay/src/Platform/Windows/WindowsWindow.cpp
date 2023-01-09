@@ -4,6 +4,9 @@
 #include "Decay\Events\ApplicationEvent.h"
 #include "Decay\Events\MouseEvent.h"
 #include "Decay\Events\KeyEvent.h"
+#include "glad\glad.h"
+#include "GLFW\glfw3.h"
+#include "Decay\Input.h"
 
 namespace Decay
 {
@@ -57,6 +60,10 @@ namespace Decay
 
 		m_Window = glfwCreateWindow((int)m_Data.width, (int)m_Data.height, m_Data.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		DC_CORE_ASSERT(status, "Glad initialize failed!");
+
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
@@ -66,6 +73,8 @@ namespace Decay
 		glfwSetMouseButtonCallback(m_Window, WindowMouseButtonCallback);
 		glfwSetScrollCallback(m_Window, WindowMouseScrollCallback);
 		glfwSetCursorPosCallback(m_Window, WindowCursorPosCallback);
+
+		glfwSetCharCallback(m_Window, WindowCharCallback);
 	}
 
 	void WindowsWindow::OnUpdate()
@@ -171,6 +180,13 @@ namespace Decay
 		WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
 		MouseMovedEvent e(xpos, ypos);
+		data.EventCallback(e);
+	}
+	void WindowsWindow::WindowCharCallback(GLFWwindow* window, unsigned int codepoint)
+	{
+		WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+		KeyTypedEvent e(codepoint);
 		data.EventCallback(e);
 	}
 }
