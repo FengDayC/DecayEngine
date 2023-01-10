@@ -1,11 +1,17 @@
 #pragma once
 
 #ifdef DECAY_PLATFORM_WINDOWS
+	
+#ifdef DECAY_DYNAMIC_LINK
 	#ifdef DECAY_BUILD_DLL
 		#define DECAY_API _declspec(dllexport)
 	#else
 		#define DECAY_API _declspec(dllimport)
 	#endif
+#else
+	#define DECAY_API
+#endif
+
 #else
 #error Only support windows!
 #endif

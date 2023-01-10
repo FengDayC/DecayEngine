@@ -73,7 +73,7 @@ namespace Decay
     {
         ImGuiIO io = ImGui::GetIO();
         Application& application = Application::GetApplication();
-        io.DisplaySize = ImVec2(application.GetWindow().GetWidth(), application.GetWindow().GetHeight());
+        io.DisplaySize = ImVec2((float)application.GetWindow().GetWidth(), (float)application.GetWindow().GetHeight());
         
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

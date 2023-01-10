@@ -23,14 +23,22 @@ include "Decay/vendor/ImGui"
 project "Decay"
 
     location "Decay"
-    kind "Sharedlib"
+    kind "StaticLib"
     language "C++"
+    cppdialect "C++17"
+	staticruntime "on"
     targetdir ("bin/"..outputdir.."/%{prj.name}")
 
     pchheader "dcpch.h"
     pchsource "Decay/src/dcpch.cpp"
 
     objdir ("bin-int/"..outputdir.."/%{prj.name}")
+	
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
+	}
+	
     files
     {
         "%{prj.name}/src/**.h",
@@ -57,8 +65,6 @@ project "Decay"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
         defines
         {
@@ -67,30 +73,28 @@ project "Decay"
             "_WinBuild",
 			"GLFW_INCLUDE_NONE"
         }
-        postbuildcommands
-        {
-            ("{COPY} %{cfg.buildtarget.relpath} ../bin/"..outputdir.."/Sandbox")
-        }
 
     filter "configurations:Debug"
         defines "DC_DEBUG"
 		buildoptions "/MDd"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         defines "DC_RELEASE"
 		buildoptions "/MD"
-        optimize "On"
+        optimize "on"
 
     filter "configurations:Dist"
         defines "DC_DIST"
 		buildoptions "/MD"
-        optimize "On"
+        optimize "on"
 
 project "Sandbox"
     location "Sandbox"
     kind "ConsoleApp"
     language "C++"
+    cppdialect "C++17"
+    staticruntime "on"
     targetdir ("bin/"..outputdir.."/%{prj.name}")
 
     objdir ("bin-int/"..outputdir.."/%{prj.name}")
@@ -113,8 +117,6 @@ project "Sandbox"
     }
 
     filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
         defines
         {
@@ -125,14 +127,14 @@ project "Sandbox"
     filter "configurations:Debug"
         defines "DC_DEBUG"
 		buildoptions "/MDd"
-        symbols "On"
+        symbols "on"
     
     filter "configurations:Release"
         defines "DC_RELEASE"
 		buildoptions "/MD"
-        optimize "On"
+        optimize "on"
     
     filter "configurations:Dist"
         defines "DC_DIST"
 		buildoptions "/MD"
-        optimize "On"
+        optimize "on"

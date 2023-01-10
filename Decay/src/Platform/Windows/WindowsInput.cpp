@@ -30,7 +30,7 @@ namespace Decay
 		double x, y;
 		glfwGetCursorPos(window, &x, &y);
 
-		return PAIR(float, float)(x,y);
+		return PAIR(float, float)((float)x,(float)y);
 	}
 
 	float WindowsInput::GetMouseXImpl()

@@ -42,6 +42,8 @@ namespace Decay
 
 		bool OnWindowClose(WindowCloseEvent e);
 
+		unsigned int m_VAO, m_VBO, m_VEO;
+
 	private:
 		static std::unique_ptr<Application> s_Instance;
 	};

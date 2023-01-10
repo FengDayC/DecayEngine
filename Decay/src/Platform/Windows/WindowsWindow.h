@@ -1,7 +1,9 @@
 #pragma once
 #include<Decay/Window.h>
+#include<Decay/Renderer/GraphicsContext.h>
 
 struct GLFWwindow;
+class OpenGLContext;
 namespace Decay
 {
 	class WindowsWindow : public Window
@@ -28,6 +30,8 @@ namespace Decay
 
 	private:
 		GLFWwindow* m_Window;
+
+		GraphicsContext* m_Context;
 
 		struct WindowData
 		{
