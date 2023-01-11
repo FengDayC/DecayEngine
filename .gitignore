@@ -399,3 +399,18 @@ FodyWeavers.xsd
 
 bin-int/
 /bin-int
+
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj
+*.filters
+imgui.ini
+*.filters
+*.vcxproj
+*.filters
+*.vcxproj
+*.vcxproj
+*.filters
+*.user
+*.vcxproj
