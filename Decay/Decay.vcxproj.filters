@@ -13,8 +13,14 @@
     <Filter Include="src\Decay\ImGui">
       <UniqueIdentifier>{CCEB6F6E-3877-DD32-4188-6027AD923933}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Decay\Renderer">
+      <UniqueIdentifier>{08CF9F4D-F4B2-60A3-5D13-5BF649164B25}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\Platform">
       <UniqueIdentifier>{21CA02E5-0D2D-9289-B6B2-CA3FA2F45D0C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Platform\OpenGL">
+      <UniqueIdentifier>{35A49437-A105-7245-2A73-B8F796D3A804}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Platform\Windows">
       <UniqueIdentifier>{5B054582-4794-CE4B-F0B2-E246DC20DFF1}</UniqueIdentifier>
@@ -90,8 +96,32 @@
     <ClInclude Include="src\Decay\MouseButtonCodes.h">
       <Filter>src\Decay</Filter>
     </ClInclude>
+    <ClInclude Include="src\Decay\Renderer\Buffer.h">
+      <Filter>src\Decay\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\Renderer\GraphicsContext.h">
+      <Filter>src\Decay\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\Renderer\Renderer.h">
+      <Filter>src\Decay\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\Renderer\Shader.h">
+      <Filter>src\Decay\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Decay\Renderer\VertexArray.h">
+      <Filter>src\Decay\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Decay\Window.h">
       <Filter>src\Decay</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>src\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Platform\Windows\WindowsInput.h">
       <Filter>src\Platform\Windows</Filter>
@@ -1380,8 +1410,6 @@
     <ClInclude Include="vendor\GLM\glm\vector_relational.hpp">
       <Filter>vendor\GLM\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\Decay\Renderer\GraphicsContext.h" />
-    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Decay\Application.cpp">
@@ -1402,6 +1430,27 @@
     <ClCompile Include="src\Decay\Log.cpp">
       <Filter>src\Decay</Filter>
     </ClCompile>
+    <ClCompile Include="src\Decay\Renderer\Buffer.cpp">
+      <Filter>src\Decay\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Decay\Renderer\Renderer.cpp">
+      <Filter>src\Decay\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Decay\Renderer\Shader.cpp">
+      <Filter>src\Decay\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Decay\Renderer\VertexArray.cpp">
+      <Filter>src\Decay\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>src\Platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Platform\Windows</Filter>
     </ClCompile>
@@ -1411,6 +1460,5 @@
     <ClCompile Include="src\dcpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
   </ItemGroup>
 </Project>

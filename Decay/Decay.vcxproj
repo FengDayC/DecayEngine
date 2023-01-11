@@ -76,7 +76,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>dcpch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DECAY_PLATFORM_WINDOWS;DECAY_BUILD_DLL;_WinBuild;GLFW_INCLUDE_NONE;DC_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;DECAY_PLATFORM_WINDOWS;DECAY_BUILD_DLL;_WinBuild;GLFW_INCLUDE_NONE;DC_DEBUG;DECAY_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\GLFW\include;vendor\Glad\include;vendor\ImGui;vendor\GLM;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -143,7 +143,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Decay.h" />
     <ClInclude Include="src\Decay\Application.h" />
     <ClInclude Include="src\Decay\Core.h" />
@@ -159,8 +158,15 @@
     <ClInclude Include="src\Decay\LayerStack.h" />
     <ClInclude Include="src\Decay\Log.h" />
     <ClInclude Include="src\Decay\MouseButtonCodes.h" />
+    <ClInclude Include="src\Decay\Renderer\Buffer.h" />
     <ClInclude Include="src\Decay\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Decay\Renderer\Renderer.h" />
+    <ClInclude Include="src\Decay\Renderer\Shader.h" />
+    <ClInclude Include="src\Decay\Renderer\VertexArray.h" />
     <ClInclude Include="src\Decay\Window.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLBuffer.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="src\Platform\OpenGL\OpenGLVertexArray.h" />
     <ClInclude Include="src\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\dcpch.h" />
@@ -592,13 +598,19 @@
     <ClInclude Include="vendor\GLM\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Decay\Application.cpp" />
     <ClCompile Include="src\Decay\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Decay\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Decay\Layer.cpp" />
     <ClCompile Include="src\Decay\LayerStack.cpp" />
     <ClCompile Include="src\Decay\Log.cpp" />
+    <ClCompile Include="src\Decay\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Decay\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Decay\Renderer\Shader.cpp" />
+    <ClCompile Include="src\Decay\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLBuffer.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="src\Platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\dcpch.cpp">

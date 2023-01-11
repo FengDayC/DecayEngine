@@ -17,8 +17,8 @@
 #endif
 
 #ifdef DECAY_ENABLE_ASSERTS
-#define DC_ASSERT(x,...) {if(!x){ DECAY_ERROR("Assersion Failed:{0}",__VA_ARGS__); __debugbreak();}}
-#define DC_CORE_ASSERT(x,...) {if(!x){ DECAY_CORE_ERROR("Assersion Failed:{0}",__VA_ARGS__); __debugbreak();}}
+#define DC_ASSERT(x,...) {if(!x){ DC_ERROR("Assersion Failed:{0}",__VA_ARGS__); __debugbreak();}}
+#define DC_CORE_ASSERT(x,...) {if(!x){ DC_CORE_ERROR("Assersion Failed:{0}",__VA_ARGS__); __debugbreak();}}
 #else
 #define DC_ASSERT(x,...)
 #define DC_CORE_ASSERT(x,...)

@@ -75,7 +75,11 @@ project "Decay"
         }
 
     filter "configurations:Debug"
-        defines "DC_DEBUG"
+        defines 
+		{
+			"DC_DEBUG",
+			"DECAY_ENABLE_ASSERTS"
+		}
 		buildoptions "/MDd"
         symbols "on"
 

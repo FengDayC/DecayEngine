@@ -18,6 +18,7 @@
 #include<map>
 
 #include "Decay\Log.h"
+#include "Decay\Core.h"
 
 #ifdef DECAY_PLATFORM_WINDOWS
 	#include<Windows.h>
