@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "Decay\Events\ApplicationEvent.h"
 #include "Decay\Renderer\Renderer.h"
+#include "Decay\Renderer\Camera.h"
 #include "Input.h"
 
 namespace Decay
@@ -26,9 +27,9 @@ namespace Decay
 
 		std::vector<float> vertices
 		{
-			-.5f,-.5f,.0f,1.0f,.0f,1.0f,1.0f,
-			.5f,-.5f,.0f ,1.0f,.0f,1.0f,1.0f,
-			.0f,.5f,.0f  ,1.0f,.0f,1.0f,1.0f
+			-.5f,-.5f,-.1f,.1f,.2f,.8f,1.0f,
+			.5f,-.5f,-.1f ,.1f,.7f,.3f,1.0f,
+			.0f,.5f,-.1f  ,1.0f,.2f,.2f,1.0f
 		};
 
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices));
@@ -54,10 +55,12 @@ namespace Decay
 			layout(location = 0) in vec3 a_Pos;
 			layout(location = 1) in vec4 a_Color;
 			out vec4 v_Color;
+			uniform mat4 decay_camera_viewMatrix;
+			uniform mat4 decay_camera_projectionMatrix;
 
 			void main()
 			{
-				gl_Position = vec4(a_Pos,1.0);
+				gl_Position = decay_camera_projectionMatrix * decay_camera_viewMatrix * vec4(a_Pos,1.0);
 				v_Color = a_Color;
 			}
 			)";
@@ -74,6 +77,17 @@ namespace Decay
 			)";
 
 		m_Shader.reset(new Shader(vertexSource, fragmentSource));
+
+		S_PTR(Camera) sceneCamera;
+		sceneCamera.reset(new Camera());
+		sceneCamera->SetPerspective(true);
+		sceneCamera->SetFovy(90.0f);
+		sceneCamera->SetRatio(16.0f / 9);
+		sceneCamera->LookAt(glm::vec3(.0f, .0f, -1.0f), glm::vec3(.0f, .0f, .5f), glm::vec3(.0f, 1.0f, .0f));
+
+		m_Scene.reset(new Scene(sceneCamera));
+
+		NowTime = .0f;
 	}
 
 	Application::~Application() 
@@ -83,16 +97,17 @@ namespace Decay
 	
 	void Application::Run()
 	{
+		NowTime += (1.0f / 144);
 		while (m_Running)
 		{
 			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
 			RenderCommand::Clear();
 
-			Renderer::BeginScene();
+			m_Scene->GetSceneCamera()->Move(glm::vec3(.0f, .0f, NowTime));
 
-			m_Shader->Bind();
-			Renderer::Submit(m_VertexArray);
-			m_Shader->UnBind();
+			Renderer::BeginScene(m_Scene);
+
+			Renderer::Submit(m_Shader,m_VertexArray);
 
 			Renderer::EndScene();
 

@@ -1,5 +1,7 @@
 #include "dcpch.h"
-#include "Shader.h"
+#include "Decay\Renderer\Shader.h"
+#include <glm\glm.hpp>
+#include <glm\gtc\type_ptr.hpp>
 #include <glad/glad.h>
 
 namespace Decay
@@ -125,5 +127,11 @@ namespace Decay
 	void Shader::UnBind() const
 	{
 		glUseProgram(0);
+	}
+
+	void Shader::SetUniformMatrix4(const std::string& name, glm::mat4 matrix) const
+	{
+		GLuint location = glGetUniformLocation(m_RendererId, name.c_str());
+		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 }

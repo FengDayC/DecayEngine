@@ -10,6 +10,7 @@
 #include "Decay\Renderer\Shader.h"
 #include "Decay\Renderer\Buffer.h"
 #include "Decay\Renderer\VertexArray.h"
+#include "Decay\Renderer\Scene.h"
 
 namespace Decay
 {
@@ -49,9 +50,12 @@ namespace Decay
 		S_PTR(VertexBuffer) m_VertexBuffer;
 		S_PTR(IndexBuffer) m_IndexBuffer;
 		S_PTR(VertexArray) m_VertexArray;
+		S_PTR(Scene) m_Scene;
 
 	private:
 		static U_PTR(Application) s_Instance;
+
+		float NowTime;
 	};
 
 	void CreateApplication();
