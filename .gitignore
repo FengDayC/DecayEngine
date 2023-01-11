@@ -406,11 +406,4 @@ bin-int/
 *.vcxproj
 *.filters
 imgui.ini
-*.filters
-*.vcxproj
-*.filters
-*.vcxproj
-*.vcxproj
-*.filters
 *.user
-*.vcxproj
