@@ -143,6 +143,9 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Platform\OpenGL\OpenGLRendererAPI.h" />
+    <ClInclude Include="src\Decay\Renderer\RenderCommand.h" />
+    <ClInclude Include="src\Decay\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Decay.h" />
     <ClInclude Include="src\Decay\Application.h" />
     <ClInclude Include="src\Decay\Core.h" />
@@ -598,6 +601,9 @@
     <ClInclude Include="vendor\GLM\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Platform\OpenGL\OpenGLRendererAPI.cpp" />
+    <ClCompile Include="src\Decay\Renderer\RenderCommand.cpp" />
+    <ClCompile Include="src\Decay\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Decay\Application.cpp" />
     <ClCompile Include="src\Decay\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Decay\ImGui\ImGuiLayer.cpp" />

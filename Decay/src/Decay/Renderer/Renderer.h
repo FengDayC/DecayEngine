@@ -1,20 +1,15 @@
 #pragma once
+#include "Decay\Renderer\RenderCommand.h"
 
 namespace Decay
 {
-	enum class RendererAPI : uint32_t
-	{
-		None = 0,
-		OpenGL = 1,
-		Vulkan = 2,
-		DirectX = 3
-	};
-
 	class Renderer
 	{
 	public:
-		inline static RendererAPI GetAPI() { return s_RendererAPI; }
-	private:
-		static RendererAPI s_RendererAPI;
+		static void BeginScene();
+		static void EndScene();
+		static void Submit(const S_PTR(VertexArray)& vertexArray);
+
+		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 	};
 }

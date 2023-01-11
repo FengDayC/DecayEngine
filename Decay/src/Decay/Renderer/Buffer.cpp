@@ -7,11 +7,11 @@ namespace Decay
 {
 	VertexBuffer* VertexBuffer::Create(std::vector<float> vertices)
 	{
-		RendererAPI api = Renderer::GetAPI();
+		RendererAPI::API  api = Renderer::GetAPI();
 		DC_CORE_ASSERT((uint32_t)api, "No Renderer API");
 		switch (api)
 		{
-		case RendererAPI::OpenGL :
+		case RendererAPI::API::OpenGL :
 			return new OpenGLVertexBuffer(vertices);
 		}
 		return nullptr;
@@ -19,11 +19,11 @@ namespace Decay
 
 	IndexBuffer* IndexBuffer::Create(std::vector<uint32_t> indices)
 	{
-		RendererAPI api = Renderer::GetAPI();
+		RendererAPI::API api = Renderer::GetAPI();
 		DC_CORE_ASSERT((uint32_t)api, "No Renderer API");
 		switch (api)
 		{
-		case RendererAPI::OpenGL:
+		case RendererAPI::API::OpenGL:
 			return new OpenGLIndexBuffer(indices);
 		}
 		return nullptr;
