@@ -36,9 +36,11 @@ namespace Decay
 
 		ImGuiLayer* m_ImGuiLayer;
 
-		bool m_Running = true;
-
 		LayerStack m_LayerStack;
+
+		S_PTR(Timestep) m_LastFrameTime;
+
+		bool m_Running = true;
 
 		bool OnWindowClose(WindowCloseEvent e);
 

@@ -1,6 +1,7 @@
 #include "dcpch.h"
 #include "Application.h"
 #include "Input.h"
+#include "GLFW\glfw3.h"
 
 namespace Decay
 {
@@ -18,6 +19,8 @@ namespace Decay
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
+
+		m_LastFrameTime.reset(new Timestep(glfwGetTime()));
 	}
 
 	Application::~Application() 
@@ -29,9 +32,13 @@ namespace Decay
 	{
 		while (m_Running)
 		{
+			float nowTime = glfwGetTime();
+			Timestep deltaTime = nowTime - *m_LastFrameTime;
+			m_LastFrameTime->SetSeconds(nowTime);
+
 			for (S_PTR(Layer) layer : m_LayerStack)
 			{
-				layer->OnUpdate();
+				layer->OnUpdate(deltaTime);
 			}
 
 			m_ImGuiLayer->Begin();

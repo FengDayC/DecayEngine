@@ -17,11 +17,12 @@ namespace Decay
 		s_Scene = nullptr;
 	}
 
-	void Renderer::Submit(const S_PTR(Shader)& shader, const S_PTR(VertexArray)& vertexArray)
+	void Renderer::Submit(const S_PTR(Shader)& shader, const S_PTR(VertexArray)& vertexArray, const glm::mat4& transform)
 	{
 		shader->Bind();
 		shader->SetUniformMatrix4("decay_camera_viewMatrix", s_Scene->GetSceneCamera()->GetViewMatrix());
 		shader->SetUniformMatrix4("decay_camera_projectionMatrix", s_Scene->GetSceneCamera()->GetProjectionMatrix());
+		shader->SetUniformMatrix4("decay_model_transform", transform);
 		
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);

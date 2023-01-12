@@ -1,6 +1,7 @@
 #pragma once
 #include "Core.h"
 #include "Decay\Events\Event.h"
+#include "Decay\Core\Timestep.h"
 
 namespace Decay
 {
@@ -13,7 +14,7 @@ namespace Decay
 
 		virtual void OnAttach(){}
 		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
+		virtual void OnUpdate(Timestep deltaTime) {}
 		virtual void OnImGuiRender() {}
 		virtual void OnEvent(Event& e) {}
 

@@ -129,6 +129,12 @@ namespace Decay
 		glUseProgram(0);
 	}
 
+	void Shader::SetUniformFloat4(const std::string& name, glm::vec4 value) const
+	{
+		GLuint location = glGetUniformLocation(m_RendererId, name.c_str());
+		glUniform4fv(location, 1, glm::value_ptr(value));
+	}
+
 	void Shader::SetUniformMatrix4(const std::string& name, glm::mat4 matrix) const
 	{
 		GLuint location = glGetUniformLocation(m_RendererId, name.c_str());

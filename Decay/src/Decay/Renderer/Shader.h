@@ -15,6 +15,7 @@ namespace Decay
 		void UnBind() const;
 
 	public:
+		void SetUniformFloat4(const std::string& name, glm::vec4 value) const;
 		void SetUniformMatrix4(const std::string& name,glm::mat4 matrix) const;
 
 	private:

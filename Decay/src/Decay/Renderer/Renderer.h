@@ -11,7 +11,7 @@ namespace Decay
 	public:
 		static void BeginScene(const S_PTR(Scene)& scene);
 		static void EndScene();
-		static void Submit(const S_PTR(Shader)& shader,const S_PTR(VertexArray)& vertexArray);
+		static void Submit(const S_PTR(Shader)& shader,const S_PTR(VertexArray)& vertexArray,const glm::mat4& transform = glm::mat4(1.0f));
 
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 

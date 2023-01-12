@@ -43,10 +43,11 @@ public:
 			out vec4 v_Color;
 			uniform mat4 decay_camera_viewMatrix;
 			uniform mat4 decay_camera_projectionMatrix;
+			uniform mat4 decay_model_transform;
 
 			void main()
 			{
-				gl_Position = decay_camera_projectionMatrix * decay_camera_viewMatrix * vec4(a_Pos,1.0);
+				gl_Position = decay_camera_projectionMatrix * decay_camera_viewMatrix * decay_model_transform * vec4(a_Pos,1.0);
 				v_Color = a_Color;
 			}
 			)";
@@ -85,23 +86,25 @@ public:
 	void OnDetach() override {}
 	
 	
-	void OnUpdate() override 
+	void OnUpdate(Timestep deltaTime) override 
 	{
+		//DC_INFO("DeltaTime = {0}", deltaTime->GetSeconds());
+
 		if (Input::IsKeyPressed(DC_KEY_W))
 		{
-			m_Scene->GetSceneCamera()->Move(glm::vec3(.0, .1, .0));
+			m_Scene->GetSceneCamera()->Move(glm::vec3(.0, .1 * deltaTime, .0));
 		}
 		if (Input::IsKeyPressed(DC_KEY_A))
 		{
-			m_Scene->GetSceneCamera()->Move(glm::vec3(-0.1, .0, .0));
+			m_Scene->GetSceneCamera()->Move(glm::vec3(-0.1 * deltaTime, .0, .0));
 		}
 		if (Input::IsKeyPressed(DC_KEY_S))
 		{
-			m_Scene->GetSceneCamera()->Move(glm::vec3(.0, -.1, .0));
+			m_Scene->GetSceneCamera()->Move(glm::vec3(.0, -.1 * deltaTime, .0));
 		}
 		if (Input::IsKeyPressed(DC_KEY_D))
 		{
-			m_Scene->GetSceneCamera()->Move(glm::vec3(0.1, .0, .0));
+			m_Scene->GetSceneCamera()->Move(glm::vec3(0.1 * deltaTime, .0, .0));
 		}
 
 		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });

@@ -10,6 +10,8 @@
 
 #include "Decay\Events\Event.h"
 
+#include "Decay\Core\Timestep.h"
+
 #include "Decay\ImGui\ImGuiLayer.h"
 
 //----Renderer----
