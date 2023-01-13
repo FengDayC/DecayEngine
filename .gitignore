@@ -407,3 +407,4 @@ bin-int/
 *.filters
 imgui.ini
 *.user
+assets

@@ -7,18 +7,34 @@ namespace Decay
 	class Shader
 	{
 	public:
-		Shader(const std::string& vertexSource, const std::string& fragmentSource);
-		~Shader();
+		virtual ~Shader() = default;
 
-		void Bind() const;
+		virtual void Bind() const = 0;
 
-		void UnBind() const;
+		virtual void UnBind() const = 0;
+
+		virtual std::string GetName() const = 0;
 
 	public:
-		void SetUniformFloat4(const std::string& name, glm::vec4 value) const;
-		void SetUniformMatrix4(const std::string& name,glm::mat4 matrix) const;
+		static S_PTR<Shader> Create(const std::string& path);
+		static S_PTR<Shader> Create(const std::string& name,const std::string& vertexSource, const std::string& fragmentSource);
+	};
 
+	class ShaderLibrary
+	{
+	public:
+		void Add(const S_PTR<Shader>& shader);
+
+		void Add(const std::string& name,const S_PTR<Shader>& shader);
+
+		S_PTR<Shader>& Load(const std::string& path);
+
+		S_PTR<Shader>& Load(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource);
+
+		S_PTR<Shader> Get(const std::string& name);
+
+		inline bool Exists(const std::string& name) const { return m_Shaders.find(name) != m_Shaders.end(); }
 	private:
-		uint32_t m_RendererId;
+		std::unordered_map<std::string, S_PTR<Shader>> m_Shaders;
 	};
 }

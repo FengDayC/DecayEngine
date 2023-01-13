@@ -3,7 +3,7 @@
 
 namespace Decay
 {
-	Scene::Scene(const S_PTR(Camera)& camera) : m_SceneCamera(camera)
+	Scene::Scene(const S_PTR<Camera>& camera) : m_SceneCamera(camera)
 	{
 	}
 }

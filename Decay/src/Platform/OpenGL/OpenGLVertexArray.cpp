@@ -55,7 +55,7 @@ namespace Decay
 		glBindVertexArray(0);
 	}
 
-	void OpenGLVertexArray::AddVertexBuffer(S_PTR(VertexBuffer)& vertexBuffer)
+	void OpenGLVertexArray::AddVertexBuffer(S_PTR<VertexBuffer>& vertexBuffer)
 	{
 		DC_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex layout hasn't been set!");
 
@@ -80,7 +80,7 @@ namespace Decay
 		m_VertexBuffers.push_back(vertexBuffer);
 	}
 
-	void OpenGLVertexArray::SetIndexBuffer(S_PTR(IndexBuffer)& indexBuffer)
+	void OpenGLVertexArray::SetIndexBuffer(S_PTR<IndexBuffer>& indexBuffer)
 	{
 		glBindVertexArray(m_RendererId);
 		indexBuffer->Bind();

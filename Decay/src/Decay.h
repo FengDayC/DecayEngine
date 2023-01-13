@@ -22,6 +22,7 @@
 #include "Decay\Renderer\Shader.h"
 #include "Decay\Renderer\Buffer.h"
 #include "Decay\Renderer\VertexArray.h"
+#include "Decay\Renderer\Texture.h"
 //----Renderer----
 
 //----Input----

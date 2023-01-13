@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+#include <utility>
 
 #ifdef DECAY_PLATFORM_WINDOWS
 	
@@ -17,8 +19,8 @@
 #endif
 
 #ifdef DECAY_ENABLE_ASSERTS
-#define DC_ASSERT(x,...) {if(!x){ DC_ERROR("Assersion Failed:{0}",__VA_ARGS__); __debugbreak();}}
-#define DC_CORE_ASSERT(x,...) {if(!x){ DC_CORE_ERROR("Assersion Failed:{0}",__VA_ARGS__); __debugbreak();}}
+#define DC_ASSERT(x,...) {if(!(x)){ DC_ERROR("Assersion Failed:{0}",__VA_ARGS__); __debugbreak();}}
+#define DC_CORE_ASSERT(x,...) {if(!(x)){ DC_CORE_ERROR("Assersion Failed:{0}",__VA_ARGS__); __debugbreak();}}
 #else
 #define DC_ASSERT(x,...)
 #define DC_CORE_ASSERT(x,...)
@@ -29,7 +31,14 @@
 #define DC_BIND_EVENT(Fn) std::bind(&Fn,this,std::placeholders::_1)
 
 //----std----
-#define S_PTR(x) std::shared_ptr<x>
-#define U_PTR(x) std::unique_ptr<x>
-#define W_PTR(x) std::weak_ptr<x>
-#define PAIR(x,y) std::pair<x,y>
+template<typename x>
+using S_PTR = std::shared_ptr<x>;
+
+template<typename x>
+using U_PTR = std::unique_ptr<x>;
+
+template<typename x>
+using W_PTR = std::weak_ptr<x>;
+
+template<typename x,typename y>
+using PAIR = std::pair<x,y>;

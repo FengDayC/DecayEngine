@@ -16,6 +16,7 @@
 #include<queue>
 #include<set>
 #include<map>
+#include<unordered_map>
 
 #include "Decay\Log.h"
 #include "Decay\Core.h"

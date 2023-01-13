@@ -23,14 +23,14 @@ namespace Decay
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
-	PAIR(float, float) WindowsInput::GetMousePosImpl()
+	PAIR<float, float> WindowsInput::GetMousePosImpl()
 	{
 		auto window = static_cast<GLFWwindow*>(Application::GetApplication().GetWindow().GetNativeWindow());
 
 		double x, y;
 		glfwGetCursorPos(window, &x, &y);
 
-		return PAIR(float, float)((float)x,(float)y);
+		return PAIR<float, float>((float)x,(float)y);
 	}
 
 	float WindowsInput::GetMouseXImpl()

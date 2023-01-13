@@ -15,6 +15,7 @@ IncludeDir["GLFW"] = "Decay/vendor/GLFW/include"
 IncludeDir["Glad"] = "Decay/vendor/Glad/include"
 IncludeDir["ImGui"] = "Decay/vendor/ImGui"
 IncludeDir["glm"] = "Decay/vendor/GLM"
+IncludeDir["stb_image"] = "Decay/vendor/stb_image"
 
 include "Decay/vendor/GLFW"
 include "Decay/vendor/Glad"
@@ -43,6 +44,8 @@ project "Decay"
     {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
 		"%{prj.name}/vendor/GLM/glm/**.h",
 		"%{prj.name}/vendor/GLM/glm/**.hpp",
 		"%{prj.name}/vendor/GLM/glm/**.inl"
@@ -54,7 +57,8 @@ project "Decay"
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.stb_image}"
     }
     links
     {
@@ -125,7 +129,7 @@ project "Sandbox"
         defines
         {
             "DECAY_PLATFORM_WINDOWS",
-            "_WinBuild"
+			"_WinBuild"
         }
 
     filter "configurations:Debug"

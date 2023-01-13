@@ -1,6 +1,7 @@
 #include <Decay.h>
 #include <memory>
 #include "ImGui\imgui.h"
+#include "Platform\OpenGL\OpenGLShader.h"
 
 using namespace Decay;
 
@@ -13,9 +14,10 @@ public:
 
 		std::vector<float> vertices
 		{
-			-.5f,-.5f,-.1f,.1f,.2f,.8f,1.0f,
-			.5f,-.5f,-.1f ,.1f,.7f,.3f,1.0f,
-			.0f,.5f,-.1f  ,1.0f,.2f,.2f,1.0f
+			-.5f,-.5f,-.1f,.0,.0,
+			-.5f,.5f,-.1f,.0,1.0,
+			.5f,.5f,-.1f,1.0,1.0,
+			.5f,-.5f,-.1f,1.0,.0
 		};
 
 		m_VertexBuffer.reset(VertexBuffer::Create(vertices));
@@ -23,49 +25,22 @@ public:
 		{
 			BufferLayout layout =
 			{
-				{ShaderDataType::Float3,"Position"},
-				{ShaderDataType::Float4,"Color"}
+				{ShaderDataType::Float3,"a_Pos"},
+				{ShaderDataType::Float2,"a_UV"}
 			};
 
 			m_VertexBuffer->SetLayout(layout);
 		}
 
-		std::vector<uint32_t> indices{ 0,1,2 };
+		std::vector<uint32_t> indices{ 0,1,2,3,0,2 };
 		m_IndexBuffer.reset(IndexBuffer::Create(indices));
 
 		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
-		std::string vertexSource = R"(
-			#version 330 core
-			layout(location = 0) in vec3 a_Pos;
-			layout(location = 1) in vec4 a_Color;
-			out vec4 v_Color;
-			uniform mat4 decay_camera_viewMatrix;
-			uniform mat4 decay_camera_projectionMatrix;
-			uniform mat4 decay_model_transform;
+		m_ShaderLib.Load("assets/shaders/Texture.glsl");
 
-			void main()
-			{
-				gl_Position = decay_camera_projectionMatrix * decay_camera_viewMatrix * decay_model_transform * vec4(a_Pos,1.0);
-				v_Color = a_Color;
-			}
-			)";
-
-		std::string fragmentSource = R"(
-			#version 330 core
-			layout(location = 0) out vec4 color;
-			in vec4 v_Color;
-
-			void main()
-			{
-				color = v_Color;
-			}
-			)";
-
-		m_Shader.reset(new Shader(vertexSource, fragmentSource));
-
-		S_PTR(Camera) sceneCamera;
+		S_PTR<Camera> sceneCamera;
 		sceneCamera.reset(new Camera());
 		sceneCamera->SetPerspective(true);
 		sceneCamera->SetFovy(90.0f);
@@ -73,6 +48,9 @@ public:
 		sceneCamera->LookAt(glm::vec3(.0f, .0f, -1.0f), glm::vec3(.0f, .0f, .5f), glm::vec3(.0f, 1.0f, .0f));
 
 		m_Scene.reset(new Scene(sceneCamera));
+
+		m_Texture = Texture2D::Create("assets/texture/UV_Checker.png");
+		std::dynamic_pointer_cast<OpenGLShader>(m_ShaderLib.Get("Texture"))->SetUniformInt("u_texture", 0);
 	}
 
 	~TestLayer()
@@ -112,7 +90,8 @@ public:
 
 		Renderer::BeginScene(m_Scene);
 
-		Renderer::Submit(m_Shader, m_VertexArray);
+		m_Texture->Bind(0);
+		Renderer::Submit(m_ShaderLib.Get("Texture"), m_VertexArray);
 
 		Renderer::EndScene();
 	}
@@ -128,11 +107,12 @@ public:
 	void OnEvent(Decay::Event& e) override {}
 
 private:
-	S_PTR(Shader) m_Shader;
-	S_PTR(VertexBuffer) m_VertexBuffer;
-	S_PTR(IndexBuffer) m_IndexBuffer;
-	S_PTR(VertexArray) m_VertexArray;
-	S_PTR(Scene) m_Scene;
+	ShaderLibrary m_ShaderLib;
+	S_PTR<VertexBuffer> m_VertexBuffer;
+	S_PTR<IndexBuffer> m_IndexBuffer;
+	S_PTR<VertexArray> m_VertexArray;
+	S_PTR<Scene> m_Scene;
+	S_PTR<Texture> m_Texture;
 };
 
 class Sandbox : public Decay::Application

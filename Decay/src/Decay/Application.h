@@ -32,20 +32,20 @@ namespace Decay
 		inline Window& GetWindow() const { return *m_Window; }
 
 	private:
-		U_PTR(Window) m_Window;
+		U_PTR<Window> m_Window;
 
 		ImGuiLayer* m_ImGuiLayer;
 
 		LayerStack m_LayerStack;
 
-		S_PTR(Timestep) m_LastFrameTime;
+		S_PTR<Timestep> m_LastFrameTime;
 
 		bool m_Running = true;
 
 		bool OnWindowClose(WindowCloseEvent e);
 
 	private:
-		static U_PTR(Application) s_Instance;
+		static U_PTR<Application> s_Instance;
 	};
 
 	void CreateApplication();

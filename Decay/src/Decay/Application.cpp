@@ -2,20 +2,23 @@
 #include "Application.h"
 #include "Input.h"
 #include "GLFW\glfw3.h"
+#include "Decay\Renderer\Renderer.h"
 
 namespace Decay
 {
 #define BIND_EVENT_FN(x) std::bind(&x,this,std::placeholders::_1)
 
-	U_PTR(Application) Application::s_Instance = nullptr;
+	U_PTR<Application> Application::s_Instance = nullptr;
 
 	Application::Application() 
 	{
-		m_Window = U_PTR(Window)(Window::Create());
+		m_Window = U_PTR<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_FN(Application::OnEvent));
 
 		DC_CORE_ASSERT(!s_Instance, "Application is being recreate,but it should be singleton");
-		s_Instance = U_PTR(Application)(this);
+		s_Instance = U_PTR<Application>(this);
+
+		Renderer::Init();
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
@@ -36,13 +39,13 @@ namespace Decay
 			Timestep deltaTime = nowTime - *m_LastFrameTime;
 			m_LastFrameTime->SetSeconds(nowTime);
 
-			for (S_PTR(Layer) layer : m_LayerStack)
+			for (S_PTR<Layer> layer : m_LayerStack)
 			{
 				layer->OnUpdate(deltaTime);
 			}
 
 			m_ImGuiLayer->Begin();
-			for (S_PTR(Layer) layer : m_LayerStack)
+			for (S_PTR<Layer> layer : m_LayerStack)
 			{
 				layer->OnImGuiRender();
 			}

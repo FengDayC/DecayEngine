@@ -1,143 +1,64 @@
 #include "dcpch.h"
 #include "Decay\Renderer\Shader.h"
-#include <glm\glm.hpp>
-#include <glm\gtc\type_ptr.hpp>
-#include <glad/glad.h>
+#include "Decay\Renderer\Renderer.h"
+#include "Platform\OpenGL\OpenGLShader.h"
 
 namespace Decay
 {
-	Shader::Shader(const std::string& vertexSource, const std::string& fragmentSource)
+	S_PTR<Shader> Shader::Create(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
 	{
-		// Create an empty vertex shader handle
-		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-		// Send the vertex shader source code to GL
-		// Note that std::string's .c_str is NULL character terminated.
-		const GLchar* source = (const GLchar*)vertexSource.c_str();
-		glShaderSource(vertexShader, 1, &source, 0);
-
-		// Compile the vertex shader
-		glCompileShader(vertexShader);
-
-		GLint isCompiled = 0;
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
+		RendererAPI::API api = Renderer::GetAPI();
+		DC_CORE_ASSERT((uint32_t)api, "No Renderer API");
+		switch (api)
 		{
-			GLint maxLength = 0;
-			glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
-
-			// We don't need the shader anymore.
-			glDeleteShader(vertexShader);
-
-			DC_CORE_ERROR("{0}", infoLog.data());
-			DC_CORE_ASSERT(false, "Vertex shader compile failed!");
-
-			return;
+		case RendererAPI::API::OpenGL:
+			return std::make_shared<OpenGLShader>(name, vertexSource, fragmentSource);
 		}
-
-		// Create an empty fragment shader handle
-		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-		// Send the fragment shader source code to GL
-		// Note that std::string's .c_str is NULL character terminated.
-		source = (const GLchar*)fragmentSource.c_str();
-		glShaderSource(fragmentShader, 1, &source, 0);
-
-		// Compile the fragment shader
-		glCompileShader(fragmentShader);
-
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
+		return nullptr;
+	}	
+	
+	S_PTR<Shader> Shader::Create(const std::string& path)
+	{
+		RendererAPI::API api = Renderer::GetAPI();
+		DC_CORE_ASSERT((uint32_t)api, "No Renderer API");
+		switch (api)
 		{
-			GLint maxLength = 0;
-			glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-
-			// We don't need the shader anymore.
-			glDeleteShader(fragmentShader);
-			// Either of them. Don't leak shaders.
-			glDeleteShader(vertexShader);
-
-			DC_CORE_ERROR("{0}", infoLog.data());
-			DC_CORE_ASSERT(false, "Fragment shader compile failed!");
-
-			return;
+		case RendererAPI::API::OpenGL:
+			return std::make_shared<OpenGLShader>(path);
 		}
-
-		// Vertex and fragment shaders are successfully compiled.
-		// Now time to link them together into a program.
-		// Get a program object.
-		GLuint program = glCreateProgram();
-
-		// Attach our shaders to our program
-		glAttachShader(program, vertexShader);
-		glAttachShader(program, fragmentShader);
-
-		// Link our program
-		glLinkProgram(program);
-
-		// Note the different functions here: glGetProgram* instead of glGetShader*.
-		GLint isLinked = 0;
-		glGetProgramiv(program, GL_LINK_STATUS, (int*)&isLinked);
-		if (isLinked == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
-
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
-
-			// We don't need the program anymore.
-			glDeleteProgram(program);
-			// Don't leak shaders either.
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
-
-
-			DC_CORE_ERROR("{0}", infoLog.data());
-			DC_CORE_ASSERT(false, "Shader link failed!");
-
-			return;
-		}
-
-		// Always detach shaders after a successful link.
-		glDetachShader(program, vertexShader);
-		glDetachShader(program, fragmentShader);
-
-		m_RendererId = program;
-	}
-	Shader::~Shader()
-	{
-		glDeleteProgram(m_RendererId);
+		return nullptr;
 	}
 
-	void Shader::Bind() const
+	void ShaderLibrary::Add(const S_PTR<Shader>& shader)
 	{
-		glUseProgram(m_RendererId);
+		auto name = shader->GetName();
+		DC_CORE_ASSERT(m_Shaders.find(name) == m_Shaders.end(), "Shader readd!");
+		m_Shaders[name] = shader;
 	}
 
-	void Shader::UnBind() const
+	void ShaderLibrary::Add(const std::string& name, const S_PTR<Shader>& shader)
 	{
-		glUseProgram(0);
+		DC_CORE_ASSERT(m_Shaders.find(name) == m_Shaders.end(), "Shader readd!");
+		m_Shaders[name] = shader;
 	}
 
-	void Shader::SetUniformFloat4(const std::string& name, glm::vec4 value) const
+	S_PTR<Shader>& ShaderLibrary::Load(const std::string& path)
 	{
-		GLuint location = glGetUniformLocation(m_RendererId, name.c_str());
-		glUniform4fv(location, 1, glm::value_ptr(value));
+		S_PTR<Shader> shader = Shader::Create(path);
+		Add(shader);
+		return shader;
 	}
 
-	void Shader::SetUniformMatrix4(const std::string& name, glm::mat4 matrix) const
+	S_PTR<Shader>& ShaderLibrary::Load(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
 	{
-		GLuint location = glGetUniformLocation(m_RendererId, name.c_str());
-		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+		S_PTR<Shader> shader = Shader::Create(name, vertexSource, fragmentSource);
+		Add(shader);
+		return shader;
+	}
+
+	S_PTR<Shader> ShaderLibrary::Get(const std::string& name)
+	{
+		DC_CORE_ASSERT(m_Shaders.find(name) != m_Shaders.end(), "Shader not found");
+		return m_Shaders[name];
 	}
 }

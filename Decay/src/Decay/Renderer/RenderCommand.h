@@ -6,6 +6,12 @@ namespace Decay
 	class RenderCommand
 	{
 	public:		
+
+		inline static void Init()
+		{
+			s_RendererAPI->Init();
+		}
+
 		inline static void SetClearColor(const glm::vec4& color)
 		{
 			s_RendererAPI->SetClearColor(color);
@@ -16,7 +22,7 @@ namespace Decay
 			s_RendererAPI->Clear();
 		}
 		
-		inline static void DrawIndexed(const S_PTR(VertexArray)& vertexArray)
+		inline static void DrawIndexed(const S_PTR<VertexArray>& vertexArray)
 		{
 			s_RendererAPI->DrawIndexed(vertexArray);
 		}

@@ -12,12 +12,12 @@ namespace Decay
 	public: 
 		Scene() {}
 
-		Scene(const S_PTR(Camera)& camera);
+		Scene(const S_PTR<Camera>& camera);
 
-		inline S_PTR(Camera) GetSceneCamera() const { return m_SceneCamera; }
+		inline S_PTR<Camera> GetSceneCamera() const { return m_SceneCamera; }
 
 	private:
-		S_PTR(Camera) m_SceneCamera;
+		S_PTR<Camera> m_SceneCamera;
 	};
 
 }

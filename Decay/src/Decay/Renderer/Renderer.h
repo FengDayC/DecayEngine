@@ -9,13 +9,14 @@ namespace Decay
 	class Renderer
 	{
 	public:
-		static void BeginScene(const S_PTR(Scene)& scene);
+		static void Init();
+		static void BeginScene(const S_PTR<Scene>& scene);
 		static void EndScene();
-		static void Submit(const S_PTR(Shader)& shader,const S_PTR(VertexArray)& vertexArray,const glm::mat4& transform = glm::mat4(1.0f));
+		static void Submit(const S_PTR<Shader>& shader,const S_PTR<VertexArray>& vertexArray,const glm::mat4& transform = glm::mat4(1.0f));
 
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 
 	private:
-		static S_PTR(Scene)& s_Scene;
+		static S_PTR<Scene>& s_Scene;
 	};
 }
