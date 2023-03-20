@@ -20,7 +20,7 @@ namespace Decay
 		static S_PTR<Shader> Create(const std::string& name,const std::string& vertexSource, const std::string& fragmentSource);
 	};
 
-	class ShaderLibrary
+	class DECAY_API ShaderLibrary
 	{
 	public:
 		void Add(const S_PTR<Shader>& shader);

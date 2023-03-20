@@ -3,7 +3,7 @@
 
 namespace Decay
 {
-	class RenderCommand
+	class DECAY_API RenderCommand
 	{
 	public:		
 

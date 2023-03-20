@@ -1,5 +1,5 @@
 #pragma once
-#include<Decay/Window.h>
+#include<Decay\Core\Window.h>
 #include<Decay/Renderer/GraphicsContext.h>
 
 struct GLFWwindow;

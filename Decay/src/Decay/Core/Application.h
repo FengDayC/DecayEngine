@@ -1,11 +1,11 @@
 #pragma once
-#include "Core.h"
+#include "Decay\Core.h"
 #include "Window.h"
 #include "Events\Event.h"
 #include "Events\ApplicationEvent.h"
 #include "Layer.h"
 #include "LayerStack.h"
-#include "Decay\Log.h"
+#include "Decay\Log\Log.h"
 #include "Decay\ImGui\ImGuiLayer.h"
 
 namespace Decay

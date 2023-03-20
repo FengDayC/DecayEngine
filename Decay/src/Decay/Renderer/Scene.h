@@ -5,7 +5,7 @@
 namespace Decay
 {
 
-	class Scene
+	class DECAY_API Scene
 	{
 	public:
 

@@ -1,7 +1,7 @@
 #include "dcpch.h"
 #include "WindowsInput.h"
 #include <GLFW/glfw3.h>
-#include "Decay\Application.h"
+#include "Decay\Core\Application.h"
 
 namespace Decay
 {

@@ -1,6 +1,6 @@
 #pragma once
 #include "Layer.h"
-#include "Core.h"
+#include "Decay\Core.h"
 
 namespace Decay 
 {

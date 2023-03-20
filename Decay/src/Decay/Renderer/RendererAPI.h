@@ -4,7 +4,7 @@
 
 namespace Decay
 {
-	class RendererAPI
+	class DECAY_API RendererAPI
 	{
 	public:
 		enum class API : uint32_t

@@ -1,6 +1,6 @@
 #pragma once
 #include "Application.h"
-#include "Log.h"
+#include "Decay\Log\Log.h"
 
 #ifdef  DECAY_PLATFORM_WINDOWS
 

@@ -1,21 +1,22 @@
 #pragma once
 
-#include "Decay\Application.h"
+#include "Decay\Core\Application.h"
 
-#include "Decay\Log.h"
+#include "Decay\Log\Log.h"
 
-#include "Decay\EntryPoint.h"
+#include "Decay\Core\EntryPoint.h"
 
-#include "Decay\Layer.h"
+#include "Decay\Core\Layer.h"
 
-#include "Decay\Events\Event.h"
+#include "Decay\Core\Events\Event.h"
+
+#include "Decay\Core\Events\ApplicationEvent.h"
 
 #include "Decay\Core\Timestep.h"
 
 #include "Decay\ImGui\ImGuiLayer.h"
 
 //----Renderer----
-#include "Decay\Events\ApplicationEvent.h"
 #include "Decay\Renderer\Renderer.h"
 #include "Decay\Renderer\Camera.h"
 #include "Decay\Renderer\Scene.h"
@@ -26,7 +27,11 @@
 //----Renderer----
 
 //----Input----
-#include "Decay\Input.h"
-#include "Decay\KeyCodes.h"
-#include "Decay\MouseButtonCodes.h"
+#include "Decay\Input\Input.h"
+#include "Decay\Input\KeyCodes.h"
+#include "Decay\Input\MouseButtonCodes.h"
 //----Input----
+
+//----Profile----
+//#include "Decay\Profile\Timer.h"
+//----Profile----

@@ -1,6 +1,6 @@
 #pragma once
-#include "Core.h"
-#include "Decay\Events\Event.h"
+#include "Decay\Core.h"
+#include "Decay\Core\Events\Event.h"
 #include "Decay\Core\Timestep.h"
 
 namespace Decay

@@ -6,7 +6,7 @@ namespace Decay
 {
 	class Scene;
 	class Shader;
-	class Renderer
+	class DECAY_API Renderer
 	{
 	public:
 		static void Init();

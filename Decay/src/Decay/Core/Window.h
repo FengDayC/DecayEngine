@@ -1,5 +1,5 @@
 #pragma once
-#include"Decay\Events\Event.h"
+#include"Decay\Core\Events\Event.h"
 
 namespace Decay
 {

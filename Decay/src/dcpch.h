@@ -8,6 +8,7 @@
 #include<memory>
 #include<iomanip>
 #include<functional>
+#include<chrono>
 
 #include<string>
 #include<cstring>
@@ -18,7 +19,7 @@
 #include<map>
 #include<unordered_map>
 
-#include "Decay\Log.h"
+#include "Decay\Log\Log.h"
 #include "Decay\Core.h"
 
 #ifdef DECAY_PLATFORM_WINDOWS

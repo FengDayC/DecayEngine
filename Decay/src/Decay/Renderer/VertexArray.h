@@ -3,7 +3,7 @@
 
 namespace Decay
 {
-	class VertexArray
+	class DECAY_API VertexArray
 	{
 	public:
 		virtual ~VertexArray() {}

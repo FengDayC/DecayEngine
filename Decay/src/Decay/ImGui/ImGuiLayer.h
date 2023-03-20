@@ -1,8 +1,8 @@
 #pragma once
-#include "Decay\Layer.h"
-#include "Decay\Events\KeyEvent.h"
-#include "Decay\Events\MouseEvent.h"
-#include "Decay\Events\ApplicationEvent.h"
+#include "Decay\Core\Layer.h"
+#include "Decay\Core\Events\KeyEvent.h"
+#include "Decay\Core\Events\MouseEvent.h"
+#include "Decay\Core\Events\ApplicationEvent.h"
 
 namespace Decay
 {

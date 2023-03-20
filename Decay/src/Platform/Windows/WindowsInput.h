@@ -1,5 +1,5 @@
 #pragma once
-#include "Decay/Input.h"
+#include "Decay\Input\Input.h"
 
 namespace Decay
 {

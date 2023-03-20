@@ -1,6 +1,6 @@
 #include "dcpch.h"
 #include "Application.h"
-#include "Input.h"
+#include "Decay\Input\Input.h"
 #include "GLFW\glfw3.h"
 #include "Decay\Renderer\Renderer.h"
 
@@ -52,6 +52,7 @@ namespace Decay
 			m_ImGuiLayer->End();
 
 			m_Window->OnUpdate();
+
 		}
 	}
 

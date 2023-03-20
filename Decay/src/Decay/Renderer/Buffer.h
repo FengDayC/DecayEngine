@@ -92,7 +92,7 @@ namespace Decay
 		}
 	};
 
-	class BufferLayout
+	class DECAY_API BufferLayout
 	{
 	public:
 

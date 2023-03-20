@@ -1,7 +1,7 @@
 #pragma once
 namespace Decay
 {
-	class GraphicsContext
+	class DECAY_API GraphicsContext
 	{
 	public :
 		virtual void Init() = 0;
