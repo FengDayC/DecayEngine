@@ -1,7 +1,9 @@
 #include <Decay.h>
+#include <Decay\Core\EntryPoint.h>
 #include <memory>
 #include "ImGui\imgui.h"
 #include "Platform\OpenGL\OpenGLShader.h"
+#include "Sandbox2D.h"
 
 using namespace Decay;
 
@@ -16,7 +18,7 @@ private:
 public:
 	TestLayer() : Layer("TestLayer")
 	{
-		m_VertexArray.reset(VertexArray::Create());
+		m_VertexArray = VertexArray::Create();
 
 		std::vector<float> vertices
 		{
@@ -26,7 +28,7 @@ public:
 			.5f,-.5f,-.1f,1.0,.0
 		};
 
-		m_VertexBuffer.reset(VertexBuffer::Create(vertices));
+		m_VertexBuffer = VertexBuffer::Create(vertices);
 
 		{
 			BufferLayout layout =
@@ -39,18 +41,19 @@ public:
 		}
 
 		std::vector<uint32_t> indices{ 0,1,2,3,0,2 };
-		m_IndexBuffer.reset(IndexBuffer::Create(indices));
+		m_IndexBuffer = IndexBuffer::Create(indices);
 
 		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
 		m_ShaderLib.Load("assets/shaders/Texture.glsl");
 
-		m_CameraController = CameraController::GetDefaultOrthographicController(16.0f / 9.0f);
-		m_Scene.reset(new Scene(m_CameraController));
 
 		m_Texture = Texture2D::Create("assets/texture/UV_Checker.png");
 		std::dynamic_pointer_cast<OpenGLShader>(m_ShaderLib.Get("Texture"))->SetUniformInt("u_texture", 0);
+
+		m_CameraController = CameraController::GetDefaultOrthographicController(16.0f / 9.0f);
+		m_Scene.reset(new Scene(m_CameraController));
 	}
 
 	~TestLayer()
@@ -120,7 +123,7 @@ class Sandbox : public Decay::Application
 public:
 	Sandbox()
 	{
-		PushLayer(new TestLayer());
+		PushLayer(new Sandbox2D());
 	}
 
 	~Sandbox() override

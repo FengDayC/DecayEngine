@@ -202,7 +202,7 @@ namespace Decay {
 	}
 }
 
-#define DC_PROFILE 1
+//#define DC_PROFILE 1
 #if DC_PROFILE
 #define DC_PROFILE_BEGIN_SESSION(name,filepath) ::Decay::Instrumentor::Get().BeginSession(name,filepath)
 #define DC_PROFILE_END_SESSION() ::Decay::Instrumentor::Get().EndSession()

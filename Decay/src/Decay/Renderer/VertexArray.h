@@ -16,6 +16,6 @@ namespace Decay
 		virtual const std::vector<S_PTR<VertexBuffer>>& GetVertexBuffers() const = 0;
 		virtual const S_PTR<IndexBuffer>& GetIndexBuffer() const = 0;
 
-		static VertexArray* Create();
+		static S_PTR<VertexArray> Create();
 	};
 }

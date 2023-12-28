@@ -4,7 +4,7 @@
 
 #include "Decay\Log\Log.h"
 
-#include "Decay\Core\EntryPoint.h"
+//#include "Decay\Core\EntryPoint.h"
 
 #include "Decay\Core\Layer.h"
 
