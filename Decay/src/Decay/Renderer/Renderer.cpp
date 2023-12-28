@@ -28,8 +28,8 @@ namespace Decay
 	void Renderer::Submit(const S_PTR<Shader>& shader, const S_PTR<VertexArray>& vertexArray, const glm::mat4& transform)
 	{
 		shader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMatrix4("decay_camera_viewMatrix", s_Scene->GetSceneCamera()->GetViewMatrix());
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMatrix4("decay_camera_projectionMatrix", s_Scene->GetSceneCamera()->GetProjectionMatrix());
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMatrix4("decay_camera_viewMatrix", s_Scene->GetSceneCameraController()->GetCamera().GetViewMatrix());
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMatrix4("decay_camera_projectionMatrix", s_Scene->GetSceneCameraController()->GetCamera().GetProjectionMatrix());
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMatrix4("decay_model_transform", transform);
 		
 		vertexArray->Bind();
@@ -37,5 +37,9 @@ namespace Decay
 		vertexArray->UnBind();
 
 		shader->UnBind();
+	}
+	void Renderer::OnWindowResize(uint32_t width, uint32_t height)
+	{
+		RenderCommand::SetViewport(0, 0, width, height);
 	}
 }

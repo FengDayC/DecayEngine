@@ -1,6 +1,7 @@
 #pragma once
 #include <glm\glm.hpp>
 #include "Decay\Renderer\Camera.h"
+#include "Decay\Renderer\CameraController.h"
 
 namespace Decay
 {
@@ -12,12 +13,12 @@ namespace Decay
 	public: 
 		Scene() {}
 
-		Scene(const S_PTR<Camera>& camera);
+		Scene(const S_PTR<CameraController>& cameraController);
 
-		inline S_PTR<Camera> GetSceneCamera() const { return m_SceneCamera; }
+		inline S_PTR<CameraController> GetSceneCameraController() const { return m_SceneCameraController; }
 
 	private:
-		S_PTR<Camera> m_SceneCamera;
+		S_PTR<CameraController> m_SceneCameraController;
 	};
 
 }

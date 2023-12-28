@@ -46,14 +46,8 @@ public:
 
 		m_ShaderLib.Load("assets/shaders/Texture.glsl");
 
-		S_PTR<Camera> sceneCamera;
-		sceneCamera.reset(new Camera());
-		sceneCamera->SetPerspective(true);
-		sceneCamera->SetFovy(90.0f);
-		sceneCamera->SetRatio(16.0f / 9);
-		sceneCamera->LookAt(glm::vec3(.0f, .0f, -1.0f), glm::vec3(.0f, .0f, .5f), glm::vec3(.0f, 1.0f, .0f));
-
-		m_Scene.reset(new Scene(sceneCamera));
+		m_CameraController = CameraController::GetDefaultOrthographicController(16.0f / 9.0f);
+		m_Scene.reset(new Scene(m_CameraController));
 
 		m_Texture = Texture2D::Create("assets/texture/UV_Checker.png");
 		std::dynamic_pointer_cast<OpenGLShader>(m_ShaderLib.Get("Texture"))->SetUniformInt("u_texture", 0);
@@ -75,23 +69,8 @@ public:
 		DC_PROFILE_FUNCTION();
 
 		{
-			DC_PROFILE_SCOPE("Update");
-			if (Input::IsKeyPressed(DC_KEY_W))
-			{
-				m_Scene->GetSceneCamera()->Move(glm::vec3(.0, .1 * deltaTime, .0)*deltaTime.GetSeconds());
-			}
-			if (Input::IsKeyPressed(DC_KEY_A))
-			{
-				m_Scene->GetSceneCamera()->Move(glm::vec3(-0.1 * deltaTime, .0, .0)*deltaTime.GetSeconds());
-			}
-			if (Input::IsKeyPressed(DC_KEY_S))
-			{
-				m_Scene->GetSceneCamera()->Move(glm::vec3(.0, -.1 * deltaTime, .0)*deltaTime.GetSeconds());
-			}
-			if (Input::IsKeyPressed(DC_KEY_D))
-			{
-				m_Scene->GetSceneCamera()->Move(glm::vec3(0.1 * deltaTime, .0, .0)*deltaTime.GetSeconds());
-			}
+			DC_PROFILE_SCOPE("OnUpdate");
+			m_Scene->GetSceneCameraController()->OnUpdate(deltaTime);
 		}
 
 		{
@@ -119,7 +98,10 @@ public:
 		ImGui::End();
 	}
 
-	void OnEvent(Decay::Event& e) override {}
+	void OnEvent(Decay::Event& e) override 
+	{
+		m_Scene->GetSceneCameraController()->OnEvent(e);
+	}
 
 private:
 	ShaderLibrary m_ShaderLib;
@@ -128,6 +110,8 @@ private:
 	S_PTR<VertexArray> m_VertexArray;
 	S_PTR<Scene> m_Scene;
 	S_PTR<Texture> m_Texture;
+
+	S_PTR<CameraController> m_CameraController;
 
 };
 

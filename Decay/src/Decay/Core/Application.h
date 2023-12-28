@@ -42,7 +42,11 @@ namespace Decay
 
 		bool m_Running = true;
 
+		bool m_Minimize = false;
+
 		bool OnWindowClose(WindowCloseEvent e);
+		
+		bool OnWindowResize(WindowResizeEvent e);
 
 	private:
 		static U_PTR<Application> s_Instance;

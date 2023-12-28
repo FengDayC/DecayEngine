@@ -29,6 +29,13 @@ namespace Decay
 		inline glm::quat GetRotation() const { return m_Rotation; }
 		inline glm::mat4 GetViewMatrix() const { return m_ViewMatrix; }
 		inline glm::mat4 GetProjectionMatrix() const { return m_ProjectionMatrix; }
+
+		inline glm::vec3 GetForward() const { return glm::normalize(glm::vec3{ m_ViewMatrix[0][2],m_ViewMatrix[1][2],m_ViewMatrix[2][2] }); }
+		inline glm::vec3 GetRight() const { return glm::normalize(glm::vec3{ m_ViewMatrix[0][0],m_ViewMatrix[1][0],m_ViewMatrix[2][0] }); }
+		inline glm::vec3 GetUp() const { return glm::normalize(glm::vec3{ m_ViewMatrix[0][1],m_ViewMatrix[1][1],m_ViewMatrix[2][1] }); }
+		inline float GetSize() const { return m_Size; }
+
+		inline bool IsPerspective() const { return m_Perspective; }
 	private:
 		glm::mat4 m_ViewMatrix;
 		glm::mat4 m_ProjectionMatrix;

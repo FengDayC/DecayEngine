@@ -46,15 +46,18 @@ namespace Decay
 			float nowTime = glfwGetTime();//Platform::GetTime()
 			Timestep deltaTime = nowTime - m_LastFrameTime;
 			m_LastFrameTime.SetSeconds(nowTime);
-			{
-				DC_PROFILE_SCOPE("LayerStack OnUpdate");
-				
-				for (S_PTR<Layer> layer : m_LayerStack)
+
+			if (!m_Minimize)
+			{			
 				{
-					layer->OnUpdate(deltaTime);
+					DC_PROFILE_SCOPE("LayerStack OnUpdate");
+					
+					for (S_PTR<Layer> layer : m_LayerStack)
+					{
+						layer->OnUpdate(deltaTime);
+					}
 				}
 			}
-
 			{
 				DC_PROFILE_SCOPE("LayerStack ImguiUpdate");
 				m_ImGuiLayer->Begin();
@@ -64,7 +67,6 @@ namespace Decay
 				}
 				m_ImGuiLayer->End();
 			}
-
 			m_Window->OnUpdate();
 
 		}
@@ -75,6 +77,7 @@ namespace Decay
 		DC_PROFILE_FUNCTION();
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
 
 		//·´Ðò±éÀú²ã¼¶Õ»
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
@@ -93,6 +96,20 @@ namespace Decay
 		m_Running = false;
 		DC_CORE_WARN("Window Close!");
 		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent e)
+	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0)
+		{
+			m_Minimize = true;
+			return false;
+		}
+
+		m_Minimize = false;
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+		return false;
 	}
 
 	void Application::PushLayer(Layer* layer)
