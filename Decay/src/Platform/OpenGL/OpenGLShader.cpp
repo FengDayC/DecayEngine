@@ -3,12 +3,14 @@
 #include <glad\glad.h>
 #include <glm\glm.hpp>
 #include <glm\gtc\type_ptr.hpp>
+#include "Decay\Profile\Instrumentor.hpp"
 
 namespace Decay
 {
 
 	OpenGLShader::OpenGLShader(const std::string& path)
 	{
+		DC_PROFILE_FUNCTION();
 		std::string sourceCode = ReadFile(path);
 		auto sources = PreProcess(sourceCode);
 		Compile(sources);
@@ -23,6 +25,7 @@ namespace Decay
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSource, const std::string& fragmentSource)
 		: m_Name(name)
 	{
+		DC_PROFILE_FUNCTION();
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSource;
 		sources[GL_FRAGMENT_SHADER] = fragmentSource;
@@ -35,11 +38,13 @@ namespace Decay
 
 	void OpenGLShader::Bind() const
 	{
+		DC_PROFILE_FUNCTION();
 		glUseProgram(m_RendererId);
 	}
 
 	void OpenGLShader::UnBind() const
 	{
+		DC_PROFILE_FUNCTION();
 		glUseProgram(0);
 	}
 
@@ -62,6 +67,7 @@ namespace Decay
 	}
 	std::string OpenGLShader::ReadFile(const std::string& path)
 	{
+		DC_PROFILE_FUNCTION();
 		std::string content;
 		std::ifstream in(path, std::ios::in | std::ios::binary);
 		if (in)
@@ -82,6 +88,7 @@ namespace Decay
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& sourceCode)
 	{
+		DC_PROFILE_FUNCTION();
 		std::unordered_map<GLenum, std::string> shaderSources;
 		const char* typeToken = "#type";
 		size_t typeTokenLength = strlen(typeToken);
@@ -105,6 +112,7 @@ namespace Decay
 
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& sourceCode)
 	{
+		DC_PROFILE_FUNCTION();
 
 		// Vertex and fragment shaders are successfully compiled.
 		// Now time to link them together into a program.

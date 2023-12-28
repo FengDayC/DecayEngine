@@ -1,6 +1,7 @@
 #include "dcpch.h"
 #include "Camera.h"
 #include <glm\gtx\transform.hpp>
+#include "Decay\Profile\Instrumentor.hpp"
 
 namespace Decay
 {
@@ -17,6 +18,7 @@ namespace Decay
 	/// <param name="fovy">use degree</param>
 	void Camera::SetFovy(float fovy)
 	{
+		DC_PROFILE_FUNCTION();
 		if (!m_Perspective)
 		{
 			DC_CORE_WARN("Trying to set fov for a orthographic camera");
@@ -27,6 +29,7 @@ namespace Decay
 
 	void Camera::SetSize(float size)
 	{
+		DC_PROFILE_FUNCTION();
 		if (m_Perspective)
 		{
 			DC_CORE_WARN("Trying to set size for a perspective camera");
@@ -37,12 +40,14 @@ namespace Decay
 
 	void Camera::Move(glm::vec3 delta)
 	{
+		DC_PROFILE_FUNCTION();
 		m_Position += delta;
 		RecalculateMatrix();
 	}
 
 	void Camera::LookAt(glm::vec3 eye, glm::vec3 center, glm::vec3 up)
 	{
+		DC_PROFILE_FUNCTION();
 		m_Position = center;
 		glm::vec3 backVec = glm::normalize(center - eye);
 		up = glm::normalize(up);

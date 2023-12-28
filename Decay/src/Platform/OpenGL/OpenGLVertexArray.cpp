@@ -1,6 +1,7 @@
 #include "dcpch.h"
 #include "OpenGLVertexArray.h"
 #include <glad\glad.h>
+#include "Decay\Profile\Instrumentor.hpp"
 
 namespace Decay
 {
@@ -47,16 +48,19 @@ namespace Decay
 
 	void OpenGLVertexArray::Bind() const
 	{
+		DC_PROFILE_FUNCTION();
 		glBindVertexArray(m_RendererId);
 	}
 
 	void OpenGLVertexArray::UnBind() const
 	{
+		DC_PROFILE_FUNCTION();
 		glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::AddVertexBuffer(S_PTR<VertexBuffer>& vertexBuffer)
 	{
+		DC_PROFILE_FUNCTION();
 		DC_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex layout hasn't been set!");
 
 		glBindVertexArray(m_RendererId);
@@ -82,6 +86,7 @@ namespace Decay
 
 	void OpenGLVertexArray::SetIndexBuffer(S_PTR<IndexBuffer>& indexBuffer)
 	{
+		DC_PROFILE_FUNCTION();
 		glBindVertexArray(m_RendererId);
 		indexBuffer->Bind();
 

@@ -4,6 +4,7 @@
 #include "GLFW\glfw3.h"
 #include "Decay\Core\Application.h"
 #include "glad\glad.h"
+#include "Decay\Profile\Instrumentor.hpp"
 
 #include "backends\imgui_impl_glfw.h"
 #include "backends\imgui_impl_opengl3.h"
@@ -20,6 +21,8 @@ namespace Decay
 
 	void ImGuiLayer::OnAttach()
 	{
+		DC_PROFILE_FUNCTION();
+
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -51,6 +54,7 @@ namespace Decay
 
 	void ImGuiLayer::OnDetach()
 	{
+		DC_PROFILE_FUNCTION();
         ImGui_ImplGlfw_Shutdown();
         ImGui_ImplOpenGL3_Shutdown();
         ImGui::DestroyContext();
@@ -62,6 +66,7 @@ namespace Decay
 
     void ImGuiLayer::Begin()
     {
+		DC_PROFILE_FUNCTION();
         ImGui_ImplGlfw_NewFrame();
         ImGui_ImplOpenGL3_NewFrame();
         ImGui::NewFrame();
@@ -69,6 +74,7 @@ namespace Decay
 
     void ImGuiLayer::End()
     {
+		DC_PROFILE_FUNCTION();
         ImGuiIO io = ImGui::GetIO();
         Application& application = Application::GetApplication();
         io.DisplaySize = ImVec2((float)application.GetWindow().GetWidth(), (float)application.GetWindow().GetHeight());

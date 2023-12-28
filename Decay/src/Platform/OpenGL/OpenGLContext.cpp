@@ -1,5 +1,6 @@
 #include "dcpch.h"
 #include "OpenGLContext.h"
+#include "Decay\Profile\Instrumentor.hpp"
 #include <glad\glad.h>
 #include <GLFW\glfw3.h>
 
@@ -12,6 +13,7 @@ namespace Decay
 
 	void OpenGLContext::Init()
 	{
+		DC_PROFILE_FUNCTION();
 		glfwMakeContextCurrent(m_WindowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		DC_CORE_ASSERT(status, "Can't init GLAD");

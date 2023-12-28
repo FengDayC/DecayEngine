@@ -6,6 +6,7 @@
 #include "Decay\Core\Events\KeyEvent.h"
 #include "Decay\Input\Input.h"
 #include "Platform\OpenGL\OpenGLContext.h"
+#include "Decay\Profile\Instrumentor.hpp"
 
 #include "glad\glad.h"
 #include "GLFW\glfw3.h"
@@ -28,6 +29,7 @@ namespace Decay
 
 	WindowsWindow::WindowsWindow(WindowProps props)
 	{
+		DC_PROFILE_FUNCTION();
 		Init(props);
 	}
 
@@ -38,11 +40,13 @@ namespace Decay
 
 	void WindowsWindow::Shutdown()
 	{
+		DC_PROFILE_FUNCTION();
 		glfwDestroyWindow(m_Window);
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		DC_PROFILE_FUNCTION();
 		m_Data.Title = props.Title;
 		m_Data.height = props.Height;
 		m_Data.width = props.Width;
@@ -80,12 +84,15 @@ namespace Decay
 
 	void WindowsWindow::OnUpdate()
 	{
+		DC_PROFILE_FUNCTION();
+
 		m_Context->SwapBuffers();
 		glfwPollEvents();
 	}
 
 	void WindowsWindow::SetVSync(bool enable)
 	{
+		DC_PROFILE_FUNCTION();
 		if (enable)
 		{
 			glfwSwapInterval(1);

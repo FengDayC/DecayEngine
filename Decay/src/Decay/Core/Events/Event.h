@@ -1,5 +1,6 @@
 #pragma once
 #include<functional>
+#include<string>
 #include "Decay/Core.h"
 
 namespace Decay

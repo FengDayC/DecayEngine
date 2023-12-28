@@ -5,47 +5,6 @@
 
 using namespace Decay;
 
-template<typename Fn>
-class Timer
-{
-public:
-	Timer(const std::string& name, Fn&& callbackFunc)
-		: m_Name(name), m_Callback(callbackFunc), m_Stopped(false)
-	{
-		m_StartTimePoint = std::chrono::high_resolution_clock::now();
-	}
-
-	~Timer()
-	{
-		if (!m_Stopped)
-		{
-			m_Stopped = true;
-			Stop();
-		}
-	}
-
-private:
-	void Stop()
-	{
-		auto endTimePoint = std::chrono::high_resolution_clock::now();
-
-		long long start = std::chrono::time_point_cast<std::chrono::milliseconds>(m_StartTimePoint).time_since_epoch().count();
-		long long end = std::chrono::time_point_cast<std::chrono::milliseconds>(endTimePoint).time_since_epoch().count();
-
-		float duration = (end - start) * 0.001f;
-
-		DC_CORE_INFO("Profile: {0} ms {1}", duration, m_Name.c_str());
-
-		m_Callback({ m_Name,duration });
-	}
-
-private:
-	std::string m_Name;
-	std::chrono::time_point<std::chrono::high_resolution_clock> m_StartTimePoint;
-	bool m_Stopped;
-	Fn m_Callback;
-};
-
 class TestLayer : public Layer
 {
 private:
@@ -113,36 +72,43 @@ public:
 	
 	void OnUpdate(Timestep deltaTime) override 
 	{
-		//DC_INFO("DeltaTime = {0}", deltaTime->GetSeconds());
+		DC_PROFILE_FUNCTION();
 
-		Timer timer("Update", [&](ProfileResult result) { m_ProfileResults.push_back(result); });
-
-		if (Input::IsKeyPressed(DC_KEY_W))
 		{
-			m_Scene->GetSceneCamera()->Move(glm::vec3(.0, .1 * deltaTime, .0));
+			DC_PROFILE_SCOPE("Update");
+			if (Input::IsKeyPressed(DC_KEY_W))
+			{
+				m_Scene->GetSceneCamera()->Move(glm::vec3(.0, .1 * deltaTime, .0)*deltaTime.GetSeconds());
+			}
+			if (Input::IsKeyPressed(DC_KEY_A))
+			{
+				m_Scene->GetSceneCamera()->Move(glm::vec3(-0.1 * deltaTime, .0, .0)*deltaTime.GetSeconds());
+			}
+			if (Input::IsKeyPressed(DC_KEY_S))
+			{
+				m_Scene->GetSceneCamera()->Move(glm::vec3(.0, -.1 * deltaTime, .0)*deltaTime.GetSeconds());
+			}
+			if (Input::IsKeyPressed(DC_KEY_D))
+			{
+				m_Scene->GetSceneCamera()->Move(glm::vec3(0.1 * deltaTime, .0, .0)*deltaTime.GetSeconds());
+			}
 		}
-		if (Input::IsKeyPressed(DC_KEY_A))
+
 		{
-			m_Scene->GetSceneCamera()->Move(glm::vec3(-0.1 * deltaTime, .0, .0));
+			DC_PROFILE_SCOPE("Renderer Prepare");
+			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+			RenderCommand::Clear();
 		}
-		if (Input::IsKeyPressed(DC_KEY_S))
+
 		{
-			m_Scene->GetSceneCamera()->Move(glm::vec3(.0, -.1 * deltaTime, .0));
+			DC_PROFILE_SCOPE("Renderer Draw");
+			Renderer::BeginScene(m_Scene);
+
+			m_Texture->Bind(0);
+			Renderer::Submit(m_ShaderLib.Get("Texture"), m_VertexArray);
+
+			Renderer::EndScene();
 		}
-		if (Input::IsKeyPressed(DC_KEY_D))
-		{
-			m_Scene->GetSceneCamera()->Move(glm::vec3(0.1 * deltaTime, .0, .0));
-		}
-
-		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-		RenderCommand::Clear();
-
-		Renderer::BeginScene(m_Scene);
-
-		m_Texture->Bind(0);
-		Renderer::Submit(m_ShaderLib.Get("Texture"), m_VertexArray);
-
-		Renderer::EndScene();
 	}
 	
 	
@@ -163,7 +129,6 @@ private:
 	S_PTR<Scene> m_Scene;
 	S_PTR<Texture> m_Texture;
 
-	std::vector<ProfileResult> m_ProfileResults;
 };
 
 class Sandbox : public Decay::Application

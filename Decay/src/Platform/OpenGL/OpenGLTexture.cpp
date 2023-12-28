@@ -2,15 +2,21 @@
 #include "OpenGLTexture.h"
 #include <stb_image.h>
 #include <glad\glad.h>
+#include "Decay\Profile\Instrumentor.hpp"
 
 namespace Decay
 {
 
 	OpenGLTexture2D::OpenGLTexture2D(const std::string path) : m_Path(path)
 	{
+		DC_PROFILE_FUNCTION();
 		int width, height, nrComponents;
-		stbi_set_flip_vertically_on_load(true);
-		stbi_uc* data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
+		stbi_uc* data = nullptr;
+		{
+			DC_PROFILE_SCOPE("stbi_load - OpenGLTexture2D::OpenGLTexture2D(const std::string) ");
+			stbi_set_flip_vertically_on_load(true);
+			data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
+		}
 		DC_CORE_ASSERT(data, "Cannot load image!");
 
 		m_Width = width;

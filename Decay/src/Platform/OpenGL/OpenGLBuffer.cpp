@@ -1,6 +1,7 @@
 #include "dcpch.h"
 #include "OpenGLBuffer.h"
 #include <glad/glad.h>
+#include "Decay\Profile\Instrumentor.hpp"
 
 namespace Decay
 {
@@ -19,11 +20,13 @@ namespace Decay
 
 	void OpenGLVertexBuffer::Bind() const
 	{
+		DC_PROFILE_FUNCTION();
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererId);
 	}
 
 	void OpenGLVertexBuffer::UnBind() const
 	{
+		DC_PROFILE_FUNCTION();
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 

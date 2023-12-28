@@ -3,6 +3,7 @@
 #include "Decay\Renderer\Shader.h"
 #include "Decay\Renderer\Scene.h"
 #include "Platform\OpenGL\OpenGLShader.h"
+#include "Decay\Profile\Instrumentor.hpp"
 
 namespace Decay
 {
@@ -10,6 +11,7 @@ namespace Decay
 
 	void Renderer::Init()
 	{
+		DC_PROFILE_FUNCTION();
 		RenderCommand::Init();
 	}
 

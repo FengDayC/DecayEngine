@@ -38,7 +38,7 @@ namespace Decay
 
 		LayerStack m_LayerStack;
 
-		S_PTR<Timestep> m_LastFrameTime;
+		Timestep m_LastFrameTime;
 
 		bool m_Running = true;
 

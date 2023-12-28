@@ -14,6 +14,8 @@
 
 #include "Decay\Core\Timestep.h"
 
+#include "Decay\Profile\Instrumentor.hpp"
+
 #include "Decay\ImGui\ImGuiLayer.h"
 
 //----Renderer----
