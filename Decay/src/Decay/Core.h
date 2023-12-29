@@ -34,12 +34,32 @@
 //----std----
 template<typename x>
 using S_PTR = std::shared_ptr<x>;
+template<typename T,typename... Args>
+constexpr S_PTR<T> CreateS_PTR(Args&&... args)
+{
+	return std::make_shared<T>(std::forward<Args>(args)...);
+}
 
 template<typename x>
 using U_PTR = std::unique_ptr<x>;
+template<typename T,typename... Args>
+constexpr U_PTR<T> CreateU_PTR(Args&&... args)
+{
+	return std::make_unique<T>(std::forward<Args>(args)...);
+}
 
 template<typename x>
 using W_PTR = std::weak_ptr<x>;
+template<typename T,typename... Args>
+constexpr W_PTR<T> CreateW_PTR(Args&&... args)
+{
+	return std::make_weak<T>(std::forward<Args>(args)...);
+}
 
 template<typename x,typename y>
 using PAIR = std::pair<x,y>;
+template<typename x,typename y>
+constexpr PAIR<x,y> CreatePAIR(x&& x_,y&& y_)
+{
+	return std::make_pair(std::forward<x>(x_),std::forward<y>(y_));
+}

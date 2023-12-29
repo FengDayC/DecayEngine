@@ -48,22 +48,67 @@ namespace Decay
 		glUseProgram(0);
 	}
 
-	void OpenGLShader::SetUniformFloat4(const std::string& name, glm::vec4 value) const
+	void OpenGLShader::SetInt(const std::string& name, int value)
+	{
+		UploadUniformInt(name, value);
+	}
+
+	void OpenGLShader::SetFloat(const std::string& name, float value)
+	{
+		UploadUniformFloat(name, value);
+	}
+
+	void OpenGLShader::SetFloat2(const std::string& name, const glm::vec2& value)
+	{
+		UploadUniformFloat2(name, value);
+	}
+
+	void OpenGLShader::SetFloat3(const std::string& name, const glm::vec3& value)
+	{
+		UploadUniformFloat3(name, value);
+	}
+
+	void OpenGLShader::SetFloat4(const std::string& name, const glm::vec4& value)
+	{
+		UploadUniformFloat4(name, value);
+	}
+
+	void OpenGLShader::SetMatrix4(const std::string& name, const glm::mat4& value)
+	{
+		UploadUniformMatrix4(name, value);
+	}
+
+	void OpenGLShader::UploadUniformFloat4(const std::string& name, glm::vec4 value) const
 	{
 		GLuint location = glGetUniformLocation(m_RendererId, name.c_str());
 		glUniform4fv(location, 1, glm::value_ptr(value));
 	}
 
-	void OpenGLShader::SetUniformMatrix4(const std::string& name, glm::mat4 matrix) const
+	void OpenGLShader::UploadUniformMatrix4(const std::string& name, glm::mat4 matrix) const
 	{
 		GLuint location = glGetUniformLocation(m_RendererId, name.c_str());
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
-	void OpenGLShader::SetUniformInt(const std::string& name, int value) const
+	void OpenGLShader::UploadUniformInt(const std::string& name, int value) const
 	{
 		GLuint location = glGetUniformLocation(m_RendererId, name.c_str());
 		glUniform1i(location, value);
+	}
+	void Decay::OpenGLShader::UploadUniformFloat(const std::string& name, float value) const
+	{
+		GLuint location = glGetUniformLocation(m_RendererId, name.c_str());
+		glUniform1f(location, value);
+	}
+	void Decay::OpenGLShader::UploadUniformFloat2(const std::string& name, glm::vec2 value) const
+	{
+		GLuint location = glGetUniformLocation(m_RendererId, name.c_str());
+		glUniform2fv(location, 1, glm::value_ptr(value));
+	}
+	void Decay::OpenGLShader::UploadUniformFloat3(const std::string& name, glm::vec3 value) const
+	{
+		GLuint location = glGetUniformLocation(m_RendererId, name.c_str());
+		glUniform3fv(location, 1, glm::value_ptr(value));
 	}
 	std::string OpenGLShader::ReadFile(const std::string& path)
 	{

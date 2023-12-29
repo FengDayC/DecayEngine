@@ -20,6 +20,7 @@
 
 //----Renderer----
 #include "Decay\Renderer\Renderer.h"
+#include "Decay\Renderer\Renderer2D.h"
 #include "Decay\Renderer\Camera.h"
 #include "Decay\Renderer\Scene.h"
 #include "Decay\Renderer\Shader.h"

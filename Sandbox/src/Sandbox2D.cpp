@@ -14,34 +14,7 @@ Sandbox2D::Sandbox2D() : Layer("Sandbox2D")
 
 void Sandbox2D::OnAttach()
 {
-	m_VertexArray = VertexArray::Create();
-
-	std::vector<float> vertices
-	{
-		-.5f,-.5f,-.1f,
-		-.5f,.5f,-.1f,
-		.5f,.5f,-.1f,
-		.5f,-.5f,-.1f,
-	};
-
-	m_VertexBuffer = VertexBuffer::Create(vertices);
-
-	{
-		BufferLayout layout =
-		{
-			{ShaderDataType::Float3,"a_Pos"},
-		};
-
-		m_VertexBuffer->SetLayout(layout);
-	}
-
-	std::vector<uint32_t> indices{ 0,1,2,3,0,2 };
-	m_IndexBuffer = IndexBuffer::Create(indices);
-
-	m_VertexArray->AddVertexBuffer(m_VertexBuffer);
-	m_VertexArray->SetIndexBuffer(m_IndexBuffer);
-
-	m_ShaderLib.Load("assets/shaders/FlatColor.glsl");
+	
 }
 
 void Sandbox2D::OnDetach()
@@ -65,13 +38,12 @@ void Sandbox2D::OnUpdate(Decay::Timestep deltaTime)
 
 	{
 		DC_PROFILE_SCOPE("Renderer Draw");
-		Renderer::BeginScene(m_Scene);
+		Renderer2D::BeginScene(m_Scene);
 
-		std::dynamic_pointer_cast<OpenGLShader>(m_ShaderLib.Get("FlatColor"))->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(m_ShaderLib.Get("FlatColor"))->SetUniformFloat4("flatColor", m_SquareColor);
-		Renderer::Submit(m_ShaderLib.Get("FlatColor"), m_VertexArray);
+		Renderer2D::DrawQuad({ -0.5f, 0.0f, -0.1f }, { 1.0f, 1.0f }, {0.5f,0.2f,0.2f,1.0f});
+		Renderer2D::DrawQuad({ 0.3f, 0.0f, 0.0f}, { 1.0f, 1.0f }, m_SquareColor);
 
-		Renderer::EndScene();
+		Renderer2D::EndScene();
 	}
 }
 

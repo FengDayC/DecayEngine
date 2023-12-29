@@ -4,6 +4,7 @@
 #include "Decay\Renderer\Scene.h"
 #include "Platform\OpenGL\OpenGLShader.h"
 #include "Decay\Profile\Instrumentor.hpp"
+#include "Renderer2D.h"
 
 namespace Decay
 {
@@ -13,6 +14,7 @@ namespace Decay
 	{
 		DC_PROFILE_FUNCTION();
 		RenderCommand::Init();
+		Renderer2D::Init();
 	}
 
 	void Renderer::BeginScene(const S_PTR<Scene>& scene)
@@ -28,9 +30,9 @@ namespace Decay
 	void Renderer::Submit(const S_PTR<Shader>& shader, const S_PTR<VertexArray>& vertexArray, const glm::mat4& transform)
 	{
 		shader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMatrix4("decay_camera_viewMatrix", s_Scene->GetSceneCameraController()->GetCamera().GetViewMatrix());
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMatrix4("decay_camera_projectionMatrix", s_Scene->GetSceneCameraController()->GetCamera().GetProjectionMatrix());
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->SetUniformMatrix4("decay_model_transform", transform);
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMatrix4("decay_camera_viewMatrix", s_Scene->GetSceneCameraController()->GetCamera().GetViewMatrix());
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMatrix4("decay_camera_projectionMatrix", s_Scene->GetSceneCameraController()->GetCamera().GetProjectionMatrix());
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMatrix4("decay_model_transform", transform);
 		
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);

@@ -50,7 +50,7 @@ public:
 
 
 		m_Texture = Texture2D::Create("assets/texture/UV_Checker.png");
-		std::dynamic_pointer_cast<OpenGLShader>(m_ShaderLib.Get("Texture"))->SetUniformInt("u_texture", 0);
+		std::dynamic_pointer_cast<OpenGLShader>(m_ShaderLib.Get("Texture"))->UploadUniformInt("u_texture", 0);
 
 		m_CameraController = CameraController::GetDefaultOrthographicController(16.0f / 9.0f);
 		m_Scene.reset(new Scene(m_CameraController));
