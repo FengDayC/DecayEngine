@@ -40,7 +40,7 @@ public:
 			m_VertexBuffer->SetLayout(layout);
 		}
 
-		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
+		m_VertexArray->SetVertexBuffer(m_VertexBuffer);
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 
 		m_ShaderLib.Load("assets/shaders/Texture.glsl");

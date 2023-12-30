@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include <Platform/OpenGL/OpenGLShader.h>
 #include "RenderCommand.h"
+#include <Decay/Profile/Instrumentor.hpp>
 
 static Decay::Renderer2DData s_Data;
 
@@ -45,7 +46,7 @@ void Decay::Renderer2D::Init()
 	}
 	auto indexBuffer = IndexBuffer::Create(indices);
 
-	s_Data.VertexArray->AddVertexBuffer(s_Data.VertexBuffer);
+	s_Data.VertexArray->SetVertexBuffer(s_Data.VertexBuffer);
 	s_Data.VertexArray->SetIndexBuffer(indexBuffer);
 
 	s_Data.TextureSlots = std::array<S_PTR<Texture2D>, Renderer2DData::MaxTextureSlots>();
@@ -70,12 +71,17 @@ void Decay::Renderer2D::BeginScene(S_PTR<Scene> scene)
 	textureShader->Bind();
 	textureShader->SetMatrix4("decay_camera_viewMatrix", scene->GetSceneCameraController()->GetCamera().GetViewMatrix());
 	textureShader->SetMatrix4("decay_camera_projectionMatrix", scene->GetSceneCameraController()->GetCamera().GetProjectionMatrix());
+
+	s_Data.Vertices.clear();
+	s_Data.TextureSlotIndex = 1;
+	s_Data.IndexCount = 0;
 }
 
 void Decay::Renderer2D::EndScene()
 {
 	s_Data.VertexBuffer->SetData(s_Data.Vertices.data(), s_Data.Vertices.size() * sizeof(QuadVertex));
 	Flush();
+	s_Data.Stats.DrawCalls++;
 }
 
 void Decay::Renderer2D::Flush()
@@ -85,11 +91,17 @@ void Decay::Renderer2D::Flush()
 		s_Data.TextureSlots[i]->Bind(i);
 	}
 	RenderCommand::DrawIndexed(s_Data.VertexArray, s_Data.IndexCount);
-	s_Data.Vertices.clear();
 }
 
 void Decay::Renderer2D::DrawQuad(const glm::vec3& position, const float angle, const glm::vec2& size, const glm::vec4& color, const S_PTR<Texture2D>& texture, const float tilling)
 {
+	DC_PROFILE_FUNCTION();
+
+	if (s_Data.IndexCount >= Renderer2DData::MaxIndices)
+	{
+		Renderer2D::StartNewBatch();
+	}
+
 	float textureIndex = .0f;
 	if (texture)
 	{
@@ -128,9 +140,30 @@ void Decay::Renderer2D::DrawQuad(const glm::vec3& position, const float angle, c
 		samplers[i] = i;
 	}
 	s_Data.ShaderLib->Get("Texture")->SetIntArray("u_textures", samplers, s_Data.TextureSlots.size());
+	delete samplers;
+
+	s_Data.Stats.QuadCount++;
 }
 
 void Decay::Renderer2D::DrawQuad(const glm::vec2& position, const float angle, const glm::vec2& size, const glm::vec4& color, const S_PTR<Texture2D>& texture, const float tilling)
 {
 	DrawQuad(glm::vec3(position, 0.0f), angle, size , color , texture, tilling);
+}
+
+void Decay::Renderer2D::ResetStats()
+{
+	memset(&s_Data.Stats, 0, sizeof(Statistic));
+}
+
+Decay::Renderer2D::Statistic Decay::Renderer2D::GetStats()
+{
+	return s_Data.Stats;
+}
+
+void Decay::Renderer2D::StartNewBatch()
+{
+	EndScene();
+
+	s_Data.Vertices.clear();
+	s_Data.TextureSlotIndex = 1;
 }

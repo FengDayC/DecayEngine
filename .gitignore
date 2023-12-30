@@ -409,3 +409,4 @@ imgui.ini
 *.user
 assets
 /GenerateProjects.bat
+/sc.exe

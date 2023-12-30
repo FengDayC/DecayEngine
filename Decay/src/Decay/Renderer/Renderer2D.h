@@ -25,7 +25,22 @@ namespace Decay
 		
 		static void DrawQuad(const glm::vec2& position, const float angle, const glm::vec2& size, const glm::vec4& color, const S_PTR<Texture2D>& texture = nullptr, const float tilling = 1.0f);
 
+		struct Statistic
+		{
+			int DrawCalls = 0;
+			int QuadCount = 0;
+
+			int GetTotalVertexCount() { return QuadCount * 4; };
+			int GetTotalIndexCount() { return QuadCount * 6; };
+		};
+
+		static void ResetStats();
+
+		static Statistic GetStats();
+
 	private:
+		static void StartNewBatch();
+
 	};
 
 	struct QuadVertex
@@ -39,9 +54,9 @@ namespace Decay
 
 	struct Renderer2DData
 	{
-		const uint32_t MaxQuads = 1000;
-		const uint32_t MaxVertices = 4 * MaxQuads;
-		const uint32_t MaxIndices = 6 * MaxQuads;
+		static const uint32_t MaxQuads = 8192;
+		static const uint32_t MaxVertices = 4 * MaxQuads;
+		static const uint32_t MaxIndices = 6 * MaxQuads;
 		static const uint32_t MaxTextureSlots = 32;
 
 		S_PTR<Decay::VertexArray> VertexArray;
@@ -55,6 +70,8 @@ namespace Decay
 
 		uint32_t IndexCount = 0;
 		float TextureSlotIndex = 1.0f;
+
+		Renderer2D::Statistic Stats;
 	};
 }
 
