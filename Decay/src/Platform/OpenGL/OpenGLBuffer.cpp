@@ -6,8 +6,17 @@
 namespace Decay
 {
 	//----VertexBuffer----
+	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)
+	{
+		DC_PROFILE_FUNCTION();
+		glCreateBuffers(1, &m_RendererId);
+		glBindBuffer(GL_ARRAY_BUFFER, m_RendererId);
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+	}
+
 	OpenGLVertexBuffer::OpenGLVertexBuffer(std::vector<float> vertices)
 	{
+		DC_PROFILE_FUNCTION();
 		glCreateBuffers(1, &m_RendererId);
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererId);
 		glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(float), vertices.data(), GL_STATIC_DRAW);
@@ -15,6 +24,7 @@ namespace Decay
 
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	{
+		DC_PROFILE_FUNCTION();
 		glDeleteBuffers(1, &m_RendererId);
 	}
 
@@ -40,15 +50,21 @@ namespace Decay
 		return m_Layout;
 	}
 
+	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size)
+	{
+		DC_PROFILE_FUNCTION();
+		glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
+	}
 
-	//----VertexBuffer----
 
-	OpenGLIndexBuffer::OpenGLIndexBuffer(std::vector<uint32_t> indices)
-		: m_Count(indices.size())
+	//----IndexBuffer----
+
+	OpenGLIndexBuffer::OpenGLIndexBuffer(S_PTR<std::vector<uint32_t>> indices)
+		: m_Count(indices->size())
 	{
 		glCreateBuffers(1, &m_RendererId);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererId);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(float), indices.data(), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices->size() * sizeof(float), indices->data(), GL_STATIC_DRAW);
 	}
 
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()

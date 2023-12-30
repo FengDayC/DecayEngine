@@ -7,6 +7,7 @@ namespace Decay
         public VertexBuffer
     {
     public:
+        OpenGLVertexBuffer(uint32_t size);
         OpenGLVertexBuffer(std::vector<float> vertices);
         virtual ~OpenGLVertexBuffer();
 
@@ -15,6 +16,7 @@ namespace Decay
 
         virtual void SetLayout(const BufferLayout& layout) override;
         virtual const BufferLayout& GetLayout() const override;
+        virtual void SetData(const void* data, uint32_t size) override;
 
     private:
         uint32_t m_RendererId;
@@ -26,7 +28,7 @@ namespace Decay
         public IndexBuffer
     {
     public:
-        OpenGLIndexBuffer(std::vector<uint32_t> vertices);
+        OpenGLIndexBuffer(S_PTR<std::vector<uint32_t>> vertices);
         virtual ~OpenGLIndexBuffer();
 
         virtual void Bind() const override;

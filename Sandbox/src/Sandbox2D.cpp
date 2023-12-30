@@ -40,8 +40,8 @@ void Sandbox2D::OnUpdate(Decay::Timestep deltaTime)
 		DC_PROFILE_SCOPE("Renderer Draw");
 		Renderer2D::BeginScene(m_Scene);
 
-		Renderer2D::DrawQuad({ -0.5f, 0.0f, -0.1f }, { 0.5f, 0.3f }, m_SquareColor);
-		Renderer2D::DrawQuad({ 0.3f, 0.0f, 0.0f}, { 1.0f, 1.0f }, m_SquareColor, m_Texture);
+		Renderer2D::DrawQuad({ -0.5f, 0.0f, -0.1f }, 45.0f, { 0.5f, 0.3f }, m_SquareColor);
+		Renderer2D::DrawQuad({ 0.3f, 0.0f, 0.0f}, .0f, { 1.0f, 1.0f }, {1.0f,1.0f,1.0f,1.0f}, m_Texture, 10.0f);
 
 		Renderer2D::EndScene();
 	}

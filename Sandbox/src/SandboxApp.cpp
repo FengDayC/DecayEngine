@@ -40,9 +40,6 @@ public:
 			m_VertexBuffer->SetLayout(layout);
 		}
 
-		std::vector<uint32_t> indices{ 0,1,2,3,0,2 };
-		m_IndexBuffer = IndexBuffer::Create(indices);
-
 		m_VertexArray->AddVertexBuffer(m_VertexBuffer);
 		m_VertexArray->SetIndexBuffer(m_IndexBuffer);
 

@@ -6,90 +6,131 @@
 #include <Platform/OpenGL/OpenGLShader.h>
 #include "RenderCommand.h"
 
+static Decay::Renderer2DData s_Data;
+
 void Decay::Renderer2D::Init()
 {
-	s_Data = CreateU_PTR<Renderer2DData>();
-
-	s_Data->VertexArray = VertexArray::Create();
+	s_Data.VertexArray = VertexArray::Create();
+	s_Data.VertexBuffer = VertexBuffer::Create(s_Data.MaxVertices*sizeof(QuadVertex));
+	s_Data.Vertices = std::vector<QuadVertex>();
 
 	uint32_t whiteData = 0xffffffff;
-	s_Data->WhiteTexture = Texture2D::Create(1, 1);
-	s_Data->WhiteTexture->SetData(&whiteData, sizeof(uint32_t));
-
-	std::vector<float> vertices
-	{
-		-.5f,-.5f,-.1f, .0f, .0f,
-		-.5f,.5f,-.1f, .0f, 1.0f,
-		.5f,.5f,-.1f, 1.0f, 1.0f,
-		.5f,-.5f,-.1f,	1.0f, .0f
-	};
-
-	auto vertexBuffer = VertexBuffer::Create(vertices);
+	s_Data.WhiteTexture = Texture2D::Create(1, 1);
+	s_Data.WhiteTexture->SetData(&whiteData, sizeof(uint32_t));
 
 	{
 		BufferLayout layout =
 		{
-			{ShaderDataType::Float3,"a_Pos"},
-			{ShaderDataType::Float2,"a_UV"},
+			{ShaderDataType::Float3,"a_pos"},
+			{ShaderDataType::Float4,"a_color"},
+			{ShaderDataType::Float2,"a_uv"},
+			{ShaderDataType::Float,"a_textureIndex"},
+			{ShaderDataType::Float,"a_tilling"}
 		};
 
-		vertexBuffer->SetLayout(layout);
+		s_Data.VertexBuffer->SetLayout(layout);
 	}
 
-	std::vector<uint32_t> indices{ 0,1,2,3,0,2 };
+	S_PTR<std::vector<uint32_t>> indices = CreateS_PTR<std::vector<uint32_t>>();
+	uint32_t offset = 0;
+	for (int i = 0; i < s_Data.MaxIndices; i+=6)
+	{
+		indices->push_back(offset);
+		indices->push_back(offset + 1);
+		indices->push_back(offset + 2);
+		indices->push_back(offset + 2);
+		indices->push_back(offset + 3);
+		indices->push_back(offset);
+		offset+=4;
+	}
 	auto indexBuffer = IndexBuffer::Create(indices);
 
-	s_Data->VertexArray->AddVertexBuffer(vertexBuffer);
-	s_Data->VertexArray->SetIndexBuffer(indexBuffer);
+	s_Data.VertexArray->AddVertexBuffer(s_Data.VertexBuffer);
+	s_Data.VertexArray->SetIndexBuffer(indexBuffer);
 
-	s_Data->ShaderLib = CreateS_PTR<ShaderLibrary>();
-	s_Data->ShaderLib->Load("assets/shaders/Texture.glsl");
+	s_Data.TextureSlots = std::array<S_PTR<Texture2D>, Renderer2DData::MaxTextureSlots>();
+	s_Data.TextureSlots[0] = s_Data.WhiteTexture;
+
+	s_Data.ShaderLib = CreateS_PTR<ShaderLibrary>();
+	s_Data.ShaderLib->Load("assets/shaders/Texture.glsl");
+
+	s_Data.quads[0] = { -0.5f,-0.5f,0.0f,1.0f };
+	s_Data.quads[1] = { 0.5f,-0.5f,0.0f,1.0f };
+	s_Data.quads[2] = { 0.5f,0.5f,0.0f,1.0f };
+	s_Data.quads[3] = { -0.5f,0.5f,0.0f,1.0f };
 }
 
 void Decay::Renderer2D::Shutdown()
 {
-	s_Data.release();
 }
 
 void Decay::Renderer2D::BeginScene(S_PTR<Scene> scene)
 {
-	S_PTR<Shader> textureShader = s_Data->ShaderLib->Get("Texture");
-	textureShader ->Bind();
-	textureShader ->SetMatrix4("decay_camera_viewMatrix", scene->GetSceneCameraController()->GetCamera().GetViewMatrix());
-	textureShader ->SetMatrix4("decay_camera_projectionMatrix", scene->GetSceneCameraController()->GetCamera().GetProjectionMatrix());
+	S_PTR<Shader> textureShader = s_Data.ShaderLib->Get("Texture");
+	textureShader->Bind();
+	textureShader->SetMatrix4("decay_camera_viewMatrix", scene->GetSceneCameraController()->GetCamera().GetViewMatrix());
+	textureShader->SetMatrix4("decay_camera_projectionMatrix", scene->GetSceneCameraController()->GetCamera().GetProjectionMatrix());
 }
 
 void Decay::Renderer2D::EndScene()
 {
+	s_Data.VertexBuffer->SetData(s_Data.Vertices.data(), s_Data.Vertices.size() * sizeof(QuadVertex));
+	Flush();
 }
 
-void Decay::Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color, const S_PTR<Texture2D>& texture)
+void Decay::Renderer2D::Flush()
 {
-	S_PTR<Shader> textureShader = s_Data->ShaderLib->Get("Texture");
-	textureShader->Bind();
+	for (uint32_t i = 0; i < (uint32_t)s_Data.TextureSlotIndex; i++)
+	{
+		s_Data.TextureSlots[i]->Bind(i);
+	}
+	RenderCommand::DrawIndexed(s_Data.VertexArray, s_Data.IndexCount);
+	s_Data.Vertices.clear();
+}
 
-	glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
-		* glm::scale(glm::mat4(1.0f), { size.x,size.y,1.0f });
-	
-	textureShader->SetMatrix4("decay_model_transform", transform);
-	textureShader->SetInt("u_texture", 0);
-	textureShader->SetFloat4("u_color", color);
-	textureShader->SetFloat("u_textureScale", 1.0f);
-
+void Decay::Renderer2D::DrawQuad(const glm::vec3& position, const float angle, const glm::vec2& size, const glm::vec4& color, const S_PTR<Texture2D>& texture, const float tilling)
+{
+	float textureIndex = .0f;
 	if (texture)
 	{
-		texture->Bind(0);
+		for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++)
+		{
+			if (*texture == *(s_Data.TextureSlots[i]))
+			{
+				textureIndex = (float)i;
+			}
+		}
+		if (textureIndex == .0f)
+		{
+			textureIndex = s_Data.TextureSlotIndex;
+			s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
+			s_Data.TextureSlotIndex += 1.0f;
+		}
 	}
 	else
 	{
-		s_Data->WhiteTexture->Bind(0);
+		textureIndex = .0f;
 	}
 
-	s_Data->VertexArray->Bind();
-	RenderCommand::DrawIndexed(s_Data->VertexArray);
+	glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
+		* glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3{ .0f,.0f,1.0f })
+		* glm::scale(glm::mat4(1.0f), glm::vec3{ size.x,size.y,1.0f });
+
+	s_Data.Vertices.push_back({ transform * s_Data.quads[0], color, {.0f,.0f}, textureIndex, tilling});
+	s_Data.Vertices.push_back({ transform * s_Data.quads[1], color, {1.0f,.0f}, textureIndex, tilling});
+	s_Data.Vertices.push_back({ transform * s_Data.quads[2], color, {1.0f,1.0f}, textureIndex, tilling});
+	s_Data.Vertices.push_back({ transform * s_Data.quads[3], color, {.0f,1.0f}, textureIndex, tilling});
+	s_Data.IndexCount += 6;
+
+	int* samplers = new int[s_Data.TextureSlots.size()];
+	for (int i = 0; i < s_Data.TextureSlots.size(); i++)
+	{
+		samplers[i] = i;
+	}
+	s_Data.ShaderLib->Get("Texture")->SetIntArray("u_textures", samplers, s_Data.TextureSlots.size());
 }
 
-void Decay::Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color, const S_PTR<Texture2D>& texture)
+void Decay::Renderer2D::DrawQuad(const glm::vec2& position, const float angle, const glm::vec2& size, const glm::vec4& color, const S_PTR<Texture2D>& texture, const float tilling)
 {
-	DrawQuad(glm::vec3(position, 0.0f), size , color , texture);
+	DrawQuad(glm::vec3(position, 0.0f), angle, size , color , texture, tilling);
 }

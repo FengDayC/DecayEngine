@@ -22,9 +22,16 @@ namespace Decay
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRendererAPI::DrawIndexed(const S_PTR<VertexArray>& vertexArray) const
+	void OpenGLRendererAPI::DrawIndexed(const S_PTR<VertexArray>& vertexArray, const uint32_t size) const
 	{
-		glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+		if (size)
+		{
+			glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_INT, nullptr);
+		}
+		else
+		{
+			glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+		}
 	}
 	void OpenGLRendererAPI::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) const
 	{
