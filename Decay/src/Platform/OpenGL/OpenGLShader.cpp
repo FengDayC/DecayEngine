@@ -125,18 +125,13 @@ namespace Decay
 		DC_PROFILE_FUNCTION();
 		std::string content;
 		std::ifstream in(path, std::ios::in | std::ios::binary);
-		if (in)
-		{
-			in.seekg(0, std::ios::end);
-			content.resize(in.tellg());
-			in.seekg(0, std::ios::beg);
-			in.read(&content[0], content.size());
-			in.close();
-		}
-		else
-		{
-			DC_CORE_ERROR("Cannot load file \"{0}\"", path);
-		}
+		DC_CORE_ASSERT(in, "Cannot open file \"{0}\"", path);
+
+		in.seekg(0, std::ios::end);
+		content.resize(in.tellg());
+		in.seekg(0, std::ios::beg);
+		in.read(&content[0], content.size());
+		in.close();
 
 		return content;
 	}

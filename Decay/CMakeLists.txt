@@ -18,11 +18,51 @@ add_subdirectory(${SPDLOG_PATH})
 #设置源文件路径
 set(SRC_PATH src)
 
-aux_source_directory(${SRC_PATH} DECAY_SOURCES)
-aux_source_directory(${SPDLOG_PATH} SPDLOG_SOURCES)
-aux_source_directory(${GLM_PATH} GLM_SOURCES)
+#设置源文件
+file(GLOB_RECURSE DECAY_SOURCES
+    ${SRC_PATH}/*.cpp
+    ${SRC_PATH}/*.h
+    ${SRC_PATH}/*.hpp
+    ${SRC_PATH}/*.c
+    ${SRC_PATH}/*.cc
+    ${SRC_PATH}/*.hh
+    ${SRC_PATH}/*.inl
+)
+file(GLOB_RECURSE STB_IMAGE_SOURCES
+    ${STB_IMAGE_PATH}/*.cpp
+    ${STB_IMAGE_PATH}/*.h
+    ${STB_IMAGE_PATH}/*.hpp
+    ${STB_IMAGE_PATH}/*.c
+    ${STB_IMAGE_PATH}/*.cc
+    ${STB_IMAGE_PATH}/*.hh
+    ${STB_IMAGE_PATH}/*.inl
+)
+file(GLOB_RECURSE GLM_SOURCES
+    ${GLM_PATH}/*.hpp
+    ${GLM_PATH}/*.inl
+)
 
-add_library(Decay STATIC ${DECAY_SOURCES} ${SPDLOG_SOURCES} ${GLM_SOURCES})
+#组织VS代码结构
+foreach(FILE ${DECAY_SOURCES})
+    get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+    string(REPLACE "/" "\\" GROUP "${GROUP}")
+    source_group("${GROUP}" FILES "${FILE}")
+endforeach()
+foreach(FILE ${STB_IMAGE_SOURCES})
+    get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+    string(REPLACE "/" "\\" GROUP "${GROUP}")
+    source_group("${GROUP}" FILES "${FILE}")
+endforeach()
+foreach(FILE ${GLM_SOURCES})
+    get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+    string(REPLACE "/" "\\" GROUP "${GROUP}")
+    source_group("${GROUP}" FILES "${FILE}")
+endforeach()
+
+add_library(Decay STATIC ${DECAY_SOURCES} ${STB_IMAGE_SOURCES} ${GLM_SOURCES})
 
 #设置头文件路径
 set(INCLUDE_PATH 
@@ -50,5 +90,5 @@ target_link_libraries(Decay PUBLIC
 #设置预编译头
 target_precompile_headers(Decay PUBLIC ${SRC_PATH}/dcpch.h)
 
-#设置编译选项
-target_compile_definitions(Decay PUBLIC GLFW_INCLUDE_NONE DECAY_PLATFORM_WINDOWS DECAY_ENABLE_ASSERT)
+#设置预编译选项
+target_compile_definitions(Decay PUBLIC GLFW_INCLUDE_NONE DECAY_PLATFORM_WINDOWS DECAY_ENABLE_ASSERTS)
