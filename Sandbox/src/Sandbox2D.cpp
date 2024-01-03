@@ -14,7 +14,7 @@ Sandbox2D::Sandbox2D() : Layer("Sandbox2D")
 
 void Sandbox2D::OnAttach()
 {
-	m_Texture = Texture2D::Create("assets/texture/UV_Checker.png");
+	m_Texture = Texture2D::Create("Assets/Textures/UV_Checker.png");
 }
 
 void Sandbox2D::OnDetach()

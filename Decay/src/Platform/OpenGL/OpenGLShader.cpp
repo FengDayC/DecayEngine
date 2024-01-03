@@ -140,19 +140,19 @@ namespace Decay
 	{
 		DC_PROFILE_FUNCTION();
 		std::unordered_map<GLenum, std::string> shaderSources;
-		const char* typeToken = "#type";
-		size_t typeTokenLength = strlen(typeToken);
-		size_t pos = sourceCode.find(typeToken, 0);
+		const char* stageToken = "#stage";
+		size_t typeTokenLength = strlen(stageToken);
+		size_t pos = sourceCode.find(stageToken, 0);
 		while (pos != std::string::npos)
 		{
 			size_t eol = sourceCode.find_first_of("\r\n", pos);
 			DC_CORE_ASSERT(eol != std::string::npos, "Shader synax error!");
 			size_t begin = pos + typeTokenLength + 1;
 			std::string type = sourceCode.substr(begin, eol - begin);
-			DC_CORE_ASSERT(type == "vertex" || type == "fragment", "Unexpected shader type");
+			DC_CORE_ASSERT(type == "vertex" || type == "fragment", "Unexpected shader stage");
 
 			size_t nxtLinePos = sourceCode.find_first_not_of("\r\n", eol);
-			pos = sourceCode.find(typeToken, nxtLinePos);
+			pos = sourceCode.find(stageToken, nxtLinePos);
 
 			shaderSources[ShaderTypeFromString(type)] = sourceCode.substr(nxtLinePos, pos - (nxtLinePos == std::string::npos ? sourceCode.size() - 1 : nxtLinePos));
 		}

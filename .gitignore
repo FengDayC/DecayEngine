@@ -408,9 +408,6 @@ bin-int/
 *.filters
 imgui.ini
 *.user
-assets
-/GenerateProjects.bat
-/sc.exe
 
 # CMake generated files
 CMakeFiles/

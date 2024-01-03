@@ -53,7 +53,7 @@ void Decay::Renderer2D::Init()
 	s_Data.TextureSlots[0] = s_Data.WhiteTexture;
 
 	s_Data.ShaderLib = CreateS_PTR<ShaderLibrary>();
-	s_Data.ShaderLib->Load("assets/shaders/Texture.glsl");
+	s_Data.ShaderLib->Load("assets/shaders/2DQuad.glsl");
 
 	s_Data.quads[0] = { -0.5f,-0.5f,0.0f,1.0f };
 	s_Data.quads[1] = { 0.5f,-0.5f,0.0f,1.0f };
@@ -67,7 +67,7 @@ void Decay::Renderer2D::Shutdown()
 
 void Decay::Renderer2D::BeginScene(S_PTR<Scene> scene)
 {
-	S_PTR<Shader> textureShader = s_Data.ShaderLib->Get("Texture");
+	S_PTR<Shader> textureShader = s_Data.ShaderLib->Get("2DQuad");
 	textureShader->Bind();
 	textureShader->SetMatrix4("decay_camera_viewMatrix", scene->GetSceneCameraController()->GetCamera().GetViewMatrix());
 	textureShader->SetMatrix4("decay_camera_projectionMatrix", scene->GetSceneCameraController()->GetCamera().GetProjectionMatrix());
@@ -139,7 +139,7 @@ void Decay::Renderer2D::DrawQuad(const glm::vec3& position, const float angle, c
 	{
 		samplers[i] = i;
 	}
-	s_Data.ShaderLib->Get("Texture")->SetIntArray("u_textures", samplers, s_Data.TextureSlots.size());
+	s_Data.ShaderLib->Get("2DQuad")->SetIntArray("u_textures", samplers, s_Data.TextureSlots.size());
 	delete samplers;
 
 	s_Data.Stats.QuadCount++;
