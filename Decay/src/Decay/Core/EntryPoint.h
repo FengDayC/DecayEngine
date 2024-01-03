@@ -1,10 +1,9 @@
 #pragma once
 #include "Application.h"
-#include "Decay\Log\Log.h"
+#include "Decay\Logger\Logger.h"
 #include "Decay\Profile\Instrumentor.hpp"
 
 #ifdef  DECAY_PLATFORM_WINDOWS
-
 
 extern void Decay::CreateApplication();
 

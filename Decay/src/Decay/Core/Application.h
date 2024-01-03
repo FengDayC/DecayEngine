@@ -5,7 +5,7 @@
 #include "Events\ApplicationEvent.h"
 #include "Layer.h"
 #include "LayerStack.h"
-#include "Decay\Log\Log.h"
+#include "Decay\Logger\Logger.h"
 #include "Decay\ImGui\ImGuiLayer.h"
 
 namespace Decay

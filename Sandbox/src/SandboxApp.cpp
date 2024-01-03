@@ -1,7 +1,7 @@
 #include <Decay.h>
 #include <Decay\Core\EntryPoint.h>
 #include <memory>
-#include "ImGui\imgui.h"
+#include <ImGui\imgui.h>
 #include "Platform\OpenGL\OpenGLShader.h"
 #include "Sandbox2D.h"
 

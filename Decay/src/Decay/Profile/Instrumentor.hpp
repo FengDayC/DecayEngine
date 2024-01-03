@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Decay/Log/Log.h"
+#include "Decay/Logger/Logger.h"
 
 #include <algorithm>
 #include <chrono>

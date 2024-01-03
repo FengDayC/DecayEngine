@@ -2,7 +2,7 @@
 
 #include "Decay\Core\Application.h"
 
-#include "Decay\Log\Log.h"
+#include "Decay\Logger\Logger.h"
 
 //#include "Decay\Core\EntryPoint.h"
 

@@ -18,8 +18,9 @@
 #include<set>
 #include<map>
 #include<unordered_map>
+#include<array>
 
-#include "Decay\Log\Log.h"
+#include "Decay\Logger\Logger.h"
 #include "Decay\Core.h"
 
 #ifdef DECAY_PLATFORM_WINDOWS
