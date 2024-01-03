@@ -411,3 +411,21 @@ imgui.ini
 assets
 /GenerateProjects.bat
 /sc.exe
+
+# CMake generated files
+CMakeFiles/
+CMakeScripts/
+CMakeCache.txt
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+**.cmake
+**.pc
+
+# Ignore CMake user-specific files
+CMakeUserPresets.json
+CMakeUserPresets.json.shadow
+
+# Ignore generated Makefile
+Makefile
+CMakeLists.txt.user
