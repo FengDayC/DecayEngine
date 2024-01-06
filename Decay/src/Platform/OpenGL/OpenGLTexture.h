@@ -4,12 +4,15 @@
 
 namespace Decay
 {
+	enum class ImageFormat;
+
 	class OpenGLTexture2D : public Texture2D
 	{
 	public:
 
 		OpenGLTexture2D(uint32_t width, uint32_t height);
 		OpenGLTexture2D(const std::string path);
+		OpenGLTexture2D(ImageFormat colorFormat, uint32_t width, uint32_t height, void* data);
 
 		virtual ~OpenGLTexture2D();
 

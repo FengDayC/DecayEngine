@@ -5,3 +5,6 @@
 [submodule "Decay/vendor/GLM"]
 	path = Decay/vendor/GLM
 	url = git@github.com:g-truc/glm.git
+[submodule "Decay/vendor/assimp"]
+	path = Decay/vendor/assimp
+	url = git@github.com:assimp/assimp.git
