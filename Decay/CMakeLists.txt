@@ -10,12 +10,16 @@ set(IMGUI_PATH vendor/ImGui)
 set(SPDLOG_PATH vendor/spdlog)
 set(STB_IMAGE_PATH vendor/stb_image)
 set(ASSIMP_PATH vendor/assimp)
+set(ENTT_PATH vendor/entt)
+
+set(ASSIMP_INSTALL OFF)
 
 add_subdirectory(${GLAD_PATH})
 add_subdirectory(${GLFW_PATH})
 add_subdirectory(${IMGUI_PATH})
 add_subdirectory(${SPDLOG_PATH})
 add_subdirectory(${ASSIMP_PATH})
+add_subdirectory(${ENTT_PATH})
 
 #设置源文件路径
 set(SRC_PATH src)
@@ -73,6 +77,7 @@ set(INCLUDE_PATH
     ${IMGUI_PATH}
     ${SPDLOG_PATH}/include
     ${ASSIMP_PATH}/include
+    ${ENTT_PATH}/single_include
     ${STB_IMAGE_PATH}
     ${GLM_PATH}
     ${SRC_PATH}
@@ -88,6 +93,8 @@ target_link_libraries(Decay PUBLIC
     ImGui
     spdlog
     opengl32.lib
+    EnTT
+    assimp
 )
 
 #设置预编译头

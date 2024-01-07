@@ -8,3 +8,6 @@
 [submodule "Decay/vendor/assimp"]
 	path = Decay/vendor/assimp
 	url = git@github.com:assimp/assimp.git
+[submodule "Decay/vendor/entt"]
+	path = Decay/vendor/entt
+	url = git@github.com:skypjack/entt.git
