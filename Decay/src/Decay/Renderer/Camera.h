@@ -7,6 +7,7 @@ namespace Decay
 	class DECAY_API Camera
 	{
 	public:
+		Camera();
 		Camera(glm::vec3 position = glm::vec3{ .0f,.0f,.0f }, glm::quat rotation = glm::quat{.0f,.0f,.0f,1.0f}, bool perspective = false, float ratio = 1.0f, float fovy = 90.0f, float size = 1.0f, float nearPlane = 0.01f, float farPlane = 1000.0f);
 		
 		inline void SetPosition(glm::vec3 position) { m_Position = position; RecalculateMatrix(); }

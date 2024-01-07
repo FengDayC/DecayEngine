@@ -1,18 +1,28 @@
 #include "entt\entt.hpp"
+#include "Core.h"
 
-namespace Scene
+namespace Decay
 {
-	class Scene
+	class Entity;
+	class DECAY_API Scene : public std::enable_shared_from_this<Scene>
 	{
 	public:
 		Scene();
 		~Scene();
 
+
 	public:
 		void OnRuntimeUpdate();
 		void OnRenderUpdate();
 
+	public:
+		const Entity& GetMainCameraEntity() const;
+
 	private:
-		entt::registry m_Registry;
+		void Init();
+
+	private:
+		entt::entity m_sceneEntity{ entt::null };
+		entt::registry m_registry;
 	};
 }

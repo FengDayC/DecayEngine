@@ -4,6 +4,7 @@
 #include <vector>
 #include <glm\glm.hpp>
 #include "Mesh.h"
+#include "Renderer\Camera.h"
 
 namespace Decay
 {
@@ -27,6 +28,12 @@ namespace Decay
 
 	struct MeshComponent
 	{
-		S_PTR<Mesh> Mesh;
+		Mesh Mesh;
+	};
+
+	struct CameraComponent
+	{
+		Camera OriginCamera;
+		bool IsMainCamera;
 	};
 }

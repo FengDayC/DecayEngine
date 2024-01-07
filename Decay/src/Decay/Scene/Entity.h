@@ -11,7 +11,7 @@ namespace Decay
 	{
 	public:
 		Entity() = default;
-		Entity(entt::entity handle, S_PTR<Scene> scene)
+		Entity(entt::entity handle, S_PTR<const Decay::Scene> scene)
 			: m_entityHandle(handle), m_scene(scene) {}
 
 		virtual ~Entity() = default;
@@ -39,6 +39,6 @@ namespace Decay
 
 	private:
 		entt::entity m_entityHandle{ entt::null };
-		W_PTR<Scene> m_scene;
+		W_PTR<const Scene> m_scene;
 	};
 }

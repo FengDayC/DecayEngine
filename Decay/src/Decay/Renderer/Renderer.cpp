@@ -5,11 +5,11 @@
 #include "Platform\OpenGL\OpenGLShader.h"
 #include "Decay\Profile\Instrumentor.hpp"
 #include "Renderer2D.h"
+#include "Camera.h"
+#include "Scene\Mesh.h"
 
 namespace Decay
 {
-	S_PTR<Scene>& Renderer::s_Scene = std::make_shared<Scene>();
-
 	void Renderer::Init()
 	{
 		DC_PROFILE_FUNCTION();
@@ -17,21 +17,25 @@ namespace Decay
 		Renderer2D::Init();
 	}
 
-	void Renderer::BeginScene(const S_PTR<Scene>& scene)
+	void Renderer::BeginScene(const Camera& camera)
 	{
-		s_Scene = scene;
+		s_camera = camera;
 	}
 
 	void Renderer::EndScene()
 	{
-		s_Scene = nullptr;
+
+	}
+
+	void Renderer::DrawMesh(const Mesh& mesh, const glm::mat4& transform)
+	{
 	}
 
 	void Renderer::Submit(const S_PTR<Shader>& shader, const S_PTR<VertexArray>& vertexArray, const glm::mat4& transform)
 	{
 		shader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMatrix4("decay_camera_viewMatrix", s_Scene->GetSceneCameraController()->GetCamera().GetViewMatrix());
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMatrix4("decay_camera_projectionMatrix", s_Scene->GetSceneCameraController()->GetCamera().GetProjectionMatrix());
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMatrix4("decay_camera_viewMatrix", s_camera.GetViewMatrix());
+		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMatrix4("decay_camera_projectionMatrix", s_camera.GetProjectionMatrix());
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMatrix4("decay_model_transform", transform);
 		
 		vertexArray->Bind();

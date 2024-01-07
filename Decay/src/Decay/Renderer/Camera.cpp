@@ -5,6 +5,18 @@
 
 namespace Decay
 {
+	Camera::Camera()
+	{
+		m_Position = glm::vec3(0.0f);
+		m_Rotation = glm::quat(glm::vec3(0.0f));
+		m_Perspective = true;
+		m_Ratio = 1.0f;
+		m_Fovy = 45.0f;
+		m_Size = 1.0f;
+		m_Near = 0.1f;
+		m_Far = 100.0f;
+		RecalculateMatrix();
+	}
 
 	Camera::Camera(glm::vec3 position, glm::quat rotation, bool perspective, float ratio, float fovy,float size, float nearPlane, float farPlane)
 		:m_Position(position), m_Rotation(rotation), m_Perspective(perspective), m_Ratio(ratio), m_Fovy(fovy), m_Size(size), m_Near(nearPlane), m_Far(farPlane)
