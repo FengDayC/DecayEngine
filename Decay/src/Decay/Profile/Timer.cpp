@@ -30,7 +30,7 @@ namespace Decay
 	
 		float duration = (end - start) * 0.001f;
 
-		DC_CORE_INFO("Profile: %.2f ms %s", duration, m_Name.c_str());
+		DC_CORE_INFO("Profile: %.2f ms %s", duration, m_Name.c_str())
 
 		if (m_Callback != nullptr)
 		{

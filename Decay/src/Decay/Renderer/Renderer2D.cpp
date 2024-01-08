@@ -95,7 +95,7 @@ void Decay::Renderer2D::Flush()
 
 void Decay::Renderer2D::DrawQuad(const glm::vec3& position, const float angle, const glm::vec2& size, const glm::vec4& color, const S_PTR<Texture2D>& texture, const float tilling)
 {
-	DC_PROFILE_FUNCTION();
+	DC_PROFILE_FUNCTION
 
 	if (s_Data.IndexCount >= Renderer2DData::MaxIndices)
 	{

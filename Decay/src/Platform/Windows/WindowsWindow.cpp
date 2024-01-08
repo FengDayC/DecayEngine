@@ -29,7 +29,7 @@ namespace Decay
 
 	WindowsWindow::WindowsWindow(WindowProps props)
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		Init(props);
 	}
 
@@ -40,18 +40,18 @@ namespace Decay
 
 	void WindowsWindow::Shutdown()
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		glfwDestroyWindow(m_Window);
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		m_Data.Title = props.Title;
 		m_Data.height = props.Height;
 		m_Data.width = props.Width;
 
-		DC_CORE_INFO("Creating Window {0} ({1},{2})", props.Title, props.Width, props.Height);
+		DC_CORE_INFO("Creating Window {0} ({1},{2})", props.Title, props.Width, props.Height)
 	
 		if (!s_GLFWInitialized)
 		{
@@ -84,7 +84,7 @@ namespace Decay
 
 	void WindowsWindow::OnUpdate()
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 
 		m_Context->SwapBuffers();
 		glfwPollEvents();
@@ -92,7 +92,7 @@ namespace Decay
 
 	void WindowsWindow::SetVSync(bool enable)
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		if (enable)
 		{
 			glfwSwapInterval(1);

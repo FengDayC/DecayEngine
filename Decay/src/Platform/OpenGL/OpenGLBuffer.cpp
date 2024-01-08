@@ -8,7 +8,7 @@ namespace Decay
 	//----VertexBuffer----
 	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size)
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		glCreateBuffers(1, &m_RendererId);
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererId);
 		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
@@ -16,7 +16,7 @@ namespace Decay
 
 	OpenGLVertexBuffer::OpenGLVertexBuffer(std::vector<float> vertices)
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		glCreateBuffers(1, &m_RendererId);
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererId);
 		glBufferData(GL_ARRAY_BUFFER, vertices.size()*sizeof(float), vertices.data(), GL_STATIC_DRAW);
@@ -24,19 +24,19 @@ namespace Decay
 
 	OpenGLVertexBuffer::~OpenGLVertexBuffer()
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		glDeleteBuffers(1, &m_RendererId);
 	}
 
 	void OpenGLVertexBuffer::Bind() const
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererId);
 	}
 
 	void OpenGLVertexBuffer::UnBind() const
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
@@ -52,7 +52,7 @@ namespace Decay
 
 	void OpenGLVertexBuffer::SetData(const void* data, uint32_t size)
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		glBufferData(GL_ARRAY_BUFFER, size, data, GL_DYNAMIC_DRAW);
 	}
 

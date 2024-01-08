@@ -13,7 +13,7 @@ namespace Decay
 
 	Application::Application() 
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 
 		DC_CORE_ASSERT(!s_Instance, "Application already exists!");
 		
@@ -33,12 +33,12 @@ namespace Decay
 
 	Application::~Application() 
 	{
-		DC_CORE_INFO("Application Instance Released!");
+		DC_CORE_INFO("Application Instance Released!")
 	}
 	
 	void Application::Run()
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 
 		while (m_Running)
 		{
@@ -74,7 +74,7 @@ namespace Decay
 
 	void Application::OnEvent(Event& e)
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_FN(Application::OnWindowResize));
@@ -92,7 +92,7 @@ namespace Decay
 
 	bool Application::OnWindowClose(WindowCloseEvent e)
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		m_Running = false;
 		DC_CORE_WARN("Window Close!");
 		return true;
@@ -114,14 +114,14 @@ namespace Decay
 
 	void Application::PushLayer(Layer* layer)
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		m_LayerStack.PushLayer(layer);
 		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		m_LayerStack.PushOverlay(overlay);
 		overlay->OnAttach();
 	}

@@ -8,7 +8,7 @@ namespace Decay
 {
 	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height) : m_Width(width), m_Height(height)
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &m_RendererId);
 		glTextureStorage2D(m_RendererId, 1, GL_RGBA8, m_Width, m_Height);
@@ -23,7 +23,7 @@ namespace Decay
 	}
 	OpenGLTexture2D::OpenGLTexture2D(const std::string path) : m_Path(path)
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		int width, height, nrComponents;
 		stbi_uc* data = nullptr;
 		{
@@ -71,7 +71,7 @@ namespace Decay
 
 	OpenGLTexture2D::OpenGLTexture2D(ImageFormat colorFormat, uint32_t width, uint32_t height, void* data)
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		int nrComponents;
 		
 		DC_CORE_ASSERT(data, "Image data should not be null");

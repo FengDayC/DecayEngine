@@ -23,7 +23,7 @@ void Sandbox2D::OnDetach()
 
 void Sandbox2D::OnUpdate(Decay::Timestep deltaTime)
 {
-	DC_PROFILE_FUNCTION();
+	DC_PROFILE_FUNCTION
 
 	{
 		DC_PROFILE_SCOPE("OnUpdate");
@@ -70,7 +70,7 @@ void Sandbox2D::OnUpdate(Decay::Timestep deltaTime)
 
 void Sandbox2D::OnImGuiRender()
 {
-	DC_PROFILE_FUNCTION();
+	DC_PROFILE_FUNCTION
 	ImGui::Begin("Test");
 	ImGui::Text("Renderer Stat");
 	auto rendererStat = Renderer2D::GetStats();

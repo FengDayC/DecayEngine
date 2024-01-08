@@ -29,13 +29,13 @@ namespace Decay
 
 	void Scene::OnRuntimeUpdate()
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 
 	}
 
 	void Scene::OnRenderUpdate()
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		Camera mainCamera = GetMainCameraEntity().GetComponent<CameraComponent>().OriginCamera;
 		Renderer::BeginScene(mainCamera);
 		auto view = m_registry.view<MeshComponent, TransformComponent>();

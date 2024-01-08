@@ -203,14 +203,14 @@ namespace Decay {
 }
 
 //#define DC_PROFILE 1
-#if DC_PROFILE
-#define DC_PROFILE_BEGIN_SESSION(name,filepath) ::Decay::Instrumentor::Get().BeginSession(name,filepath)
-#define DC_PROFILE_END_SESSION() ::Decay::Instrumentor::Get().EndSession()
-#define DC_PROFILE_SCOPE(name) ::Decay::InstrumentationTimer timer##__LINE__(name)
-#define DC_PROFILE_FUNCTION() DC_PROFILE_SCOPE(__FUNCSIG__) 
+#if DECAY_PROFILE
+#define DC_PROFILE_BEGIN_SESSION(name,filepath) ::Decay::Instrumentor::Get().BeginSession(name,filepath);
+#define DC_PROFILE_END_SESSION ::Decay::Instrumentor::Get().EndSession();
+#define DC_PROFILE_SCOPE(name) ::Decay::InstrumentationTimer timer##__LINE__(name);
+#define DC_PROFILE_FUNCTION DC_PROFILE_SCOPE(__FUNCSIG__)
 #else
 #define DC_PROFILE_BEGIN_SESSION(name,filepath)
-#define DC_PROFILE_END_SESSION() 
+#define DC_PROFILE_END_SESSION
 #define DC_PROFILE_SCOPE(name) 
-#define DC_PROFILE_FUNCTION()  
+#define DC_PROFILE_FUNCTION 
 #endif

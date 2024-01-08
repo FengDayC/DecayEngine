@@ -12,7 +12,7 @@ namespace Decay
 {
 	void Renderer::Init()
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}

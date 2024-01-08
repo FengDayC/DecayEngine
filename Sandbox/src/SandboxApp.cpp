@@ -66,7 +66,7 @@ public:
 	
 	void OnUpdate(Timestep deltaTime) override 
 	{
-		DC_PROFILE_FUNCTION();
+		DC_PROFILE_FUNCTION
 
 		{
 			DC_PROFILE_SCOPE("OnUpdate");

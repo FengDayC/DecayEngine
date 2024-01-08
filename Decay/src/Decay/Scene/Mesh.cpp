@@ -102,7 +102,7 @@ Decay::MeshSource::MeshSource(std::string path)
 	//Textures
 	if (m_scene->HasMaterials())
 	{
-		DC_CORE_INFO("---- Materials - {0} ----", path);
+		DC_CORE_INFO("---- Materials - {0} ----", path)
 
 		m_materials.resize(m_scene->mNumMaterials);
 
@@ -113,10 +113,10 @@ Decay::MeshSource::MeshSource(std::string path)
 			S_PTR<Material> mi = Material::Create(Renderer::GetShaderLibrary()->Get("PBR"), std::string(aiMaterialName.data));
 			m_materials[i] = mi;
 
-			DC_CORE_INFO("  {0} (Index = {1})", aiMaterialName.data, i);
+			DC_CORE_INFO("  {0} (Index = {1})", aiMaterialName.data, i)
 			aiString aiTexPath;
 			uint32_t textureCount = aiMaterial->GetTextureCount(aiTextureType_DIFFUSE);
-			DC_CORE_INFO("    TextureCount = {0}", textureCount);
+			DC_CORE_INFO("    TextureCount = {0}", textureCount)
 
 			glm::vec3 albedoColor(0.8f);
 			float emission = 0.0f;
@@ -138,9 +138,9 @@ Decay::MeshSource::MeshSource(std::string path)
 				metalness = 0.0f;
 
 			float roughness = 1.0f - glm::sqrt(shininess / 100.0f);
-			DC_CORE_INFO("    COLOR = {0}, {1}, {2}", aiColor.r, aiColor.g, aiColor.b);
-			DC_CORE_INFO("    ROUGHNESS = {0}", roughness);
-			DC_CORE_INFO("    METALNESS = {0}", metalness);
+			DC_CORE_INFO("    COLOR = {0}, {1}, {2}", aiColor.r, aiColor.g, aiColor.b)
+			DC_CORE_INFO("    ROUGHNESS = {0}", roughness)
+			DC_CORE_INFO("    METALNESS = {0}", metalness)
 			bool hasAlbedoMap = aiMaterial->GetTexture(aiTextureType_DIFFUSE, 0, &aiTexPath) == AI_SUCCESS;
 			bool fallback = !hasAlbedoMap;
 			if (hasAlbedoMap)
@@ -156,7 +156,7 @@ Decay::MeshSource::MeshSource(std::string path)
 					auto parentPath = pather.parent_path();
 					parentPath /= std::string(aiTexPath.data);
 					std::string texturePath = parentPath.string();
-					DC_CORE_INFO("    Albedo map path = {0}", texturePath);
+					DC_CORE_INFO("    Albedo map path = {0}", texturePath)
 					texture = Texture2D::Create(texturePath);
 				}
 
@@ -196,7 +196,7 @@ Decay::MeshSource::MeshSource(std::string path)
 					auto parentPath = pather.parent_path();
 					parentPath /= std::string(aiTexPath.data);
 					std::string texturePath = parentPath.string();
-					DC_CORE_INFO("    Normal map path = {0}", texturePath);
+					DC_CORE_INFO("    Normal map path = {0}", texturePath)
 					texture = Texture2D::Create(texturePath);
 				}
 
@@ -237,7 +237,7 @@ Decay::MeshSource::MeshSource(std::string path)
 					auto parentPath = pather.parent_path();
 					parentPath /= std::string(aiTexPath.data);
 					std::string texturePath = parentPath.string();
-					DC_CORE_INFO("    Roughness map path = {0}", texturePath);
+					DC_CORE_INFO("    Roughness map path = {0}", texturePath)
 					texture = Texture2D::Create(texturePath);
 				}
 
@@ -284,7 +284,7 @@ Decay::MeshSource::MeshSource(std::string path)
 							auto parentPath = pather.parent_path();
 							parentPath /= str;
 							std::string texturePath = parentPath.string();
-							DC_CORE_INFO("    Metalness map path = {0}", texturePath);
+							DC_CORE_INFO("    Metalness map path = {0}", texturePath)
 							texture = Texture2D::Create(texturePath);
 						}
 
