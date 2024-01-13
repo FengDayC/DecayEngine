@@ -9,17 +9,7 @@ namespace Decay
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		glEnable(GL_DEPTH_TEST);
-	}
-
-	void OpenGLRendererAPI::SetClearColor(const glm::vec4& color) const
-	{
-		glClearColor(color.r, color.g, color.b, color.a);
-	}
-
-	void OpenGLRendererAPI::Clear() const
-	{
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST|GL_STENCIL_TEST);
 	}
 
 	void OpenGLRendererAPI::DrawIndexed(const S_PTR<VertexArray>& vertexArray, const uint32_t size) const

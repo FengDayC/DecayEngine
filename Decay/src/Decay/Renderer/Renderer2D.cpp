@@ -1,5 +1,6 @@
 #include "dcpch.h"
 #include "Renderer2D.h"
+#include "Renderer.h"
 #include "Scene.h"
 #include "VertexArray.h"
 #include "Shader.h"
@@ -155,7 +156,7 @@ void Decay::Renderer2D::ResetStats()
 	memset(&s_Data.Stats, 0, sizeof(Statistic));
 }
 
-Decay::Renderer2D::Statistic Decay::Renderer2D::GetStats()
+Decay::Statistic Decay::Renderer2D::GetStats()
 {
 	return s_Data.Stats;
 }

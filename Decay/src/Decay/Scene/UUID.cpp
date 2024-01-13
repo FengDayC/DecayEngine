@@ -2,16 +2,16 @@
 
 Decay::UUID::UUID()
 {
-	m_uuid = -1;
+	m_UUID = -1;
 }
 
 Decay::UUID::UUID(uint64_t uuid)
 {
-	m_uuid = uuid;
+	m_UUID = uuid;
 }
 
 Decay::UUID::UUID(UUID& other)
 {
-	m_uuid = other.m_uuid;
+	m_UUID = other.m_UUID;
 }
 

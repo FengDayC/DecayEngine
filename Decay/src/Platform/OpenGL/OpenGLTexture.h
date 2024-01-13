@@ -22,6 +22,8 @@ namespace Decay
 		virtual void Bind(uint32_t slot = 0) const override;
 
 		virtual void SetData(void* data, uint32_t size) override;
+		
+		virtual ImageFormat GetImageFormat() override;
 
 		virtual bool operator==(const Texture& other) const override
 		{
@@ -37,5 +39,6 @@ namespace Decay
 		uint32_t m_RendererId;
 
 		GLenum m_InternalFormat, m_DataFormat;
+		ImageFormat m_ImageFormat;
 	};
 }

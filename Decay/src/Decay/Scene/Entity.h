@@ -12,11 +12,11 @@ namespace Decay
 	public:
 		Entity() = default;
 		Entity(entt::entity handle, S_PTR<const Decay::Scene> scene)
-			: m_entityHandle(handle), m_scene(scene) {}
+			: m_EntityHandle(handle), m_Scene(scene) {}
 
 		virtual ~Entity() = default;
 
-		entt::entity GetEntityHandle() const { return m_entityHandle; }
+		entt::entity GetEntityHandle() const { return m_EntityHandle; }
 
 		template<typename T, typename... Args>
 		T& AddComponent(Args&&... args);
@@ -33,12 +33,12 @@ namespace Decay
 		template<typename T>
 		void RemoveComponent();
 
-		inline operator bool() const { return m_entityHandle != entt::null; }
-		inline operator uint64_t() const { return (uint64_t)m_entityHandle; }
+		inline operator bool() const { return m_EntityHandle != entt::null; }
+		inline operator uint64_t() const { return (uint64_t)m_EntityHandle; }
 		inline UUID GetUUID() const { return GetComponent<IDComponent>().ID; }
 
 	private:
-		entt::entity m_entityHandle{ entt::null };
-		W_PTR<const Scene> m_scene;
+		entt::entity m_EntityHandle{ entt::null };
+		W_PTR<const Scene> m_Scene;
 	};
 }

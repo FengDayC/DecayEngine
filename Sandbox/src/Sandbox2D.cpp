@@ -32,8 +32,8 @@ void Sandbox2D::OnUpdate(Decay::Timestep deltaTime)
 
 	{
 		DC_PROFILE_SCOPE("Renderer Preparation");
-		RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
-		RenderCommand::Clear();
+		Renderer::SetClearColor({ 0.1f, 0.1f, 0.1f, 1 });
+		Renderer::Clear();
 	}
 
 	Renderer2D::ResetStats();

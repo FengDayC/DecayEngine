@@ -22,7 +22,7 @@ namespace Decay
 		void Init();
 
 	private:
-		entt::entity m_sceneEntity{ entt::null };
-		entt::registry m_registry;
+		entt::entity m_SceneEntity{ entt::null };
+		entt::registry m_Registry;
 	};
 }

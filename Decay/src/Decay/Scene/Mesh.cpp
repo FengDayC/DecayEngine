@@ -29,11 +29,11 @@ Decay::Mesh::~Mesh()
 }
 
 Decay::MeshSource::MeshSource(std::string path)
-	:m_path(path)
+	:m_Path(path)
 {
-	m_importer = CreateS_PTR<Assimp::Importer>();
-	m_scene = m_importer->ReadFile(path, s_meshImportFlags);
-	if (!m_scene || !m_scene->HasMeshes())
+	m_Importer = CreateS_PTR<Assimp::Importer>();
+	m_Scene = m_Importer->ReadFile(path, s_meshImportFlags);
+	if (!m_Scene || !m_Scene->HasMeshes())
 	{
 		DC_CORE_ERROR("Failed to load mesh file: {0}", path);
 		return;
@@ -41,12 +41,12 @@ Decay::MeshSource::MeshSource(std::string path)
 
 	uint32_t vertexCount = 0,indexCount = 0;
 	
-	m_submeshes.reserve(m_scene->mNumMeshes);
-	for (unsigned m = 0; m < m_scene->mNumMeshes; m++)
+	m_Submeshes.reserve(m_Scene->mNumMeshes);
+	for (unsigned m = 0; m < m_Scene->mNumMeshes; m++)
 	{
-		aiMesh* mesh = m_scene->mMeshes[m];
+		aiMesh* mesh = m_Scene->mMeshes[m];
 
-		Submesh& submesh = m_submeshes.emplace_back();
+		Submesh& submesh = m_Submeshes.emplace_back();
 		submesh.BaseVertex = vertexCount;
 		submesh.BaseIndex = indexCount;
 		submesh.MaterialIndex = mesh->mMaterialIndex;
@@ -85,7 +85,7 @@ Decay::MeshSource::MeshSource(std::string path)
 			if (mesh->HasTextureCoords(0))
 				vertex.Texcoord = { mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y };
 
-			m_vertices.push_back(vertex);
+			m_Vertices.push_back(vertex);
 		}
 
 		// Indices
@@ -93,25 +93,25 @@ Decay::MeshSource::MeshSource(std::string path)
 		{
 			DC_CORE_ASSERT(mesh->mFaces[i].mNumIndices == 3, "Must have 3 indices.");
 			Index index = { mesh->mFaces[i].mIndices[0], mesh->mFaces[i].mIndices[1], mesh->mFaces[i].mIndices[2] };
-			m_indices.push_back(index);
+			m_Indices.push_back(index);
 
-			m_triangleCache[m].emplace_back(m_vertices[index.V0 + submesh.BaseVertex], m_vertices[index.V1 + submesh.BaseVertex], m_vertices[index.V2 + submesh.BaseVertex]);
+			m_TriangleCache[m].emplace_back(m_Vertices[index.V0 + submesh.BaseVertex], m_Vertices[index.V1 + submesh.BaseVertex], m_Vertices[index.V2 + submesh.BaseVertex]);
 		}
 	}
 
 	//Textures
-	if (m_scene->HasMaterials())
+	if (m_Scene->HasMaterials())
 	{
 		DC_CORE_INFO("---- Materials - {0} ----", path)
 
-		m_materials.resize(m_scene->mNumMaterials);
+		m_Materials.resize(m_Scene->mNumMaterials);
 
-		for (uint32_t i = 0; i < m_scene->mNumMaterials; i++)
+		for (uint32_t i = 0; i < m_Scene->mNumMaterials; i++)
 		{
-			auto aiMaterial = m_scene->mMaterials[i];
+			auto aiMaterial = m_Scene->mMaterials[i];
 			auto aiMaterialName = aiMaterial->GetName();
 			S_PTR<Material> mi = Material::Create(Renderer::GetShaderLibrary()->Get("PBR"), std::string(aiMaterialName.data));
-			m_materials[i] = mi;
+			m_Materials[i] = mi;
 
 			DC_CORE_INFO("  {0} (Index = {1})", aiMaterialName.data, i)
 			aiString aiTexPath;
@@ -146,7 +146,7 @@ Decay::MeshSource::MeshSource(std::string path)
 			if (hasAlbedoMap)
 			{
 				S_PTR<Texture2D> texture;
-				if (auto aiTexEmbedded = m_scene->GetEmbeddedTexture(aiTexPath.C_Str()))
+				if (auto aiTexEmbedded = m_Scene->GetEmbeddedTexture(aiTexPath.C_Str()))
 				{
 					texture = Texture2D::Create(ImageFormat::RGB, aiTexEmbedded->mWidth, aiTexEmbedded->mHeight, aiTexEmbedded->pcData);
 				}
@@ -184,7 +184,7 @@ Decay::MeshSource::MeshSource(std::string path)
 			if (hasNormalMap)
 			{
 				S_PTR<Texture2D> texture;
-				if (auto aiTexEmbedded = m_scene->GetEmbeddedTexture(aiTexPath.C_Str()))
+				if (auto aiTexEmbedded = m_Scene->GetEmbeddedTexture(aiTexPath.C_Str()))
 				{
 					texture = Texture2D::Create(ImageFormat::RGB, aiTexEmbedded->mWidth, aiTexEmbedded->mHeight, aiTexEmbedded->pcData);
 				}
@@ -225,7 +225,7 @@ Decay::MeshSource::MeshSource(std::string path)
 			if (hasRoughnessMap)
 			{
 				S_PTR<Texture2D> texture;
-				if (auto aiTexEmbedded = m_scene->GetEmbeddedTexture(aiTexPath.C_Str()))
+				if (auto aiTexEmbedded = m_Scene->GetEmbeddedTexture(aiTexPath.C_Str()))
 				{
 					texture = Texture2D::Create(ImageFormat::RGB, aiTexEmbedded->mWidth, aiTexEmbedded->mHeight, aiTexEmbedded->pcData);
 				}
@@ -273,7 +273,7 @@ Decay::MeshSource::MeshSource(std::string path)
 					if (key == "$raw.ReflectionFactor|file")
 					{
 						S_PTR<Texture2D> texture;
-						if (auto aiTexEmbedded = m_scene->GetEmbeddedTexture(str.data()))
+						if (auto aiTexEmbedded = m_Scene->GetEmbeddedTexture(str.data()))
 						{
 							texture = Texture2D::Create(ImageFormat::RGB, aiTexEmbedded->mWidth, aiTexEmbedded->mHeight, aiTexEmbedded->pcData);
 						}
@@ -325,7 +325,7 @@ Decay::MeshSource::MeshSource(std::string path)
 		mi->Set("u_AlbedoTexture", Texture2D::GetWhite());
 		mi->Set("u_MetalnessTexture", Texture2D::GetWhite());
 		mi->Set("u_RoughnessTexture", Texture2D::GetWhite());
-		m_materials.push_back(mi);
+		m_Materials.push_back(mi);
 	}
 }
 

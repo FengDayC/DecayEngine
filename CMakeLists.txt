@@ -13,12 +13,14 @@ project(DecayEngine)
 #源文件路径
 set(DECAY_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Decay)
 set(SANDBOX_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Sandbox)
+set(ASSETS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Assets)
 
 #头文件路径
 set(DECAY_INCLUDE_PATH ${DECAY_PATH})
 
 add_subdirectory(Decay)
 add_subdirectory(Sandbox)
+add_subdirectory(Assets)
 
 # 设置Sandbox为启动项目
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Sandbox)

@@ -10,6 +10,9 @@ namespace Decay
 	public:
 		OpenGLMaterial(S_PTR<Shader> shader,const std::string& name);
 
+		virtual void Bind() override;
+		virtual void UnBind() override;
+
 		virtual void Set(const std::string& name, int value) override;
 
 		virtual void Set(const std::string& name, float value) override;
@@ -27,9 +30,9 @@ namespace Decay
 		
 	private:
 
-		S_PTR<OpenGLShader> m_shader;
-		std::string m_name;
-		std::map<std::string, S_PTR<Texture>> m_textures;
-		std::map<std::string, std::vector<S_PTR<Texture>>> m_textureArrays;
+		S_PTR<OpenGLShader> m_Shader;
+		std::string m_Name;
+		std::map<std::string, S_PTR<Texture>> m_Textures;
+		std::map<std::string, std::vector<S_PTR<Texture>>> m_TextureArrays;
 	};
 }

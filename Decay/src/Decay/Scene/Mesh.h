@@ -62,17 +62,27 @@ namespace Decay
 	public:
 		MeshSource(std::string path);
 		~MeshSource();
+	
+	public:
+		inline const std::string& GetPath() const { return m_Path; }
+		inline const aiScene* GetScene() const { return m_Scene; }
+		inline const std::vector<Submesh>& GetSubmeshes() const { return m_Submeshes; }
+		inline const std::vector<Vertex>& GetVertices() const { return m_Vertices; }
+		inline const std::vector<Index>& GetIndices() const { return m_Indices; }
+		inline const std::vector<S_PTR<Material>>& GetMaterials() const { return m_Materials; }
+		inline const AABB& GetBoundingBox() const { return m_BoundingBox; }
+		inline const std::map<std::uint32_t, std::vector<Triangle>>& GetTriangleCache() const { return m_TriangleCache; }
 
 	private:
-		std::string m_path;
-		const aiScene* m_scene;
-		S_PTR<Assimp::Importer> m_importer;
-		AABB m_boundingBox;
-		std::vector<Submesh> m_submeshes;
-		std::vector<Vertex> m_vertices;
-		std::vector<Index> m_indices;
-		std::map<std::uint32_t, std::vector<Triangle>> m_triangleCache;
-		std::vector<S_PTR<Material>> m_materials;
+		std::string m_Path;
+		const aiScene* m_Scene;
+		S_PTR<Assimp::Importer> m_Importer;
+		AABB m_BoundingBox;
+		std::vector<Submesh> m_Submeshes;
+		std::vector<Vertex> m_Vertices;
+		std::vector<Index> m_Indices;
+		std::map<std::uint32_t, std::vector<Triangle>> m_TriangleCache;
+		std::vector<S_PTR<Material>> m_Materials;
 	};
 
 	class Mesh
@@ -81,7 +91,9 @@ namespace Decay
 		Mesh(S_PTR<MeshSource> meshSource);
 		~Mesh();
 
+		inline S_PTR<MeshSource> GetMeshSource() { return m_MeshSource; }
+
 	private:
-		S_PTR<MeshSource> m_meshSource;
+		S_PTR<MeshSource> m_MeshSource;
 	};
 }

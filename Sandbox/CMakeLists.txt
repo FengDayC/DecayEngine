@@ -28,5 +28,6 @@ target_include_directories(Sandbox PUBLIC ${INCLUDE_PATH})
 target_link_libraries(Sandbox PUBLIC Decay)
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
-
+file(COPY ${ASSETS_PATH} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+message("CMAKE_B:${CMAKE_CURRENT_BINARY_DIR}")
 

@@ -27,7 +27,8 @@
 #define DC_CORE_ASSERT(x,...)
 #endif
 
-#define BIT(x) (1<<x)
+#define BIT(x) (1<<(x))
+#define LOWBIT(x) ((x)&(-(x)))
 
 #define DC_BIND_EVENT(Fn) std::bind(&Fn,this,std::placeholders::_1)
 

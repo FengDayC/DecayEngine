@@ -13,14 +13,14 @@ namespace Decay
 {
 	Scene::Scene()
 	{
-		m_sceneEntity = m_registry.create();
+		m_SceneEntity = m_Registry.create();
 		Init();
 	}
 
 	Scene::~Scene()
 	{
-		m_registry.destroy(m_sceneEntity);
-		m_registry.clear();
+		m_Registry.destroy(m_SceneEntity);
+		m_Registry.clear();
 	}
 
 	void Scene::Init()
@@ -38,22 +38,21 @@ namespace Decay
 		DC_PROFILE_FUNCTION
 		Camera mainCamera = GetMainCameraEntity().GetComponent<CameraComponent>().OriginCamera;
 		Renderer::BeginScene(mainCamera);
-		auto view = m_registry.view<MeshComponent, TransformComponent>();
+		auto view = m_Registry.view<MeshComponent, TransformComponent>();
 		for(entt::entity entity : view)
 		{
 			auto [mesh, transform] = view.get<MeshComponent, TransformComponent>(entity);
 			glm::mat4 transformMatrix = glm::translate(glm::mat4(1.0f), transform.Position)
 				* glm::eulerAngleXYZ(glm::radians(transform.Rotation.x), glm::radians(transform.Rotation.y), glm::radians(transform.Rotation.z))
 				* glm::scale(glm::mat4(1.0f), transform.Scale);
-			Renderer::DrawMesh(mesh.Mesh, transformMatrix);
+			Renderer::SubmitMesh(mesh.Mesh, transformMatrix);
 		}
-
 		Renderer::EndScene();
 	}
 
 	const Entity& Scene::GetMainCameraEntity() const
 	{
-		auto view = m_registry.view<CameraComponent>();
+		auto view = m_Registry.view<CameraComponent>();
 		for (auto entity : view)
 		{
 			const auto& camera = view.get<CameraComponent>(entity);
