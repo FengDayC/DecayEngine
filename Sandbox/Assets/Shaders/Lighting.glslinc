@@ -1,0 +1,42 @@
+const float PI = 3.1415926535897932384626433832795;
+
+float Attenuation(float distance,float radius)
+{
+	float d2 = distance * distance;
+	float d4 = d2 * d2;
+	float r2 = radius * radius;
+	float r4 = r2 * r2;
+	float t = clamp(1.0 - d4/r4, .0, 1.0);
+	return (1.0/max(d2,0.0001)) * t * t;
+}
+
+//Directional Light Irradiance
+//Normalized Input
+vec3 DirectionalLight(vec3 normal, vec3 lightDir, vec3 lightColor, float intensity)
+{
+    float NoL = clamp(dot(normal, -lightDir), 0.0, 1.0);
+	return lightColor*NoL*intensity;
+}
+
+//Point Light Irradiance
+//Normalized Input
+vec3 PointLight(vec3 normal, vec3 position, vec3 lightColor, float intensity, vec3 lightPos, float lightRadius)
+{
+	vec3 lightDir = lightPos - position;
+	vec3 L = normalize(lightDir);
+	float dis = length(lightDir);
+	float att = Attenuation(dis, lightRadius);
+	return intensity*lightColor*(1.0/(4.0*PI))*dot(normal,L)*att;
+}
+
+//Spot Light Irradiance
+//Normalized Input, Radians Input
+vec3 SpotLight(vec3 normal, vec3 position, vec3 lightColor, float intensity, vec3 lightPos, vec3 lightDir, float innerAngle, float outerAngle, float lightRadius)
+{
+	vec3 LDir = lightPos - position;
+	vec3 L = normalize(LDir);
+	float dis = length(lightDir);
+	float att = Attenuation(dis, lightRadius);
+	float lambda = clamp((dot(L, lightDir)-cos(outerAngle))/(cos(innerAngle)-cos(outerAngle)), 0.0, 1.0);
+	return intensity*lightColor*(1.0/PI)*dot(normal,L)*att*lambda;
+}

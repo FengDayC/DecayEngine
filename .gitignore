@@ -426,3 +426,4 @@ CMakeUserPresets.json.shadow
 # Ignore generated Makefile
 Makefile
 CMakeLists.txt.user
+sponza3

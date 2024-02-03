@@ -1,12 +1,12 @@
 #include "dcpch.h"
 #include "Renderer2D.h"
 #include "Renderer.h"
-#include "Scene.h"
 #include "VertexArray.h"
 #include "Shader.h"
 #include <Platform/OpenGL/OpenGLShader.h>
 #include "RenderCommand.h"
 #include <Decay/Profile/Instrumentor.hpp>
+#include <glm/ext/matrix_transform.hpp>
 
 static Decay::Renderer2DData s_Data;
 
@@ -70,8 +70,8 @@ void Decay::Renderer2D::BeginScene(S_PTR<Scene> scene)
 {
 	S_PTR<Shader> textureShader = s_Data.ShaderLib->Get("2DQuad");
 	textureShader->Bind();
-	textureShader->SetMatrix4("decay_camera_viewMatrix", scene->GetSceneCameraController()->GetCamera().GetViewMatrix());
-	textureShader->SetMatrix4("decay_camera_projectionMatrix", scene->GetSceneCameraController()->GetCamera().GetProjectionMatrix());
+	/*textureShader->SetMatrix4("decay_camera_viewMatrix", scene->GetSceneCameraController()->GetCamera().GetViewMatrix());
+	textureShader->SetMatrix4("decay_camera_projectionMatrix", scene->GetSceneCameraController()->GetCamera().GetProjectionMatrix());*/
 
 	s_Data.Vertices.clear();
 	s_Data.TextureSlotIndex = 1;
@@ -143,7 +143,6 @@ void Decay::Renderer2D::DrawQuad(const glm::vec3& position, const float angle, c
 	s_Data.ShaderLib->Get("2DQuad")->SetIntArray("u_textures", samplers, s_Data.TextureSlots.size());
 	delete samplers;
 
-	s_Data.Stats.QuadCount++;
 }
 
 void Decay::Renderer2D::DrawQuad(const glm::vec2& position, const float angle, const glm::vec2& size, const glm::vec4& color, const S_PTR<Texture2D>& texture, const float tilling)

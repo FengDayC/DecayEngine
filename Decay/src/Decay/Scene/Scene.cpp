@@ -4,6 +4,7 @@
 #include "Components.hpp"
 #include "Entity.h"
 #include "Renderer\Renderer.h"
+#include "Core\Timestep.h"
 #include "glm\glm.hpp"
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -23,21 +24,31 @@ namespace Decay
 		m_Registry.clear();
 	}
 
-	void Scene::Init()
+	Entity Scene::AddEntity()
 	{
+		Entity entity(m_Registry.create(), shared_from_this());
+		entity.AddComponent<IDComponent>(UUID::GetNewUUID());	
+		entity.AddComponent<RelationshipComponent>(m_Registry.get<IDComponent>(m_SceneEntity).ID);
+		return entity;
 	}
 
-	void Scene::OnRuntimeUpdate()
+	void Scene::Init()
+	{
+		m_SceneEntity = m_Registry.create();
+		m_Registry.emplace<IDComponent>(m_SceneEntity, UUID::GetNewUUID());
+	}
+
+	void Scene::OnRuntimeUpdate(Timestep delta)
 	{
 		DC_PROFILE_FUNCTION
 
 	}
 
-	void Scene::OnRenderUpdate()
+	void Scene::OnRenderUpdate(Timestep delta)
 	{
 		DC_PROFILE_FUNCTION
 		Camera mainCamera = GetMainCameraEntity().GetComponent<CameraComponent>().OriginCamera;
-		Renderer::BeginScene(mainCamera);
+		Renderer::BeginScene(shared_from_this());
 		auto view = m_Registry.view<MeshComponent, TransformComponent>();
 		for(entt::entity entity : view)
 		{
@@ -50,7 +61,7 @@ namespace Decay
 		Renderer::EndScene();
 	}
 
-	const Entity& Scene::GetMainCameraEntity() const
+	Entity Scene::GetMainCameraEntity()
 	{
 		auto view = m_Registry.view<CameraComponent>();
 		for (auto entity : view)
@@ -58,9 +69,15 @@ namespace Decay
 			const auto& camera = view.get<CameraComponent>(entity);
 			if (camera.IsMainCamera)
 			{
-				return Entity(entity,shared_from_this());
+				return Entity(entity, shared_from_this());
 			}
 		}
 		return {};
+	}
+
+	template<typename T>
+	void Scene::OnComponentAdded(Entity* entity, T& component)
+	{
+
 	}
 }

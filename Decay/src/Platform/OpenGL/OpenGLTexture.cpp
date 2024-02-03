@@ -21,6 +21,31 @@ namespace Decay
 		m_DataFormat = GL_RGBA;
 		
 	}
+	OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height, ImageFormat colorFormat)
+		: m_Width(width), m_Height(height), m_ImageFormat(colorFormat)
+	{
+		switch (m_ImageFormat)
+		{
+		case ImageFormat::R:
+			m_InternalFormat = GL_R8;
+			m_DataFormat = GL_RED;
+			break;
+		case ImageFormat::RG:
+			m_InternalFormat = GL_RG16;
+			m_DataFormat = GL_RG;
+		case ImageFormat::RGB:
+			m_InternalFormat = GL_RGB8;
+			m_DataFormat = GL_RGB;
+			break;
+		case ImageFormat::RGBA:
+			m_InternalFormat = GL_RGBA8;
+			m_DataFormat = GL_RGBA;
+			break;
+		default:
+			DC_CORE_ASSERT(false, "Format not support!");
+		}
+	
+	}
 	OpenGLTexture2D::OpenGLTexture2D(const std::string path) : m_Path(path)
 	{
 		DC_PROFILE_FUNCTION

@@ -1,29 +1,29 @@
-#include "Renderer\FrameBuffer.h"
-#include <glm\glm.hpp>
+#pragma once
+#include "Decay\Renderer\FrameBuffer.h"
 
 namespace Decay
 {
 	class OpenGLTexture2D;
 
-	class OpenGLFrameBuffer : public FrameBuffer
+	class OpenGLFrameBuffer : public Decay::FrameBuffer
 	{
 	public:
-		OpenGLFrameBuffer(uint32_t width, uint32_t height, FrameBufferAttrib attrib);
-		~OpenGLFrameBuffer() override;
+		OpenGLFrameBuffer(uint32_t width, uint32_t height, uint64_t props);
+		virtual ~OpenGLFrameBuffer();
 
-		virtual void Bind() override;
-		virtual void Unbind() override;
+		void Bind() override;
+		void Unbind() override;
 
-		virtual void Resize(uint32_t width, uint32_t height) override;
+		void Resize(uint32_t width, uint32_t height) override;
 
-		virtual void Clear() override;
+		void Clear() override;
 
-		virtual void SetClearColor(const glm::vec4& color) override;
-		virtual void SetClearDepth(float depth) override;
-		virtual void SetClearStencil(uint32_t stencil) override;
+		void SetClearColor(const glm::vec4& color) override;
+		void SetClearDepth(float depth) override;
+		void SetClearStencil(uint32_t stencil) override;
 
-		virtual uint32_t GetWidth() const override;
-		virtual uint32_t GetHeight() const override;
+		uint32_t GetWidth() const override;
+		uint32_t GetHeight() const override;
 
 	private:
 		uint32_t m_RendererID;
@@ -33,5 +33,6 @@ namespace Decay
 		uint32_t m_Width;
 		uint32_t m_Height;
 		uint32_t m_SizePerPixel;
+		uint64_t m_FrameBufferProps;
 	};
 }

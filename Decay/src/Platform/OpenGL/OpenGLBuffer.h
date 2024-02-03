@@ -28,11 +28,13 @@ namespace Decay
         public IndexBuffer
     {
     public:
-        OpenGLIndexBuffer(S_PTR<std::vector<uint32_t>> vertices);
+        OpenGLIndexBuffer(uint32_t size);
+        OpenGLIndexBuffer(S_PTR<std::vector<uint32_t>> indices);
         virtual ~OpenGLIndexBuffer();
 
         virtual void Bind() const override;
         virtual void UnBind() const override;
+        virtual void SetData(const void* data, const uint32_t size);
 
         inline virtual uint32_t GetCount() const override { return m_Count; }
 

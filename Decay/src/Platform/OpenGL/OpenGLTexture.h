@@ -11,6 +11,7 @@ namespace Decay
 	public:
 
 		OpenGLTexture2D(uint32_t width, uint32_t height);
+		OpenGLTexture2D(uint32_t width, uint32_t height, ImageFormat colorFormat);
 		OpenGLTexture2D(const std::string path);
 		OpenGLTexture2D(ImageFormat colorFormat, uint32_t width, uint32_t height, void* data);
 

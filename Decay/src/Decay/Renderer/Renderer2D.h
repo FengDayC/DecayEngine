@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "Texture.h"
+#include "Renderer.h"
 
 namespace Decay
 {
@@ -8,7 +9,6 @@ namespace Decay
 	class VertexArray;
 	class VertexBuffer;
 	class ShaderLibrary;
-	struct Statistic;
 	class Renderer2D
 	{
 	public:

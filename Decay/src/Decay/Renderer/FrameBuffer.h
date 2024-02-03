@@ -1,3 +1,6 @@
+#pragma once
+#include <glm\glm.hpp>
+
 namespace Decay
 {
 	enum class FrameBufferAttrib
@@ -35,6 +38,6 @@ namespace Decay
 		virtual uint32_t GetHeight() const = 0;
 
 	public:
-		static S_PTR<FrameBuffer> Create(uint32_t width, uint32_t height, FrameBufferAttrib attrib);
+		static S_PTR<FrameBuffer> Create(uint32_t width, uint32_t height, uint64_t props);
 	};
 }

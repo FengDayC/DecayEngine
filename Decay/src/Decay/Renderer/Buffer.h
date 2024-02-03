@@ -152,9 +152,11 @@ namespace Decay
 
 		virtual void Bind() const = 0;
 		virtual void UnBind() const = 0;
+		virtual void SetData(const void* data, const uint32_t size) = 0;
 
 		virtual uint32_t GetCount() const = 0;
 
 		static S_PTR<IndexBuffer> Create(S_PTR<std::vector<uint32_t>> indices);
+		static S_PTR<IndexBuffer> Create(uint32_t size);
 	};
 }

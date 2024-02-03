@@ -21,12 +21,13 @@ namespace Decay
 
 	struct SpotLight
 	{
-		glm::vec3 Position ;
+		glm::vec3 Position;
 		glm::vec3 Direction;
 		glm::vec3 Color;
 		float Radius;
 		float Intensity;
-		float Angle;
+		float InnerAngle;
+		float OuterAngle;
 	};
 
 	struct Environment

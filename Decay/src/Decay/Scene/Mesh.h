@@ -17,7 +17,7 @@ namespace Decay
 		glm::vec3 Position;
 		glm::vec2 Texcoord;
 		glm::vec3 Normal;
-		glm::vec3 Binormal;
+		glm::vec3 Bitangent;
 		glm::vec3 Tangent;
 	};
 

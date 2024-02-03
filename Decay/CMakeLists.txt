@@ -101,4 +101,4 @@ target_link_libraries(Decay PUBLIC
 target_precompile_headers(Decay PUBLIC ${SRC_PATH}/dcpch.h)
 
 #设置预编译选项
-target_compile_definitions(Decay PUBLIC GLFW_INCLUDE_NONE DECAY_PLATFORM_WINDOWS DECAY_ENABLE_ASSERTS)
+target_compile_definitions(Decay PUBLIC GLFW_INCLUDE_NONE DECAY_PLATFORM_WINDOWS DECAY_ENABLE_ASSERTS NOMINMAX)

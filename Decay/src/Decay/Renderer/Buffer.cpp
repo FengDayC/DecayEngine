@@ -40,4 +40,15 @@ namespace Decay
 		}
 		return nullptr;
 	}
+	S_PTR<IndexBuffer> IndexBuffer::Create(uint32_t size)
+	{
+		RendererAPI::API api = Renderer::GetAPI();
+		DC_CORE_ASSERT((uint32_t)api, "No Renderer API");
+		switch (api)
+		{
+		case RendererAPI::API::OpenGL:
+			return std::make_shared<OpenGLIndexBuffer>(size);
+		}
+		return nullptr;
+	}
 }

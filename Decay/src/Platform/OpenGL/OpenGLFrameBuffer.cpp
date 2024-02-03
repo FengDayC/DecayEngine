@@ -3,13 +3,13 @@
 #include "OpenGLTexture.h"
 #include "glad\glad.h"
 
-Decay::OpenGLFrameBuffer::OpenGLFrameBuffer(uint32_t width, uint32_t height, FrameBufferAttrib attrib)
-	: m_ColorAttachment(0),m_DepthAttachment(0),m_StencilAttachment(0),m_Width(width),m_Height(height)
+Decay::OpenGLFrameBuffer::OpenGLFrameBuffer(uint32_t width, uint32_t height, uint64_t props)
+	: m_ColorAttachment(0),m_DepthAttachment(0),m_StencilAttachment(0),m_Width(width),m_Height(height),m_FrameBufferProps(props)
 {
 	glGenFramebuffers(1, &m_RendererID);
 	m_SizePerPixel = 0;
-	uint32_t intAttrib = ((uint32_t)attrib);
-	uint32_t colorAttrib = (intAttrib) & 0x7;
+	uint64_t intAttrib = ((uint64_t)props);
+	uint64_t colorAttrib = (intAttrib) & 0x7;
 	DC_CORE_ASSERT(colorAttrib - LOWBIT(colorAttrib) == 0, "Only one color attachment attribution is supported!");
 	switch (colorAttrib)
 	{
@@ -27,7 +27,7 @@ Decay::OpenGLFrameBuffer::OpenGLFrameBuffer(uint32_t width, uint32_t height, Fra
 		break;
 	}
 	intAttrib >>= 3;
-	uint32_t depthAttrib = (intAttrib) & 0xf;
+	uint64_t depthAttrib = (intAttrib) & 0xf;
 	DC_CORE_ASSERT(depthAttrib - LOWBIT(depthAttrib) == 0, "Only one depth attachment attribution is supported!");
 	switch (depthAttrib)
 	{
@@ -49,7 +49,7 @@ Decay::OpenGLFrameBuffer::OpenGLFrameBuffer(uint32_t width, uint32_t height, Fra
 		break;
 	}
 	depthAttrib >>= 4;
-	uint32_t stencilAttrib = (intAttrib) & 0xf;
+	uint64_t stencilAttrib = (intAttrib) & 0xf;
 	DC_CORE_ASSERT(stencilAttrib - LOWBIT(stencilAttrib ) == 0, "Only one attachment attribution is supported!");
 	switch (stencilAttrib)
 	{
