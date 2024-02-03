@@ -36,12 +36,12 @@ namespace Decay
 
 	struct RendererData
 	{
-		static const uint32_t MaxTriangleCount = 1024;
+		static const uint32_t MaxTriangleCount = 32;
 		static const uint32_t MaxVertexCount = MaxTriangleCount * 3;
 		static const uint32_t MaxMaterialSlots = 32;
 
-		U_PTR<ShaderLibrary> ShaderLibrary;
-		S_PTR<Scene> Scene;
+		S_PTR<ShaderLibrary> ShaderLibrary;
+		S_PTR<Scene> NowScene;
 
 		//FrameBuffers
 		S_PTR<FrameBuffer> NowFrameBuffer;
@@ -83,7 +83,7 @@ namespace Decay
 		static void SetClearStencil(const uint32_t stencil);
 		static void Clear();
 		static void Flush();
-		static inline W_PTR<ShaderLibrary> GetShaderLibrary();
+		static S_PTR<ShaderLibrary> GetShaderLibrary();
 
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 

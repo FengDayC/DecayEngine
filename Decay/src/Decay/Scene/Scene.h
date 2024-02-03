@@ -1,3 +1,4 @@
+#pragma once
 #include "entt\entt.hpp"
 #include "Core.h"
 
@@ -21,7 +22,10 @@ namespace Decay
 
 	public:
 		template<typename T>
-		void OnComponentAdded(Entity* entity, T& component);
+		void OnComponentAdded(Entity entity, T& component)
+		{
+
+		}
 
 	public:
 		Entity GetMainCameraEntity();

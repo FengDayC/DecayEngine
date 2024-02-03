@@ -38,7 +38,7 @@
 #include "Decay\Scene\Lights.hpp"
 #include "Decay\Scene\Components.hpp"
 #include "Decay\Scene\UUID.h"
-#include "Decay\Scene\Entity.h"
+#include "Decay\Scene\Entity.hpp"
 
 //----Input----
 #include "Decay\Input\Input.h"

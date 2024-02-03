@@ -88,7 +88,9 @@ namespace Decay
 	class Mesh
 	{
 	public:
+		Mesh();
 		Mesh(S_PTR<MeshSource> meshSource);
+		Mesh(const Mesh& other) = default;
 		~Mesh();
 
 		inline S_PTR<MeshSource> GetMeshSource() { return m_MeshSource; }

@@ -11,5 +11,4 @@ public:
 
 private:
 	S_PTR<Decay::Scene> mainScene;
-	
 };

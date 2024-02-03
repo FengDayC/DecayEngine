@@ -1,4 +1,4 @@
-#include "Renderer\Material.h"
+#include "Decay\Renderer\Material.h"
 
 namespace Decay
 {
@@ -9,6 +9,7 @@ namespace Decay
 	{
 	public:
 		OpenGLMaterial(S_PTR<Shader> shader,const std::string& name);
+		virtual ~OpenGLMaterial();
 
 		virtual void Bind() override;
 		virtual void UnBind() override;

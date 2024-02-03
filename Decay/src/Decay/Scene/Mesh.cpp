@@ -18,6 +18,12 @@ static uint32_t s_meshImportFlags =
 	| aiProcess_GenNormals
 	| aiProcess_GenUVCoords;
 
+Decay::Mesh::Mesh()
+	: m_MeshSource(nullptr)
+{
+
+}
+
 Decay::Mesh::Mesh(S_PTR<MeshSource> meshSource) : m_MeshSource(meshSource)
 {
 
@@ -110,7 +116,7 @@ Decay::MeshSource::MeshSource(std::string path)
 		{
 			auto aiMaterial = m_Scene->mMaterials[i];
 			auto aiMaterialName = aiMaterial->GetName();
-			S_PTR<Material> mi = Material::Create(Renderer::GetShaderLibrary().lock()->Get("PBR"), std::string(aiMaterialName.data));
+			S_PTR<Material> mi = Material::Create(Renderer::GetShaderLibrary()->Get("PBR"), std::string(aiMaterialName.data));
 			m_Materials[i] = mi;
 
 			DC_CORE_INFO("  {0} (Index = {1})", aiMaterialName.data, i)
@@ -315,7 +321,7 @@ Decay::MeshSource::MeshSource(std::string path)
 	}
 	else
 	{
-		auto mi = Material::Create(Renderer::GetShaderLibrary().lock()->Get("PBR"), "PBR-Defaultt");
+		auto mi = Material::Create(Renderer::GetShaderLibrary()->Get("PBR"), "PBR-Defaultt");
 		mi->Set("u_MaterialUniforms.AlbedoColor", glm::vec3(0.8f));
 		mi->Set("u_MaterialUniforms.Emission", 0.0f);
 		mi->Set("u_MaterialUniforms.Metalness", 0.0f);

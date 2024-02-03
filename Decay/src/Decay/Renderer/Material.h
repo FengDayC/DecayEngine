@@ -9,7 +9,7 @@ namespace Decay
 	class Material
 	{
 	public:
-		~Material();
+		virtual ~Material() = default;
 
 		virtual void Bind() = 0;
 		virtual void UnBind() = 0;

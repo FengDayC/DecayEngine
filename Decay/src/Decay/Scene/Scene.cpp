@@ -2,7 +2,7 @@
 #include "Scene.h"
 #include <Profile/Instrumentor.hpp>
 #include "Components.hpp"
-#include "Entity.h"
+#include "Entity.hpp"
 #include "Renderer\Renderer.h"
 #include "Core\Timestep.h"
 #include "glm\glm.hpp"
@@ -27,7 +27,7 @@ namespace Decay
 	Entity Scene::AddEntity()
 	{
 		Entity entity(m_Registry.create(), shared_from_this());
-		entity.AddComponent<IDComponent>(UUID::GetNewUUID());	
+		entity.AddComponent<IDComponent>(UUID::GetNewUUID());
 		entity.AddComponent<RelationshipComponent>(m_Registry.get<IDComponent>(m_SceneEntity).ID);
 		return entity;
 	}
@@ -52,11 +52,13 @@ namespace Decay
 		auto view = m_Registry.view<MeshComponent, TransformComponent>();
 		for(entt::entity entity : view)
 		{
-			auto [mesh, transform] = view.get<MeshComponent, TransformComponent>(entity);
+			std::tuple<MeshComponent, TransformComponent> t = view.get<MeshComponent, TransformComponent>(entity);
+			TransformComponent transform = std::get<TransformComponent>(t);
+			MeshComponent mesh = std::get<MeshComponent>(t);
 			glm::mat4 transformMatrix = glm::translate(glm::mat4(1.0f), transform.Position)
 				* glm::eulerAngleXYZ(glm::radians(transform.Rotation.x), glm::radians(transform.Rotation.y), glm::radians(transform.Rotation.z))
 				* glm::scale(glm::mat4(1.0f), transform.Scale);
-			Renderer::SubmitMesh(mesh.Mesh, transformMatrix);
+			Renderer::SubmitMesh(mesh.OriginMesh, transformMatrix);
 		}
 		Renderer::EndScene();
 	}
@@ -66,18 +68,12 @@ namespace Decay
 		auto view = m_Registry.view<CameraComponent>();
 		for (auto entity : view)
 		{
-			const auto& camera = view.get<CameraComponent>(entity);
+			CameraComponent camera = view.get<CameraComponent>(entity);
 			if (camera.IsMainCamera)
 			{
 				return Entity(entity, shared_from_this());
 			}
 		}
 		return {};
-	}
-
-	template<typename T>
-	void Scene::OnComponentAdded(Entity* entity, T& component)
-	{
-
 	}
 }

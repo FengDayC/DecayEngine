@@ -47,6 +47,9 @@ file(GLOB_RECURSE GLM_SOURCES
     ${GLM_PATH}/*.hpp
     ${GLM_PATH}/*.inl
 )
+file(GLOB_RECURSE ENTT_SOURCES
+    ${ENTT_PATH}/single_include/*.hpp
+)
 
 #组织VS代码结构
 foreach(FILE ${DECAY_SOURCES})
@@ -67,8 +70,14 @@ foreach(FILE ${GLM_SOURCES})
     string(REPLACE "/" "\\" GROUP "${GROUP}")
     source_group("${GROUP}" FILES "${FILE}")
 endforeach()
+foreach(FILE ${ENTT_SOURCES})
+    get_filename_component(PARENT_DIR "${FILE}" DIRECTORY)
+    string(REPLACE "${CMAKE_CURRENT_SOURCE_DIR}" "" GROUP "${PARENT_DIR}")
+    string(REPLACE "/" "\\" GROUP "${GROUP}")
+    source_group("${GROUP}" FILES "${FILE}")
+endforeach()
 
-add_library(Decay STATIC ${DECAY_SOURCES} ${STB_IMAGE_SOURCES} ${GLM_SOURCES})
+add_library(Decay STATIC ${DECAY_SOURCES} ${STB_IMAGE_SOURCES} ${GLM_SOURCES} ${ENTT_SOURCES})
 
 #设置头文件路径
 set(INCLUDE_PATH 
@@ -93,7 +102,6 @@ target_link_libraries(Decay PUBLIC
     ImGui
     spdlog
     opengl32.lib
-    EnTT
     assimp
 )
 

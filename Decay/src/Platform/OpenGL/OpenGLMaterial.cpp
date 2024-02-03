@@ -7,6 +7,10 @@ Decay::OpenGLMaterial::OpenGLMaterial(S_PTR<Shader> shader,const std::string& na
 	m_Shader = std::dynamic_pointer_cast<OpenGLShader>(shader);
 }
 
+Decay::OpenGLMaterial::~OpenGLMaterial()
+{
+}
+
 void Decay::OpenGLMaterial::Bind()
 {
 	m_Shader->Bind();
