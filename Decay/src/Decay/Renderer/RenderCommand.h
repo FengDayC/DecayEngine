@@ -22,6 +22,7 @@ namespace Decay
 		{
 			s_RendererAPI->SetViewport(x, y, width, height);
 		}
+
 	private:
 		static RendererAPI* s_RendererAPI;
 	};

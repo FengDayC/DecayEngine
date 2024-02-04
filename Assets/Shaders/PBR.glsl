@@ -1,5 +1,6 @@
 #stage vertex
-#version 330 core
+#version 430 compatibility
+#extension GL_ARB_shading_language_include : require
 layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec3 a_TexCood;
 layout(location = 2) in vec3 a_Normal;
@@ -15,11 +16,10 @@ struct VertexOutput
 	vec3 Tangent;
 };
 
-layout(location = 0) out VertexOutput v_Out;
+out VertexOutput v_Out;
 
 //Uniforms
-uniform mat4 decay_camera_viewMatrix;
-uniform mat4 decay_camera_projectionMatrix;
+uniform mat4 decay_camera_matrix;
 
 void main()
 {
@@ -28,13 +28,14 @@ void main()
 	v_Out.Normal = a_Normal;
 	v_Out.Bitangent = a_Bitangent;
 	v_Out.Tangent = a_Tangent;
-	gl_Position = decay_camera_projectionMatrix*decay_camera_viewMatrix*vec4(Position,1.0);
+	gl_Position = decay_camera_matrix*vec4(v_Out.Position,1.0);
 }
 
 #stage fragment
-#version 330 core
-#include "BRDF.glslinc"
-#include "Lighting.glslinc"
+#version 430 compatibility
+#extension GL_ARB_shading_language_include : require
+#include "/include/BRDF.glslinc"
+#include "/include/Lighting.glslinc"
 
 struct VertexOutput
 {
@@ -55,7 +56,7 @@ struct MaterialUniforms
 	float Reflectance;
 };
 
-layout(position = 0) in in VertexOutput v_In;
+in VertexOutput v_Out;
 
 out vec4 fragColor;
 
@@ -67,7 +68,6 @@ uniform sampler2D u_MetalnessTexture;
 
 void main()
 {
-
-	fragColor = vec4(texture(u_textures[0]),1.0);
+	fragColor = vec4(1.0,.0,1.0,1.0);
 }
 

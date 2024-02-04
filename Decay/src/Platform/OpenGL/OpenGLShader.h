@@ -38,6 +38,7 @@ namespace Decay
 	private:
 		std::string ReadFile(const std::string& path);
 		std::unordered_map<GLenum ,std::string> PreProcess(const std::string& sourceCode);
+		void OpenGLShader::ProcessIncludeFiles(const std::string& glsl_code, std::unordered_map<std::string, std::string>& includeFiles);
 		void Compile(const std::unordered_map<GLenum, std::string>& sourceCode);
 
 	private:

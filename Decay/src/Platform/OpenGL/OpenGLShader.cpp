@@ -120,6 +120,7 @@ namespace Decay
 		GLuint location = glGetUniformLocation(m_RendererId, name.c_str());
 		glUniform3fv(location, 1, glm::value_ptr(value));
 	}
+
 	std::string OpenGLShader::ReadFile(const std::string& path)
 	{
 		DC_PROFILE_FUNCTION
@@ -160,6 +161,49 @@ namespace Decay
 		return shaderSources;
 	}
 
+	void OpenGLShader::ProcessIncludeFiles(const std::string& glsl_code, std::unordered_map<std::string, std::string>& includeFiles) 
+	{
+		// 正则表达式匹配 #include "filename"
+		std::regex pattern(R"#(\#include\s+"([^"]+)")#");
+
+		// 使用迭代器遍历匹配结果
+		auto begin = std::sregex_iterator(glsl_code.begin(), glsl_code.end(), pattern);
+		auto end = std::sregex_iterator();
+
+		for (std::sregex_iterator iter = begin; iter != end; ++iter) 
+		{
+			std::string fileName = (*iter)[1].str();
+			std::string fileCode = ReadFile("Assets/Shaders/" + fileName);
+			if (includeFiles.find(fileCode) == includeFiles.end())
+			{
+				includeFiles.insert(std::make_pair(fileName,fileCode));
+				ProcessIncludeFiles(fileCode, includeFiles);
+			}
+		}
+	}
+
+	void CheckCompileErr(GLint shader)
+	{
+		GLint isCompiled = 0;
+
+		glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+		if (isCompiled == GL_FALSE)
+		{
+			GLint maxLength = 0;
+			glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+
+			// The maxLength includes the NULL character
+			std::vector<GLchar> infoLog(maxLength);
+			glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+
+			// We don't need the shader anymore.
+			glDeleteShader(shader);
+
+			DC_CORE_ERROR("{0}", infoLog.data());
+			DC_CORE_ASSERT(false, "Shader compile failed!");
+		}
+	}
+
 	void OpenGLShader::Compile(const std::unordered_map<GLenum, std::string>& sourceCode)
 	{
 		DC_PROFILE_FUNCTION
@@ -172,6 +216,8 @@ namespace Decay
 		std::vector<GLenum> shaderIds;
 		shaderIds.reserve(sourceCode.size());
 
+
+		//Compile source files
 		for (auto& p : sourceCode)
 		{
 			GLenum type = p.first;
@@ -185,28 +231,28 @@ namespace Decay
 			const GLchar* source = (const GLchar*)sourceCode.c_str();
 			glShaderSource(shader, 1, &source, 0);
 
+			//Preprocess include files
+			std::unordered_map<std::string, std::string> includeFiles;
+			ProcessIncludeFiles(sourceCode, includeFiles);
+			for (auto& inc : includeFiles)
+			{
+				std::string name = inc.first;
+				const GLchar* nameCstr = name.c_str();
+				GLint nameLen = name.length();
+				std::string source = inc.second;
+				glNamedStringARB(GL_SHADER_INCLUDE_ARB,
+					nameLen,
+					nameCstr,
+					source.length(),
+					source.c_str()
+				);
+				glCompileShaderIncludeARB(shader, 1, &nameCstr, &nameLen);
+			}
+
 			// Compile the vertex shader
 			glCompileShader(shader);
+			CheckCompileErr(shader);
 
-			GLint isCompiled = 0;
-			glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
-			if (isCompiled == GL_FALSE)
-			{
-				GLint maxLength = 0;
-				glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
-
-				// The maxLength includes the NULL character
-				std::vector<GLchar> infoLog(maxLength);
-				glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
-
-				// We don't need the shader anymore.
-				glDeleteShader(shader);
-
-				DC_CORE_ERROR("{0}", infoLog.data());
-				DC_CORE_ASSERT(false, "Shader compile failed!");
-
-				break;
-			}
 			glAttachShader(program, shader);
 			shaderIds.push_back(shader);
 		}
@@ -233,8 +279,6 @@ namespace Decay
 			{
 				glDeleteShader(id);
 			}
-
-
 			DC_CORE_ERROR("{0}", infoLog.data());
 			DC_CORE_ASSERT(false, "Shader link failed!");
 

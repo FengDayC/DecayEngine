@@ -4,12 +4,16 @@
 
 namespace Decay
 {
+	void GetSupportExtensions() {
+	}
+
 	void OpenGLRendererAPI::Init()
 	{
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glEnable(GL_DEPTH_TEST|GL_STENCIL_TEST);
+		glEnable(GL_ARB_shading_language_include);
 	}
 
 	void OpenGLRendererAPI::DrawIndexed(const S_PTR<VertexArray>& vertexArray, const uint32_t size) const

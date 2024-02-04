@@ -36,7 +36,7 @@ namespace Decay
 
 	struct RendererData
 	{
-		static const uint32_t MaxTriangleCount = 32;
+		static const uint32_t MaxTriangleCount = 2048;
 		static const uint32_t MaxVertexCount = MaxTriangleCount * 3;
 		static const uint32_t MaxMaterialSlots = 32;
 

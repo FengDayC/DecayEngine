@@ -1,4 +1,5 @@
 #pragma once
+#include <dcpch.h>
 #include "Scene.h"
 #include <entt\entt.hpp>
 
@@ -6,15 +7,15 @@ namespace Decay
 {
 	class Entity
 	{
-	friend class Scene;
 	public:
 		Entity() = default;
 		Entity(const Entity& other) = default;
 		Entity(Entity&& other) = default;
-		Entity(entt::entity handle, S_PTR<Scene> scene)
-			: m_EntityHandle(handle), m_Scene(scene) 
+		Entity(const entt::entity& handle, W_PTR<Scene> scene)
+			: m_EntityHandle(handle), m_Scene(scene)
 		{
 		}
+
 		Entity& operator=(const Entity& other) = default;
 		Entity& operator=(Entity&& other) = default;
 		virtual ~Entity() = default;
@@ -22,27 +23,32 @@ namespace Decay
 		template<typename T>
 		T& GetComponent()
 		{
-			return m_Scene->m_Registry.get<T>(m_EntityHandle);
+			DC_CORE_ASSERT(HasComponent<T>(), "Entity doesn't has component!");
+			auto sp = m_Scene.lock();
+			return sp->GetRegistry().get<T>(m_EntityHandle);
 		}
 
 		template<typename T, typename... Args>
 		T& AddComponent(Args&&... args)
 		{
 			DC_CORE_ASSERT(!HasComponent<T>(), "Entity already has component!");
-			return m_Scene->m_Registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
+			auto sp = m_Scene.lock();
+			return sp->GetRegistry().emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
 		}
 
 		template<typename T>
 		void RemoveComponent()
 		{
 			DC_CORE_ASSERT(HasComponent<T>(), "Entity does not have component!");
-			m_Scene->m_Registry.remove<T>(m_EntityHandle);
+			auto sp = m_Scene.lock();
+			sp->GetRegistry().remove<T>(m_EntityHandle);
 		}
 
 		template<typename T>
 		bool HasComponent()
 		{
-			return m_Scene->m_Registry.all_of<T>(m_EntityHandle);
+			auto sp = m_Scene.lock();
+			return sp->GetRegistry().all_of<T>(m_EntityHandle);
 		}
 
 		operator bool() const { return m_EntityHandle != entt::null; }
@@ -51,7 +57,7 @@ namespace Decay
 
 		bool operator==(const Entity& other) const
 		{
-			return m_EntityHandle == other.m_EntityHandle && m_Scene == other.m_Scene;
+			return m_EntityHandle == other.m_EntityHandle;
 		}
 
 		bool operator!=(const Entity& other) const
@@ -61,6 +67,6 @@ namespace Decay
 
 	private:
 		entt::entity m_EntityHandle{ entt::null };
-		S_PTR<Scene> m_Scene;
+		W_PTR<Scene> m_Scene;
 	};
 }

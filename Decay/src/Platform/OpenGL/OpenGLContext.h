@@ -15,6 +15,8 @@ namespace Decay
 
         void SwapBuffers() override;
 
+        std::vector<std::string> GetExtensionInfos() const;
+
     private :
         GLFWwindow* m_WindowHandle;
     };

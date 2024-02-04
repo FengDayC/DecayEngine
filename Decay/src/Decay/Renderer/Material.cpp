@@ -13,7 +13,6 @@ S_PTR<Decay::Material> Decay::Material::Create(S_PTR<Shader> shader,const std::s
 		break;
     case RendererAPI::API::OpenGL:
         return CreateS_PTR<OpenGLMaterial>(shader, name);
-
     default:
         DC_CORE_ERROR("Unsupported Renderer API");
         break;

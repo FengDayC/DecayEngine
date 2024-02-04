@@ -4,10 +4,10 @@
 
 namespace Decay
 {
+	class Entity;
 	class Timestep;
 	class DECAY_API Scene : public std::enable_shared_from_this<Scene>
 	{
-	friend class Entity;
 	public:
 		Scene();
 		~Scene();
@@ -29,6 +29,8 @@ namespace Decay
 
 	public:
 		Entity GetMainCameraEntity();
+
+		entt::registry& GetRegistry();
 
 	private:
 		entt::entity m_SceneEntity{ entt::null };

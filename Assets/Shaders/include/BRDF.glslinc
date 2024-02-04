@@ -1,11 +1,16 @@
-const float PI = 3.1415926535897932384626433832795;
+#ifndef _BRDF___GLSL_
+#define _BRDF___GLSL_
+#ifndef PI
+#define PI 3.1415926536
+#endif
 
 float D_GGX(float NoH, float NxH2, float alpha)
 {
 	float alpha2 = alpha * alpha;
 	float NoH2 = NoH * NoH;
 	float denom = NxH2 + alpha2 * NoH2;
-	return alpha2 / (PI * denom * denom);
+	float res = alpha2/(PI * denom * denom);
+	return res;
 }
 
 float V_SmithGGXCorrelated(float NoV, float NoL, float roughness) {
@@ -101,3 +106,4 @@ vec3 BRDF_Cc(vec3 N, vec3 V, vec3 L, vec3 baseColor, float roughness, float refl
 	return (Fr_Std(N, V, L, alpha, F0)*(vec3(1.0) - Fc) + Fd(rho)) *(vec3(1.0) - Fc) + Frc;
 }
 
+#endif /* _BRDF___GLSL_ */

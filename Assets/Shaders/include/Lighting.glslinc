@@ -1,4 +1,9 @@
-const float PI = 3.1415926535897932384626433832795;
+#ifndef _LIGHTING__GLSL_
+#define _LIGHTING__GLSL_ 
+#ifndef PI
+#define PI 3.1415926536
+#endif
+
 
 float Attenuation(float distance,float radius)
 {
@@ -40,3 +45,5 @@ vec3 SpotLight(vec3 normal, vec3 position, vec3 lightColor, float intensity, vec
 	float lambda = clamp((dot(L, lightDir)-cos(outerAngle))/(cos(innerAngle)-cos(outerAngle)), 0.0, 1.0);
 	return intensity*lightColor*(1.0/PI)*dot(normal,L)*att*lambda;
 }
+
+#endif /* _LIGHTING__GLSL_ */

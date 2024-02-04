@@ -17,9 +17,15 @@
 #include<vector>
 #include<queue>
 #include<set>
+#include<unordered_set>
 #include<map>
 #include<unordered_map>
 #include<array>
+
+#include<algorithm>
+#include<numeric>
+#include<iterator>
+#include<regex>
 
 #include "Decay\Logger\Logger.h"
 #include "Decay\Core.h"
