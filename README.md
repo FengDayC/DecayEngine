@@ -8,7 +8,7 @@
 
 + Run Win-GenProjects.bat in ./script/, the result shows below.
 
-![](docs/Build Result.png)
+![](docs/BuildResult.png)
 
 ## How to use?
 
