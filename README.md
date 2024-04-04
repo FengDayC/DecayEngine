@@ -6,7 +6,7 @@
 
 + Make sure there is a cmake environment in your computer.
 
-+ Run **Win-GenProjects.bat** in ./script/, the result shows below.
++ Run **Win-GenProjects.bat** in ./scripts/, the result shows below.
 
 ![](docs/BuildResult.png)
 
