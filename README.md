@@ -4,9 +4,11 @@
 
 ### Windows
 
-Run Win-GenProjects.bat in ./script/, the result shows below.
++ Make sure there is a cmake environment in your computer.
 
-![](D:\Rendering\DecayEngine\Build Result.png)
++ Run Win-GenProjects.bat in ./script/, the result shows below.
+
+![](\Build Result.png)
 
 ## How to use?
 
